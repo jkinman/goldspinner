@@ -2,10 +2,36 @@
 
 angular.module('pkerApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
-    $scope.menu = [{
+    $scope.menu = [
+    {
       'title': 'Home',
       'link': '/'
-    }];
+    },
+    {
+      'title': 'Rules',
+      'link': '/'
+    },
+    {
+      'title': 'Payouts',
+      'link': '/'
+    },
+    {
+      'title': '8 Hands?',
+      'link': '/'
+    },
+    {
+      'title': 'Shuffling',
+      'link': '/'
+    },
+    {
+      'title': 'Casino Verify',
+      'link': '/'
+    },
+    {
+      'title': 'Stats',
+      'link': '/'
+    },
+    ];
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
