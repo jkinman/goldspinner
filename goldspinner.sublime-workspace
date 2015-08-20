@@ -1,0 +1,623 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"e",
+				"escapeSpecialChars"
+			],
+			[
+				"in",
+				"innovate"
+			],
+			[
+				"pow",
+				"powerObj"
+			],
+			[
+				"get",
+				"getPowerSores"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"tot",
+				"totalSageScore"
+			],
+			[
+				"act",
+				"activate_score"
+			],
+			[
+				"start",
+				"startIndex"
+			],
+			[
+				"day",
+				"daysForCheckin"
+			],
+			[
+				"curr",
+				"currentFod"
+			],
+			[
+				"user",
+				"UserService"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"for",
+				"for	for (…) {…} (Improved Native For-Loop)"
+			],
+			[
+				"check",
+				"checkinDay"
+			],
+			[
+				"User",
+				"UserService"
+			],
+			[
+				"pro",
+				"profile"
+			],
+			[
+				"w",
+				"window"
+			],
+			[
+				"tod",
+				"todayTitle"
+			],
+			[
+				"fod",
+				"fodId"
+			],
+			[
+				"miss",
+				"missedDays"
+			],
+			[
+				"data",
+				"dataLength"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"sco",
+				"scoresPerDay"
+			],
+			[
+				"my",
+				"myPQScoreGraph"
+			],
+			[
+				"setup",
+				"setupGraph"
+			],
+			[
+				"u",
+				"userCheckins"
+			],
+			[
+				"n",
+				"newSab"
+			],
+			[
+				"pa",
+				"parse"
+			],
+			[
+				"res",
+				"resiseImage"
+			],
+			[
+				"U",
+				"UserService"
+			],
+			[
+				"angular",
+				"angular-route"
+			],
+			[
+				"ser",
+				"serializedPowers"
+			],
+			[
+				"align",
+				"text-align"
+			],
+			[
+				"ons",
+				"ons-row"
+			],
+			[
+				"b",
+				"background-image"
+			],
+			[
+				"is",
+				"isAuthenticated"
+			],
+			[
+				"rou",
+				"route"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"border",
+				"border-bottom"
+			],
+			[
+				"bor",
+				"border-color"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"l",
+				"log"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"r",
+				"rgb()"
+			],
+			[
+				"sa",
+				"sage-power-bar"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 135.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 231.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/jkinman/dev/railway/goldspinner"
+	],
+	"file_history":
+	[
+		"/Users/jkinman/dev/appnovation/pq/config/community.js",
+		"/Users/jkinman/dev/appnovation/pq/public/signup.html",
+		"/Users/jkinman/dev/appnovation/pq/public/js/templates/sagePowerEdit.html",
+		"/Users/jkinman/dev/appnovation/pq/public/js/directives/SagePowerBar.js",
+		"/Users/jkinman/dev/appnovation/pq/public/styles/app.css",
+		"/Users/jkinman/dev/appnovation/pq/public/js/templates/saboteurEdit.html",
+		"/Users/jkinman/dev/appnovation/pq/public/js/templates/sagePowerDetail.html",
+		"/Users/jkinman/dev/appnovation/pq/public/js/templates/viewSaboteur.html",
+		"/Users/jkinman/dev/appnovation/pq/todo.txt",
+		"/Users/jkinman/dev/appnovation/pq/public/admin.html",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/app.js",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/partials/fod.html",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/partials/groups.html",
+		"/Users/jkinman/dev/appnovation/pq/routes/index.js",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/controllers/groups.js",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/services/group.js",
+		"/Users/jkinman/dev/appnovation/pq/public/index.html",
+		"/Users/jkinman/dev/appnovation/pq/public/js/controllers/ImageUpload.js",
+		"/Users/jkinman/dev/appnovation/pq/public/js/pqController.js",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/controllers/main.js",
+		"/Users/jkinman/dev/appnovation/pq/config/passport.js",
+		"/Users/jkinman/dev/appnovation/pq/.htaccess",
+		"/Users/jkinman/dev/appnovation/pq/public/js/directives/Saboteur.js",
+		"/Users/jkinman/dev/appnovation/pq/public/js/templates/saboteurIcon.html",
+		"/Users/jkinman/Downloads/focus_of_day.sql",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/services/fod.js",
+		"/Users/jkinman/dev/appnovation/pq/public/js/services/fod.js",
+		"/Users/jkinman/dev/appnovation/pq/public/js/services/userCheckins.js",
+		"/Users/jkinman/dev/appnovation/pq/public/login.html",
+		"/Users/jkinman/dev/appnovation/pq/public/admin/fod.html",
+		"/Users/jkinman/dev/appnovation/pq/.gitignore",
+		"/Users/jkinman/dev/appnovation/pq/.openshift/action_hooks/post_deploy",
+		"/Users/jkinman/dev/appnovation/pq/mobile/config.xml",
+		"/Users/jkinman/dev/appnovation/pq/notes.md",
+		"/Users/jkinman/dev/appnovation/pq/public/styles/onsen-css-components-blue-basic-theme.css",
+		"/Users/jkinman/dev/appnovation/pq/public/styles/onsenui.css",
+		"/Users/jkinman/dev/appnovation/pq/public/js/services/userService.js",
+		"/Users/jkinman/dev/appnovation/pq/Qs.md",
+		"/Users/jkinman/dev/appnovation/pq/package.json",
+		"/Users/jkinman/dev/appnovation/pq/public/js/templates/sagePowerBar.html",
+		"/Users/jkinman/dumps/userfrommohammad.sql",
+		"/Users/jkinman/dev/appnovation/pq/public/js/services/powerService.js",
+		"/Users/jkinman/dev/appnovation/pq/server.js",
+		"/Users/jkinman/dev/appnovation/pq/bower.json",
+		"/Users/jkinman/dev/appnovation/pq/.bowerrc",
+		"/Users/jkinman/dev/appnovation/pq/public/js/controllers/sagePowerDetailController.js",
+		"/Users/jkinman/dev/appnovation/pq/public/js/directives/sagePowerBar.html",
+		"/Users/jkinman/dev/appnovation/pq/public/js/pqApp.js",
+		"/Users/jkinman/dev/appnovation/pq/server/public/index.html",
+		"/Users/jkinman/dev/appnovation/pq/server/public/styles/app.css",
+		"/Users/jkinman/dev/appnovation/pq/server/package.json",
+		"/Users/jkinman/dev/appnovation/pq/config/database.js",
+		"/Users/jkinman/dev/appnovation/pq/bin/www",
+		"/Users/jkinman/dev/appnovation/pq/server/app.js",
+		"/Users/jkinman/dev/appnovation/pq/server.json",
+		"/Users/jkinman/dev/appnovation/pq/server/npm-debug.log",
+		"/Users/jkinman/dev/appnovation/pq/server/bin/www",
+		"/Users/jkinman/dev/appnovation/infowrap/dist/config.json",
+		"/Users/jkinman/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/jkinman/dev/joel/beesnhoney/app/assets/javascripts/accounttypes.js.coffee",
+		"/Users/jkinman/dev/joel/beesnhoney/app/assets/javascripts/accounts.js.coffee",
+		"/Users/jkinman/dev/joel/beesnhoney/app/assets/images/.keep",
+		"/Users/jkinman/dev/joel/beesnhoney/TODO.md",
+		"/Users/jkinman/dev/joel/beesnhoney/README.rdoc",
+		"/Users/jkinman/dev/joel/beesnhoney/Rakefile",
+		"/Users/jkinman/dev/joel/beesnhoney/prelang-init",
+		"/Users/jkinman/dev/joel/beesnhoney/Gemfile.lock",
+		"/Users/jkinman/dev/joel/beesnhoney/Gemfile",
+		"/Users/jkinman/dev/joel/beesnhoney/config.ru",
+		"/Users/jkinman/dev/joel/beesnhoney/.gitignore",
+		"/Users/jkinman/dev/joel/beesnhoney/doc/api/js/highlight.pack.js",
+		"/Users/jkinman/dev/joel/beesnhoney/app/controllers/paymentmethods_controller.rb",
+		"/Users/jkinman/dev/joel/beesnhoney/app/models/paymentmethod.rb"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 119.0,
+		"where_history":
+		[
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pqdev/pq",
+			"/Users/jkinman/dev/appnovation/pq/mobile/platforms/android",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq/public/js",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/public/js",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq/public/styles",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/public",
+			"/Users/jkinman/dev/appnovation/pq",
+			"/Users/jkinman/dev/appnovation/pq/server",
+			"/Users/jkinman/dev/joel/beesnhoney/app/models"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"dev.user_checki",
+			"addNotifs",
+			"notification.local",
+			"plugin",
+			"reminder",
+			"saveDailyExercise",
+			"this power more deeply",
+			"firstName",
+			"return",
+			"calculateDailyScore",
+			"coach",
+			"key",
+			"keystore",
+			"com.positiveintelligence.mobile",
+			"joel",
+			"'",
+			"ns-page",
+			"data",
+			"firstname",
+			"pagein",
+			"set-button",
+			"remind",
+			"pageinit",
+			"addNotif",
+			"set-button",
+			"reminders",
+			"user.startDate",
+			"curCourseDay",
+			"user.curCourseDay",
+			"bottom",
+			"ng-src",
+			"profile",
+			"photoFile",
+			"angul",
+			"profile",
+			"graph",
+			"fod",
+			"save",
+			"pq-daily-fod-spec",
+			"interv",
+			"pageini",
+			"fod-page",
+			"fod-pagefod-page",
+			"fod-page",
+			"pageinit",
+			"angular",
+			"init",
+			"fod",
+			"focus",
+			"currentHour",
+			"missedDays",
+			"fod-title",
+			"$(\".fod-body\").html(",
+			"$(\".fod-title\").html",
+			"fod-page",
+			"pageinit",
+			"deb",
+			"pageinit",
+			"pushPage",
+			"push",
+			"pageinit",
+			".profile-image",
+			"pageinit",
+			"profile-image",
+			"saveDailyExercise",
+			"lastCheckinDay",
+			"session",
+			"refreshSession",
+			"pageinit",
+			"login",
+			"calculateHistoricalScoreSimplified",
+			"tmpSaboteurs",
+			"getAvailableSaboteurs",
+			"getSaboteurTypeList",
+			"GROUP",
+			"fod",
+			"profilePhoto",
+			"urlPrefix",
+			"profilePhoto",
+			"profile",
+			"LOGOUT",
+			"APIUrlPrefix",
+			"updateUser",
+			"newPic",
+			"profil",
+			"edit",
+			"submit-interview",
+			"interview",
+			"getAvailableSaboteurs",
+			"getSaboteurTypeList",
+			"userPosts",
+			"profile-name",
+			"lastCheckinDay",
+			"interview-page",
+			"interview.html",
+			"profile.html",
+			"profile",
+			"id=",
+			"id",
+			"calculateDailyScore",
+			"submit",
+			"interview",
+			"profile",
+			"alert",
+			"saveDailyExercise",
+			"checkin",
+			"check",
+			"startDate =",
+			"pq.user.startDate",
+			"hyper",
+			"200",
+			"profile-name",
+			"fullname",
+			"profile-name",
+			"defal",
+			"fod-bod",
+			"fod",
+			"fodtit",
+			"fod-title",
+			"profile",
+			"fod-title",
+			"focus",
+			"sageM",
+			"userPosts",
+			"Sage Mastery",
+			"profil",
+			"profile",
+			"addNotifs"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"com.positiveintelligence.com.positiveintelligence.mobile",
+			"`",
+			"this.data",
+			"$scope.currentFod.currentHour",
+			"$scope.currentFod.missedDays",
+			"fodBody = ",
+			"fodTitle = ",
+			"Group",
+			"group",
+			"currentSaboteur",
+			"ng-model=\"currentSaboteur.",
+			"\"",
+			", ",
+			"fod",
+			"fods",
+			"fod",
+			"{{powerHints.}}",
+			"</h3>",
+			"<h3 style=\"color: {{powerScope.colour}};\">",
+			"h3",
+			"Anchor"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "goldspinner.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"build.",
+				"mobile/platforms/android/build.gradle"
+			],
+			[
+				"ap",
+				"public/styles/app.css"
+			],
+			[
+				"app",
+				"public/styles/app.css"
+			],
+			[
+				"main",
+				"app/scripts/controllers/main.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 308.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
