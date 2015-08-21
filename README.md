@@ -17,3 +17,7 @@ three card poker POC using the two fish encryption
    Database Name: pker
 
 Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
+
+  RockMongo User: admin
+  RockMongo Password: WHi3lvmTaSMF
+URL: https://pker-jkinman.rhcloud.com/rockmongo/
