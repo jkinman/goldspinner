@@ -9,27 +9,27 @@ angular.module('pkerApp')
     },
     {
       'title': 'Rules',
-      'link': '/'
+      'link': '/rules'
     },
     {
       'title': 'Payouts',
-      'link': '/'
+      'link': '/payouts'
     },
     {
       'title': '8 Hands?',
-      'link': '/'
+      'link': '/8hands'
     },
     {
       'title': 'Shuffling',
-      'link': '/'
+      'link': '/shuffling'
     },
     {
       'title': 'Casino Verify',
-      'link': '/'
+      'link': '/casinoverify'
     },
     {
       'title': 'Stats',
-      'link': '/'
+      'link': '/stats'
     },
     ];
 
