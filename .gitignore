@@ -7,3 +7,7 @@ client/bower_components
 dist
 /server/config/local.env.js
 npm-debug.log
+
+*.sublime-workspace
+
+*.sublime-workspace

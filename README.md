@@ -8,3 +8,12 @@ three card poker POC using the two fish encryption
 - card rendering	https://tairraos.github.io/Poker.JS/
 - hand evaluator	https://www.npmjs.com/package/poker-evaluator
 - database	mongo
+
+
+## MongoDB 2.4 database added.  Please make note of these credentials:
+
+   Root User:     admin
+   Root Password: WHi3lvmTaSMF
+   Database Name: pker
+
+Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
