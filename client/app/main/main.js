@@ -10,8 +10,8 @@ angular.module('pkerApp')
       })
       .state('pker', {
         url: '/pker',
-        templateUrl: 'app/games/pker.html',
-        controller: 'MainCtrl'
+        templateUrl: 'app/threecardpoker/threecardpoker.html',
+        controller: 'ThreecardpokerCtrl'
       })
 
       .state('rules', {
