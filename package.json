@@ -25,6 +25,7 @@
     "passport-twitter": "latest",
     "poker-sim": "0.0.6",
     "serve-favicon": "~2.0.1",
+    "shuffle": "^0.2.2",
     "socket.io": "^1.0.6",
     "socket.io-client": "^1.0.6",
     "socketio-jwt": "^3.0.0"
