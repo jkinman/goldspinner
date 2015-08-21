@@ -7,6 +7,9 @@ var Threecardpoker = require('./threecardpoker.model');
 exports.index = function(req, res) {
   Threecardpoker.find(function (err, threecardpokers) {
     if(err) { return handleError(res, err); }
+
+    threecardpokers = ["3q", "4q", "5q"];
+
     return res.status(200).json(threecardpokers);
   });
 };
