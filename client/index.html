@@ -27,7 +27,18 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    <div ng-include="'components/navbar/navbar.html'"></div>
+
     <div ui-view=""></div>
+  
+    <footer class="footer">
+      <div class="container">
+          <p> footer copy |
+            <a href="#">link 1</a> |
+            <a href="#">link 2</a> |
+            <a href="#">link 3</a> |
+      </div>
+    </footer>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -72,6 +83,8 @@
           <script src="app/admin/admin.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
+          <script src="app/threecardpoker/threecardpoker.controller.js"></script>
+          <script src="app/threecardpoker/threecardpoker.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>
           <script src="components/modal/modal.service.js"></script>
