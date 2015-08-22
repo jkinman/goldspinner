@@ -1,3 +1,4 @@
+
 # goldspinner
 three card poker POC using the two fish encryption
 - server	node
@@ -21,3 +22,7 @@ Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
   RockMongo User: admin
   RockMongo Password: WHi3lvmTaSMF
 URL: https://pker-jkinman.rhcloud.com/rockmongo/
+
+The OpenShift `nodejs` cartridge documentation can be found at:
+
+http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
