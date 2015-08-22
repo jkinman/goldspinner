@@ -12,14 +12,13 @@ angular.module('pkerApp')
 
 
     this.getGameData = function( ) {
-    	return $http.get('/api/threecardpokers').then( function(data, status, headers, config) {
-      // game = data;
-      // socket.syncUpdates('game', this.game);
-      return data;
-    });
-    	// return ['a', 'b'];
+   		$http.get('/api/threecardpokers').then( function(data, status, headers, config) {
+      		// game = data;
+      		// socket.syncUpdates('game', this.game);
+      		// return data;
+    	});
+    	return ['a', 'b'];
     };
-
 
     this.game = this.getGameData();
 
