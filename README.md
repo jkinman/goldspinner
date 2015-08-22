@@ -14,7 +14,7 @@ three card poker POC using the two fish encryption
 ## MongoDB 2.4 database added.  Please make note of these credentials:
 
    Root User:     admin
-   Root Password: WHi3lvmTaSMF
+   Root Password: uAjM4RRGG5iC
    Database Name: pker
 
 Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
@@ -23,6 +23,6 @@ Connection URL: mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/
   RockMongo Password: WHi3lvmTaSMF
 URL: https://pker-jkinman.rhcloud.com/rockmongo/
 
-The OpenShift `nodejs` cartridge documentation can be found at:
+## The OpenShift `nodejs` cartridge documentation can be found at:
 
 http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
