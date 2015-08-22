@@ -25,7 +25,6 @@ angular.module('pkerApp')
       	else if( -1 > scope.card.indexOf( 's') ){
       		scope.suit = 'spades';
       	}
-
       }
     };
   });
