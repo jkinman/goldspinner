@@ -7,30 +7,30 @@ angular.module('pkerApp')
       'title': 'Home',
       'link': '/'
     },
-    {
-      'title': 'Rules',
-      'link': '/rules'
-    },
-    {
-      'title': 'Payouts',
-      'link': '/payouts'
-    },
-    {
-      'title': '8 Hands?',
-      'link': '/8hands'
-    },
-    {
-      'title': 'Shuffling',
-      'link': '/shuffling'
-    },
+    // {
+    //   'title': 'Rules',
+    //   'link': '/rules'
+    // },
+    // {
+    //   'title': 'Payouts',
+    //   'link': '/payouts'
+    // },
+    // {
+    //   'title': '8 Hands?',
+    //   'link': '/8hands'
+    // },
+    // {
+    //   'title': 'Shuffling',
+    //   'link': '/shuffling'
+    // },
     {
       'title': 'Casino Verify',
       'link': '/casinoverify'
     },
-    {
-      'title': 'Stats',
-      'link': '/stats'
-    },
+    // {
+    //   'title': 'Stats',
+    //   'link': '/stats'
+    // },
     ];
 
     $scope.isCollapsed = true;
