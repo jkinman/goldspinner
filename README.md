@@ -25,4 +25,14 @@ URL: https://pker-jkinman.rhcloud.com/rockmongo/
 
 ## The OpenShift `nodejs` cartridge documentation can be found at:
 
+### git repo
+
+ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/
+
+git push ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/ master 
+
+### ssh access
+
+ssh 55d7e3442d527148370000f7@pker-jkinman.rhcloud.com
+
 http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
