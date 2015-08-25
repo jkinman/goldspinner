@@ -2,15 +2,20 @@
 
 var _ = require('lodash');
 var Threecardpoker = require('./threecardpoker.model');
+var Shuffle = require('shuffle');
+
+exports.getCards = function( num ) {
+    var deck = Shuffle.shuffle();
+    return( deck.draw( num ));
+
+};
 
 // Get list of threecardpokers
 exports.index = function(req, res) {
   Threecardpoker.find(function (err, threecardpokers) {
     if(err) { return handleError(res, err); }
-
-    threecardpokers = ["3q", "4q", "5q"];
-
-    return res.status(200).json(threecardpokers);
+    var hand = exports.getCards( 12 );
+    return res.status(200).json( hand );
   });
 };
 
