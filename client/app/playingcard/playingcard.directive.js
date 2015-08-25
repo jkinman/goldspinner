@@ -10,7 +10,7 @@ angular.module('pkerApp')
       	suit: '@',
       	value: '@'
       },
-      link: function (scope, element, attrs) {
+      link: function (scope) {
 
       	// determine suit
       	if( -1 > scope.card.indexOf( 'd') ){
