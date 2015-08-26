@@ -29,6 +29,8 @@ URL: https://pker-jkinman.rhcloud.com/rockmongo/
 
 ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/
 
+to deploy:
+git commit -am "commit message"
 git push ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/ master 
 
 ### ssh access
