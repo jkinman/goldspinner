@@ -7,6 +7,7 @@ angular.module('pkerApp')
   	$scope.model = threecardpoker;
     $scope.gameService = threecardpoker.game;
     $scope.gameState = threecardpoker.game;
+    $scope.hands = threecardpoker.hands;
     $scope.startGame = function() {
     	
     };
