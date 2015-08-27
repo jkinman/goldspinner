@@ -10,6 +10,9 @@ three card poker POC using the two fish encryption
 - hand evaluator	https://www.npmjs.com/package/poker-evaluator
 - database	mongo
 
+## links
+- https://github.com/DaftMonk/generator-angular-fullstack
+- https://developers.openshift.com/en/node-js-example-meanstack.html
 
 ## MongoDB 2.4 database added.  Please make note of these credentials:
 
@@ -30,6 +33,7 @@ URL: https://pker-jkinman.rhcloud.com/rockmongo/
 ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/
 
 to deploy:
+cd dist
 git commit -am "commit message"
 git push ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/ master 
 
