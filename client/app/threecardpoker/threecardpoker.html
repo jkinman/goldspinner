@@ -1,11 +1,26 @@
  <header>
 	 <div class="container" ng-controller="ThreecardpokerCtrl">
 	 	<div class="row">
-
 			<div class="col-md-3">
-				<h3>Rules</h3>
-				<img width="100px" src="assets/images/Casino Verify Seal.png" alt="Casino Verify">
-			</div>
+					<h5>BASIC PLAY RULES - 3 Card Poker</h5>
+					<ol>
+						<li>Place Ante and Side Bets</li>
+						<li>Click Shuffle and Deal</li>
+						<li>Fold or Raise Ante (not side bets)</li>
+						<li>Click Play (A play bet = to the Ante bet is automatically made)</li>
+						<li>View Winnings</li>
+					</ol>
+					
+
+					<div class="row">
+						<div class="col-md-6">
+							<h5>ANTE BONUS PAYS</h5>
+						</div>
+						<div class="col-md-6">
+							<h5>BEST-5 CARDS PAYS</h5>
+						</div>
+					</div>
+				</div>
 
 			<div class="col-md-7">
 				<h3>gameplay</h3>
@@ -109,25 +124,106 @@
 						      	card="{{card.card}}">
 						      </playingcard>
 					</div>
+
 				</div>
 
 			</div>
 
 			<div class="col-md-2">
 				<h3>Options</h3>
-				<form>
+				<form class="text-left">
 					<div class="radio">
-					  <label>
-					    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-					    Real money
+					play for: <br>
+					  <label class="checkbox-inline">
+					    <input type="radio" name="moneyOption" id="moneyOption1" value="real" checked class="checkbox-inline">
+					     Real money
 					  </label>
 					</div>
 					<div class="radio">
 					  <label>
-					    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+					    <input type="radio" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline">
 					    For fun
 					  </label>
 					</div>
+					
+					<label>Number of hands {{options.numHands}}
+						<input id="numHands" type ="range" min ="1" max="8" step ="1" ng-model="options.numHands" ng-init="options.numHands = 1" />
+					</label>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Turn off 8 hands intro at start
+						</label>
+					</div>
+
+					<div class="radio">
+					Deck colour <br>
+					  <label class="checkbox-inline">
+					    <input type="radio" name="moneyOption" id="moneyOption1" value="real" checked class="checkbox-inline">
+					     red
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline">
+					    blue
+					  </label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Enable anti raise
+						</label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Enable sounds
+						</label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Casino ambient
+						</label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Enable advice
+						</label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Show cards faster
+						</label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Always fold if Q-6-4 or less
+						</label>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Send decypter at end of game if shuffle list sent
+						</label>
+					</div>
+
+					<a href="#" class="btn btn-md btn-outline">
+                        <i class="fa fa-download"></i> Send Shuffle List
+                    </a>
+					<a href="#" class="btn btn-md btn-outline">
+                        <i class="glyphicon glyphicon-lock"></i> Send Decrypter
+                    </a>
+					<a href="#" class="btn btn-md btn-outline">
+                        <i class="glyphicon glyphicon-asterisk"></i> 1. Shuffle and Deal
+                    </a>
+					<a href="#" class="btn btn-md btn-outline">
+                        <i class="glyphicon glyphicon-play"></i> 2. Play
+                    </a>
 				</form>
 			</div>
 
