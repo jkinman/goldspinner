@@ -10,6 +10,14 @@ three card poker POC using the two fish encryption
 - hand evaluator	https://www.npmjs.com/package/poker-evaluator
 - database	mongo
 
+## building
+
+grunt
+grunt build
+grunt buildcontrol:openshift
+
+grunt serve
+grunt serve:dist
 ## links
 - https://github.com/DaftMonk/generator-angular-fullstack
 - https://developers.openshift.com/en/node-js-example-meanstack.html
