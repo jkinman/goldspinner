@@ -15,10 +15,15 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     padding: 0.2em 0;
 }
 
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: hsla(168, 77%, 42%, 0.8);
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
 @import 'admin/admin.scss';
+@import 'directives/threecardpokerhand/threecardpokerhand.scss';
 @import 'main/main.scss';
 @import 'playingcard/playingcard.scss';
 @import 'startbootstrap-freelancer-1.0.3/font-awesome/scss/_bordered-pulled.scss';
