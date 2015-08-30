@@ -50,3 +50,14 @@ git push ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/
 ssh 55d7e3442d527148370000f7@pker-jkinman.rhcloud.com
 
 http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
+
+
+## todo / notes
+### Aug 27
+
+- backdoor password tom&joel
+
+- new options
+	- nottki deal or traditional deal
+	- 
+- add tooltip for hand details
