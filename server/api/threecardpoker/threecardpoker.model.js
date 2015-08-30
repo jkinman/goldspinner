@@ -6,6 +6,10 @@ var mongoose = require('mongoose'),
 var ThreecardpokerSchema = new Schema({
   name: String,
   info: String,
+  deck: String,
+  options: String,
+  created: Date,
+  user: String,
   active: Boolean
 });
 
