@@ -2,32 +2,39 @@
 	 <div class="container" ng-controller="ThreecardpokerCtrl">
 	 	<div class="row">
 			<div class="col-md-3" class="text-left">
-					<h5>BASIC PLAY RULES - 3 Card Poker</h5>
-					<ol>
-						<li>Place Ante and Side Bets</li>
-						<li>Click Shuffle and Deal</li>
-						<li>Fold or Raise Ante (not side bets)</li>
-						<li>Click Play (A play bet = to the Ante bet is automatically made)</li>
-						<li>View Winnings</li>
-					</ol>
-					
-
-					<div class="row">
-						<div class="col-md-6">
-							<h5>ANTE BONUS PAYS</h5>
-						</div>
-						<div class="col-md-6">
-							<h5>BEST-5 CARDS PAYS</h5>
-						</div>
+				<h5>BASIC PLAY RULES - 3 Card Poker</h5>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<h5>ANTE BONUS PAYS</h5>
+					</div>
+					<div class="col-md-6">
+						<h5>BEST-5 CARDS PAYS</h5>
 					</div>
 				</div>
+
+				<ol>
+					<li>Place Ante and Side Bets</li>
+					<li>Click Shuffle and Deal</li>
+					<li>Fold or Raise Ante (not side bets)</li>
+					<li>Click Play (A play bet = to the Ante bet is automatically made)</li>
+					<li>View Winnings</li>
+				</ol>
+				
+				<a href="#" class="btn btn-sm btn-outline">
+                    <i class="fa fa-download"></i> Send Shuffle List
+                </a>
+				<a href="#" class="btn btn-sm btn-outline">
+                    <i class="glyphicon glyphicon-lock"></i> Send Decrypter
+                </a>
+
+			</div>
 
 			<div class="col-md-7">
 				<div class="row" >
 				<h3>3-Card Poker with Multi-Hands</h3>
-
 				<table class="table table-striped">
-					<caption>Table caption</caption>
+					<caption>Your three card poker hands</caption>
 					<thead>
 						<tr>
 							<th>hand</th>
@@ -39,62 +46,13 @@
 							<th>prime</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr ng-if="options.numHands > 0">
-							<td><div class="col-xs-3 col-md-3" ><p>1</p></div></td>
-							<td>
-								<div ng-repeat="card in hands[0]" style="float:left">
-									<playingcard 
-									size="50" 
-									value="{{card.value}}" 
-									suit="{{card.suit}}" 
-									card="{{card.card}}">
-									</playingcard>
-								</div>
-							</td>
-
-							<td>
-								<select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-							</td>
-							<td></td>
-							<td>
-								<select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-							</td>
-							<td>
-								<select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-							</td>
-							<td>
-								<select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-							</td>
-						</tr>
-						
+					
+					<tbody>	
+							<tr threecardpokerhand hand="hand" index="{{$index+1}}" ng-repeat="hand in hands" ng-hide="{{options.numHands < $index}}"></tr>
+						<!-- <threecardpokerhand ng-repeat="hand in hands" hand="hand" index="{{index}}">{{index}}</threecardpokerhand> -->
 					</tbody>
-				</table>
 
+				</table>
 
 				<hr>
 
@@ -115,6 +73,13 @@
 
 			<div class="col-md-2">
 				<h3>Options</h3>
+				<a href="#" class="btn btn-sm btn-outline">
+                    <i class="glyphicon glyphicon-asterisk"></i> 1. Shuffle and Deal
+                </a>
+				<a href="#" class="btn btn-sm btn-outline">
+                    <i class="glyphicon glyphicon-play"></i> 2. Play
+                </a>
+
 				<form class="text-left">
 					<div class="radio">
 					play for: <br>
@@ -196,18 +161,6 @@
 						</label>
 					</div>
 
-					<a href="#" class="btn btn-sm btn-outline">
-                        <i class="fa fa-download"></i> Send Shuffle List
-                    </a>
-					<a href="#" class="btn btn-sm btn-outline">
-                        <i class="glyphicon glyphicon-lock"></i> Send Decrypter
-                    </a>
-					<a href="#" class="btn btn-sm btn-outline">
-                        <i class="glyphicon glyphicon-asterisk"></i> 1. Shuffle and Deal
-                    </a>
-					<a href="#" class="btn btn-sm btn-outline">
-                        <i class="glyphicon glyphicon-play"></i> 2. Play
-                    </a>
 				</form>
 			</div>
 
