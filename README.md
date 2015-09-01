@@ -11,6 +11,17 @@ three card poker POC using the two fish encryption
 - database	mongo
 
 ## building
+### running locally
+
+- start mongo - ```mongod
+
+### mongo shell commands
+http://docs.mongodb.org/manual/reference/sql-comparison/
+- show dbs
+- use pker-dev
+- show collections
+- db.threecardpokers.find({_id:ObjectId("55e6199b27850150599c6ef0")})
+
 
 grunt
 grunt build
