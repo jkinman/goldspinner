@@ -4,13 +4,12 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var ThreecardpokerSchema = new Schema({
-  name: String,
+  playerName: String,
   info: String,
   deck: String,
   options: String,
-  created: Date,
-  user: String,
-  active: Boolean
+  userId: String,
+  state: String
 });
 
 module.exports = mongoose.model('Threecardpoker', ThreecardpokerSchema);

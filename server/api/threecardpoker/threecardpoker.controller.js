@@ -91,6 +91,7 @@ exports.getCards = function( num ) {
 
 // Get list of threecardpokers
 exports.index = function(req, res) {
+  console.log( "Get list of threecardpokers" );
   Threecardpoker.find(function (err, threecardpokers) {
     if(err) { return handleError(res, err); }
     var hand = exports.getCards( 12 );
@@ -100,6 +101,7 @@ exports.index = function(req, res) {
 
 // Get a single threecardpoker
 exports.show = function(req, res) {
+  console.log( "Get a single threecardpoker" );
   Threecardpoker.findById(req.params.id, function (err, threecardpoker) {
     if(err) { return handleError(res, err); }
     if(!threecardpoker) { return res.status(404).send('Not Found'); }
@@ -125,20 +127,38 @@ exports.show = function(req, res) {
 
 // Creates a new threecardpoker in the DB.
 exports.create = function(req, res) {
-  // var poker = new Threecardpoker( req.body );
+  console.log( "Creates a new threecardpoker in the DB." );
+  var poker = new Threecardpoker( req.body );
   // poker.deck
-  Threecardpoker.create(req.body, function(err, threecardpoker) {
-    if(err) { return handleError(res, err); }
+  console.log( "---------------------------" );
+  console.log( req.body );
+  poker.save( function(err, threecardpoker) {
+    if(err) { 
+      return handleError(res, err); 
+    }
+    console.log( "started a new poker game" );
+    console.log( threecardpoker );
     return res.status(201).json(threecardpoker);
   });
+
+  // Threecardpoker.create(req.body, function(err, threecardpoker) {
+  //   if(err) { return handleError(res, err); }
+  //   console.log( "started a new poker game" );
+  //   return res.status(201).json(threecardpoker);
+  // });
 };
 
 // Updates an existing threecardpoker in the DB.
 exports.update = function(req, res) {
+  console.log( "Updates an existing threecardpoker in the DB." );
+
   if(req.body._id) { delete req.body._id; }
-  Threecardpoker.findById(req.params.id, function (err, threecardpoker) {
+  console.log( "looking for game: " );
+  console.log( req.params.id );
+  Threecardpoker.findById( req.params.id, function (err, threecardpoker) {
     if (err) { return handleError(res, err); }
     if(!threecardpoker) { return res.status(404).send('Not Found'); }
+    
     var updated = _.merge(threecardpoker, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
