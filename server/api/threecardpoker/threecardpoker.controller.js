@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var Threecardpoker = require('./threecardpoker.model');
 var Shuffle = require('shuffle');
-
+var PokerEvaluator = require("poker-evaluator");
 
 // reformat the card style to work with all libs
 exports.convertCardFormat = function( cards ) {
@@ -73,8 +73,9 @@ exports.convertCardFormat = function( cards ) {
           break;
       }
 
+      //only return the shorthand value
       newCard.card = newCard.value + newCard.suit.toLowerCase().charAt(0);
-      newCards.push( newCard );
+      newCards.push( newCard.card );
     }
 
   return newCards;
@@ -84,9 +85,7 @@ exports.convertCardFormat = function( cards ) {
 
 exports.getCards = function( num ) {
     var deck = Shuffle.shuffle();
-
     return( exports.convertCardFormat( deck.draw( num )));
-
 };
 
 // Get list of threecardpokers
@@ -109,22 +108,6 @@ exports.show = function(req, res) {
   });
 };
 
-
-/**
- * Creates a new user
- */
-// exports.create = function (req, res, next) {
-//   var newUser = new User(req.body);
-//   newUser.provider = 'local';
-//   newUser.role = 'user';
-//   newUser.save(function(err, user) {
-//     if (err) return validationError(res, err);
-//     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-//     res.json({ token: token });
-//   });
-// };
-
-
 // Creates a new threecardpoker in the DB.
 exports.create = function(req, res) {
   console.log( "Creates a new threecardpoker in the DB." );
@@ -132,12 +115,18 @@ exports.create = function(req, res) {
   // poker.deck
   console.log( "---------------------------" );
   console.log( req.body );
+
+  // shuffle and get a full deck
+  var deck = exports.getCards( 52 );
+  poker.deck = deck;
+  poker.hands = nottkiDeal( deck );
+  
   poker.save( function(err, threecardpoker) {
     if(err) { 
       return handleError(res, err); 
     }
+    threecardpoker.handRank = evaluateHands( threecardpoker.hands );
     console.log( "started a new poker game" );
-    console.log( threecardpoker );
     return res.status(201).json(threecardpoker);
   });
 
@@ -179,6 +168,33 @@ exports.destroy = function(req, res) {
   });
 };
 
+
+function nottkiDeal( cards ){
+  
+  var hands = [];
+  
+  hands[0] = [cards[0], cards[4], cards[8]];
+  hands[1] = [cards[1], cards[5], cards[9]];
+  hands[2] = [cards[2], cards[6], cards[10]];
+  hands[3] = [cards[0], cards[1], cards[2]];
+  hands[4] = [cards[4], cards[5], cards[6]];
+  hands[5] = [cards[8], cards[9], cards[10]];
+  hands[6] = [cards[10], cards[5], cards[0]];
+  hands[7] = [cards[2], cards[5], cards[8]];
+
+  return hands;
+}
+
+function evaluateHands( hands ){
+  var valuations = [];
+  for (var i = hands.length - 1; i >= 0; i--) {
+    valuations[i]( PokerEvaluator.evalHand( hands[i] ));
+  };
+  return valuations;
+}
+
 function handleError(res, err) {
   return res.status(500).send(err);
 }
+
+
