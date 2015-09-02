@@ -3,7 +3,7 @@
 		<div class="col-xs-3 col-md-3" ><p>{{index}}</p></div>
 	</td>
 	<td>
-		<div ng-repeat="card in hand" style="float:left">
+		<div ng-repeat="card in hand.hand track by $index" style="float:left">
 			<playingcard 
 			size="50" 
 			value="{{card.value}}" 
@@ -13,16 +13,13 @@
 		</div>
 	</td>
 
-	<td>
-		<select class="form-control">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
+	<td><label>${{anti}}</label>
+		<input type="range" min="0" max="100" value="0" step="5" id="anti" ng-model="anti" width="25">
 	</td>
-	<td></td>
+	<td>
+		<p ng-show="anti > 0">YES</p>
+		<p ng-show="anti <= 0">NO</p>
+	</td>
 	<td>
 		<select class="form-control">
 			<option>1</option>

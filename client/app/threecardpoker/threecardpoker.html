@@ -34,8 +34,16 @@
 			<div class="col-md-7">
 				<div class="row" >
 				<h3>3-Card Poker with Multi-Hands</h3>
+				<h3>Dealer's hand</h3>
+				<div ng-repeat="card in dealer track by $index" style="float:left">
+					<playingcard 
+					size="100" 
+					value="{{card.value}}" 
+					suit="{{card.suit}}" 
+					card="{{card.card}}">
+					</playingcard>
+				</div>
 				<table class="table table-striped">
-					<caption>Your three card poker hands</caption>
 					<thead>
 						<tr>
 							<th>hand</th>
@@ -49,7 +57,13 @@
 					</thead>
 					
 					<tbody>	
-							<tr threecardpokerhand hand="hand" index="{{$index+1}}" ng-repeat="hand in hands" ng-hide="{{options.numHands < $index}}"></tr>
+							<tr threecardpokerhand 
+								ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}"
+								hand="hand" 
+								index="{{$index+1}}" 
+						      	anti="hand.anti"
+							>
+							</tr>
 						<!-- <threecardpokerhand ng-repeat="hand in hands" hand="hand" index="{{index}}">{{index}}</threecardpokerhand> -->
 					</tbody>
 
@@ -59,12 +73,13 @@
 
 				<p>all cards</p>
 				<div class="row">
-					<div  ng-repeat="card in model.game" style="float:left">
+					<div  ng-repeat="card in game.deck" style="float:left">
 						      <playingcard 
 						      	size="50" 
 						      	value="{{card.value}}" 
 						      	suit="{{card.suit}}" 
-						      	card="{{card.card}}">
+						      	card="{{card.card}}"
+						      	>
 						      </playingcard>
 					</div>
 
@@ -74,10 +89,10 @@
 
 			<div class="col-md-2">
 				<h3>Options</h3>
-				<a href="#" class="btn btn-sm btn-outline" ng-click="startGame()">
+				<a href="#" class="btn btn-sm btn-outline" ng-click="init()">
                     <i class="glyphicon glyphicon-asterisk"></i> 1. Shuffle and Deal
                 </a>
-				<a href="#" class="btn btn-sm btn-outline">
+				<a href="#" class="btn btn-sm btn-outline"  ng-click="startGame()">
                     <i class="glyphicon glyphicon-play"></i> 2. Play
                 </a>
 
@@ -92,14 +107,10 @@
 					<div class="radio">
 					  <label>
 					    <input type="radio" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline">
-					    For fun
+					    Fun
 					  </label>
 					</div>
 					
-					<label>Number of hands {{options.numHands}}
-						<input id="numHands" type ="range" min ="1" max="8" step ="1" ng-model="options.numHands" ng-init="options.numHands = 8" />
-					</label>
-
 					<div class="checkbox">
 						<label>
 							<input type="checkbox"> Turn off 8 hands intro at start

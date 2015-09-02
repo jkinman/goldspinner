@@ -8,9 +8,11 @@ angular.module('pkerApp')
       replace: true,
       scope: {
       	hand: "=",
-      	index: "@"
+      	index: "@",
+        anti: "="
       },
       link: function (scope, element, attrs) {
+        scope.hand.anti = 0;
       	// console.log( scope.hand );
       }
     };
