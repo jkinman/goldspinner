@@ -6,7 +6,7 @@ angular.module('pkerApp')
       .state('main', {
         url: '/',
         templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        controller: 'LoginCtrl'
       })
       .state('pker', {
         url: '/pker',
