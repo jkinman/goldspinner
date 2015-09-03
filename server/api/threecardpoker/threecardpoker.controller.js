@@ -120,8 +120,9 @@ exports.create = function(req, res) {
   poker.hands = nottkiDeal( deck );
   poker.state = "start";
   poker.key = poker._id;
-
-  poker.cipher = crypto.createCipher('aes192', poker.key);  
+  poker.userId = req.user._id;
+  poker.cipher = crypto.createCipher('aes192', poker.key);
+  poker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: evalHand( [deck[11], deck[12], deck[13]])};
   // poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
   // poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
 
@@ -131,10 +132,13 @@ exports.create = function(req, res) {
   // var decipher = crypto.createDecipher(algorithm, key);
   // var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
 
+  // console.log( poker.hands );
   poker.save( function(err, threecardpoker) {
     if(err) { 
       return handleError(res, err); 
     }
+
+  // console.log( threecardpoker.hands );
 
     return res.status(201).json(threecardpoker);
   });
@@ -186,8 +190,9 @@ function nottkiDeal( cards ){
   hands[5] = {cards:[cards[8], cards[9], cards[10]]} ;
   hands[6] = {cards:[cards[10], cards[5], cards[0]]} ;
   hands[7] = {cards:[cards[2], cards[5], cards[8]]} ;
-  
+  console.log( hands );
   var ranks = evaluateHands( hands );
+  console.log( hands );
 
   for (var i = hands.length - 1; i >= 0; i--) {
     hands[i].rank = ranks[i];
@@ -200,7 +205,8 @@ function evaluateHands( hands ){
   console.log( "controller - evaluateHands" );
   var valuations = [];
   for (var i = hands.length - 1; i >= 0; i--) {
-    valuations[i] = PokerEvaluator.evalHand( hands[i].cards );
+    var hand = [hands[i].cards[0], hands[i].cards[1], hands[i].cards[2]];
+    valuations[i] = PokerEvaluator.evalHand( hand );
   }
   return valuations;
 }

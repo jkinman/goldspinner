@@ -20,6 +20,7 @@ var ThreecardpokerSchema = new Schema({
   key: String,
   encryptedDeck: String,
   hands: [hand],
+  dealer: hand,
   options: {
   	numberOfHands: Number,
   },
