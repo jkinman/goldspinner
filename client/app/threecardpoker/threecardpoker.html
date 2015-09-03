@@ -73,7 +73,7 @@
 
 				<p>all cards</p>
 				<div class="row">
-					<div  ng-repeat="card in game.deck" style="float:left">
+					<div  ng-repeat="card in game.deck track by $index" style="float:left">
 						      <playingcard 
 						      	size="50" 
 						      	value="{{card.value}}" 
