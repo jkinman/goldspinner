@@ -1,5 +1,6 @@
 'use strict';
 
+var crypto = require('crypto');
 var _ = require('lodash');
 var Threecardpoker = require('./threecardpoker.model');
 var Shuffle = require('shuffle');
@@ -112,29 +113,31 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   console.log( "Creates a new threecardpoker in the DB." );
   var poker = new Threecardpoker( req.body );
-  // poker.deck
-  console.log( "---------------------------" );
-  console.log( req.body );
 
   // shuffle and get a full deck
   var deck = exports.getCards( 52 );
   poker.deck = deck;
   poker.hands = nottkiDeal( deck );
-  
+  poker.state = "start";
+  poker.key = poker._id;
+
+  poker.cipher = crypto.createCipher('aes192', poker.key);  
+  // poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
+  // poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
+
+  // example from SO
+  // var cipher = crypto.createCipher(algorithm, key);  
+  // var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+  // var decipher = crypto.createDecipher(algorithm, key);
+  // var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
+
   poker.save( function(err, threecardpoker) {
     if(err) { 
       return handleError(res, err); 
     }
-    threecardpoker.handRank = evaluateHands( threecardpoker.hands );
-    console.log( "started a new poker game" );
+
     return res.status(201).json(threecardpoker);
   });
-
-  // Threecardpoker.create(req.body, function(err, threecardpoker) {
-  //   if(err) { return handleError(res, err); }
-  //   console.log( "started a new poker game" );
-  //   return res.status(201).json(threecardpoker);
-  // });
 };
 
 // Updates an existing threecardpoker in the DB.
@@ -142,8 +145,10 @@ exports.update = function(req, res) {
   console.log( "Updates an existing threecardpoker in the DB." );
 
   if(req.body._id) { delete req.body._id; }
+  
   console.log( "looking for game: " );
   console.log( req.params.id );
+
   Threecardpoker.findById( req.params.id, function (err, threecardpoker) {
     if (err) { return handleError(res, err); }
     if(!threecardpoker) { return res.status(404).send('Not Found'); }
@@ -172,24 +177,31 @@ exports.destroy = function(req, res) {
 function nottkiDeal( cards ){
   
   var hands = [];
-  
-  hands[0] = [cards[0], cards[4], cards[8]];
-  hands[1] = [cards[1], cards[5], cards[9]];
-  hands[2] = [cards[2], cards[6], cards[10]];
-  hands[3] = [cards[0], cards[1], cards[2]];
-  hands[4] = [cards[4], cards[5], cards[6]];
-  hands[5] = [cards[8], cards[9], cards[10]];
-  hands[6] = [cards[10], cards[5], cards[0]];
-  hands[7] = [cards[2], cards[5], cards[8]];
 
+  hands[0] = {cards:[cards[0], cards[4], cards[8]]} ;
+  hands[1] = {cards:[cards[1], cards[5], cards[9]]} ;
+  hands[2] = {cards:[cards[2], cards[6], cards[10]]} ;
+  hands[3] = {cards:[cards[0], cards[1], cards[2]]} ;
+  hands[4] = {cards:[cards[4], cards[5], cards[6]]} ;
+  hands[5] = {cards:[cards[8], cards[9], cards[10]]} ;
+  hands[6] = {cards:[cards[10], cards[5], cards[0]]} ;
+  hands[7] = {cards:[cards[2], cards[5], cards[8]]} ;
+  
+  var ranks = evaluateHands( hands );
+
+  for (var i = hands.length - 1; i >= 0; i--) {
+    hands[i].rank = ranks[i];
+  };
+ 
   return hands;
 }
 
 function evaluateHands( hands ){
+  console.log( "controller - evaluateHands" );
   var valuations = [];
   for (var i = hands.length - 1; i >= 0; i--) {
-    valuations[i]( PokerEvaluator.evalHand( hands[i] ));
-  };
+    valuations[i] = PokerEvaluator.evalHand( hands[i].cards );
+  }
   return valuations;
 }
 
