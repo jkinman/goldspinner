@@ -90,7 +90,7 @@
 
 			<div class="col-md-2">
 				<h3>Options</h3>
-				<a href="#" class="btn btn-sm btn-outline" ng-click="init()">
+				<a href="#" class="btn btn-sm btn-outline" ng-click="init()" ng-show="state = 'stopped'">
                     <i class="glyphicon glyphicon-asterisk"></i> 1. Shuffle and Deal
                 </a>
 				<a href="#" class="btn btn-sm btn-outline"  ng-click="startGame()">
@@ -109,6 +109,20 @@
 					  <label>
 					    <input type="radio" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline">
 					    Fun
+					  </label>
+					</div>
+					
+					<div class="radio">
+					Deal method: <br>
+					  <label class="checkbox-inline">
+					    <input type="radio" name="dealOption" id="dealOption1" value="real" checked class="checkbox-inline">
+					     Nottki
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="dealOption" id="dealOption2" value="fake" class="checkbox-inline">
+					    Traditional
 					  </label>
 					</div>
 					
