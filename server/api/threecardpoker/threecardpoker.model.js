@@ -3,11 +3,23 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+var hand = {
+	cards: [String],
+	rank: {
+		handName: String,
+		value: Number,
+		handRank: Number,
+		handType: Number
+	}
+};
+
 var ThreecardpokerSchema = new Schema({
   playerName: String,
   info: String,
   deck: [String],
-  hands: [[String, String, String]],
+  key: String,
+  encryptedDeck: String,
+  hands: [hand],
   options: {
   	numberOfHands: Number,
   },
