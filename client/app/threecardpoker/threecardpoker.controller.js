@@ -6,6 +6,7 @@ angular.module('pkerApp')
   	// figure out if a game is in progress of a new one should be created
 
   	$scope.game = new threecardpoker();
+    $scope.state = 'stopped';
     $scope.hands = [];
     $scope.dealer = {};
     $scope.bets = [];
