@@ -1,14 +1,16 @@
 <tr>
 	<td>
-		<div class="col-xs-3 col-md-3" ><p>{{index}}</p></div>
+		<div class="col-xs-3 col-md-3" ><p>{{index}} {{hand.rank.handName}}
+</p></div>
 	</td>
 	<td>
-		<div ng-repeat="card in hand.hand track by $index" style="float:left">
+		<div ng-repeat="card in hand.cards track by $index" style="float:left">
+		{{card}}
 			<playingcard 
 			size="50" 
-			value="{{card.value}}" 
-			suit="{{card.suit}}" 
-			card="{{card.card}}">
+			value="{{card}}" 
+			suit="{{card}}" 
+			card="card">
 			</playingcard>
 		</div>
 	</td>

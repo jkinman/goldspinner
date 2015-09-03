@@ -6,7 +6,7 @@ angular.module('pkerApp')
       template: '',
       restrict: 'EA',
       scope: {
-      	card: '@',
+      	card: '=',
       	suit: '@',
       	size: '@',
       	value: '@',
@@ -72,12 +72,11 @@ angular.module('pkerApp')
         
         // front or back
         var card;
-        if( scope.suit.indexOf( '?' ) > 0 || scope.value.indexOf( '?' ) > 0 ) {
-          card = $window.Poker.getCardImage(scope.size, scope.suit, scope.value.toLowerCase());
+        if( scope.suit.indexOf( '?' ) >= 0 || scope.value.indexOf( '?' ) >= 0 ) {
+      	 card = $window.Poker.getBackImage(scope.size );
         }
         else{
-      	 card = $window.Poker.getBackImage(scope.size );
-          
+          card = $window.Poker.getCardImage(scope.size, scope.suit, scope.value.toLowerCase());
         }
       	el.append( card );
       }
