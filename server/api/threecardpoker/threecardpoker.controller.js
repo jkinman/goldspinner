@@ -55,7 +55,7 @@ exports.convertCardFormat = function( cards ) {
           newCard.value = '9';
           break;
         case "Ten" :
-          newCard.value = '10';
+          newCard.value = 'T';
           break;
         case "Jack" :
           newCard.value = 'J';
@@ -122,7 +122,7 @@ exports.create = function(req, res) {
   poker.key = poker._id;
   poker.userId = req.user._id;
   poker.cipher = crypto.createCipher('aes192', poker.key);
-  poker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: evalHand( [deck[11], deck[12], deck[13]])};
+  poker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
   // poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
   // poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
 
@@ -190,9 +190,8 @@ function nottkiDeal( cards ){
   hands[5] = {cards:[cards[8], cards[9], cards[10]]} ;
   hands[6] = {cards:[cards[10], cards[5], cards[0]]} ;
   hands[7] = {cards:[cards[2], cards[5], cards[8]]} ;
-  console.log( hands );
+
   var ranks = evaluateHands( hands );
-  console.log( hands );
 
   for (var i = hands.length - 1; i >= 0; i--) {
     hands[i].rank = ranks[i];
