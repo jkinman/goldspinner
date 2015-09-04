@@ -4,7 +4,7 @@ angular.module('pkerApp')
   .controller('ThreecardpokerCtrl', function ($scope, threecardpoker, $rootScope) {
 
   	// figure out if a game is in progress of a new one should be created
-
+    $rootScope.message = "Click Shuffle to start playing";
   	$scope.game = new threecardpoker();
     // $scope.game.state = 'stopped';
     $rootScope.state = 'none'
@@ -16,6 +16,8 @@ angular.module('pkerApp')
 
     // build hands and init bets
     $scope.init = function() {
+      $rootScope.message = "place bets and click deal to lock them in";
+    
       var unknown = '?';
       $rootScope.state = 'init';
 
@@ -34,6 +36,8 @@ angular.module('pkerApp')
     // send init state to server and get the deck and your cards
     $scope.startGame = function() {
       $rootScope.state = 'created';
+
+      $rootScope.message = "Click showdown for final outcome.";
 
       // update the game with the current bets
       var bets = [];
@@ -54,11 +58,32 @@ angular.module('pkerApp')
 
     // get the dealers hand and money made
     $scope.resolve = function() {
+      
+      $rootScope.message = "Resolving game";
+
       $rootScope.state = 'resolved';
       $scope.game.$resolve( function(){
+        if( $scope.game.totalMoney > 0 ){
+          $rootScope.message = "Finished. Congrats you won $" + $scope.game.totalMoney;
+        }
+        else {
+          $rootScope.message = "Finished. You lost $" + $scope.game.totalMoney;          
+        }
         // what did I get back?
         $scope.hands = $scope.game.hands;
       });
+    };
+
+    $scope.reset = function() {
+      $rootScope.message = "Click Shuffle to start playing";
+      $scope.game = new threecardpoker();
+      // $scope.game.state = 'stopped';
+      $rootScope.state = 'none'
+      $scope.hands = [];
+      $scope.game.dealer = {cards:[]};
+      $scope.bets = [];
+      $scope.cards = {hands:{},dealer:{cards:[]}};
+
     };
 
   });

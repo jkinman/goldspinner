@@ -1,7 +1,6 @@
  <header>
 	 <div class="container" ng-controller="ThreecardpokerCtrl">
-	 <h1>game id: {{game._id}}</h1>
-	 <h2>state: {{state}}</h2>
+	 <h2>{{message}}</h2>
 	 	<div class="row">
 			<div class="col-md-3" class="text-left">
 				<h5>BASIC PLAY RULES - 3 Card Poker</h5>
@@ -98,6 +97,9 @@
 					<a href="#" class="btn btn-sm btn-outline"  ng-click="resolve()" ng-disabled="state != 'created'">
 	                    3. showdown
 	                </a>
+					<a href="#" class="btn btn-sm btn-outline"  ng-click="reset()" ng-disabled="state != 'resolved'">
+	                    4. reset
+	                </a>
 				</div>
 
 				<div class="row" >
@@ -140,6 +142,7 @@
 						      	pairs-plus="hand.bets.pairsPlus"
 						      	six-card="hand.bets.sixCard"
 						      	state="state"
+						      	hand-active="true"
 							>
 							</tr>
 					</tbody>
@@ -147,7 +150,7 @@
 				</table>
 
 				<hr>
-
+				<p>game id: {{game._id}}</p>
 			</div>
 			</div>
 
@@ -247,6 +250,7 @@
 
 				</form>
 			</div>
+		 
 
 		</div>
 	</div>
