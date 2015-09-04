@@ -2,7 +2,9 @@
 	<td>
 		<div class="col-xs-3 col-md-3" >
 		<p class="small">{{hand.rank.handName}}</p>
-		<p class="small">{{hand.winnings}}</p>
+		<p class="small" ng-show="hand.winnings">anti: ${{hand.winnings.antiBonus}}</p>
+		<p class="small" ng-show="hand.winnings">pairs+: ${{hand.winnings.pairsPlusTotal}}</p>
+		<p class="small" ng-show="hand.winnings">6 card: ${{hand.winnings.sixCardBonus}}</p>
 		</div>
 	</td>
 	<td>
@@ -18,7 +20,7 @@
 			</playingcard>
 		</div>
 	
-		<a href="#" class="btn btn-sm btn-outline" ng-click="foldHand()" ng-show="state == 'created'">FOLD</a>
+		<a href="#" class="btn btn-sm btn-outline" ng-click="foldHand()" ng-show="state == 'created' && anti > 0">FOLD</a>
 	</td>
 
 	<td>

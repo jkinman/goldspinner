@@ -13,6 +13,7 @@ angular.module('pkerApp')
         pairsPlus: "=",
         sixCard: "=",
         state: "=",
+        handActive: "=",
       },
       link: function (scope, element, attrs) {
         scope.hand.bets.anti = 0;
