@@ -131,8 +131,6 @@ exports.create = function(req, res) {
     };
   };
 
-  
-  scoreHands( poker.hands );
   poker.key = poker._id;
   poker.userId = req.user._id;
   poker.cipher = crypto.createCipher('aes192', poker.key);
@@ -152,11 +150,6 @@ exports.create = function(req, res) {
     if(err) { 
       return handleError(res, err); 
     }
-
-    console.log( threecardpoker );
-    delete threecardpoker.dealer;
-    delete threecardpoker.dealerQualified;
-    console.log( threecardpoker );
     return res.status(201).json(threecardpoker);
   });
 };
@@ -176,8 +169,10 @@ exports.resolveGame = function( req, res ) {
     var deck = threecardpoker.deck;
     console.log( "found it about to update with dealers hands and ranks" );
     threecardpoker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
-    threecardpoker.dealerQualified = threecardpoker.dealer.rank.handrank > 190;
+    threecardpoker.dealerQualified = threecardpoker.dealer.rank.handRank > 190;
     threecardpoker.state = "resolved";
+  
+    scoreHands( threecardpoker.hands );
 
     // var updated = _.merge(threecardpoker, req.body);
 
