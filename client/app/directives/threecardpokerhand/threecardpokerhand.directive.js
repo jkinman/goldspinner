@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pkerApp')
-  .directive('threecardpokerhand', function () {
+  .directive('threecardpokerhand', function ( threecardpoker, $rootScope ) {
     return {
       templateUrl: 'app/directives/threecardpokerhand/threecardpokerhand.html',
       restrict: 'EA',
@@ -13,7 +13,11 @@ angular.module('pkerApp')
       },
       link: function (scope, element, attrs) {
         scope.hand.anti = 0;
+
       	// console.log( scope.hand );
+      },
+      foldHand: function() {
+        console.log( "fold hand " + scope.index );
       }
     };
   });

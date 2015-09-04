@@ -6,7 +6,7 @@ angular.module('pkerApp')
       template: '',
       restrict: 'EA',
       scope: {
-      	card: '=',
+      	card: '@',
       	suit: '@',
       	size: '@',
       	value: '@',
@@ -23,8 +23,11 @@ angular.module('pkerApp')
         else if( scope.card.indexOf( "c" ) > 0 ) {
           scope.suit = "Clubs";
         }
-        else {
+        else if( scope.card.indexOf( "h" ) > 0 ) {
           scope.suit = "Hearts";
+        }
+        else {
+          scope.suit = "?";
         }
 
         if( scope.card.indexOf( '2' ) > 0 ) {
@@ -54,7 +57,7 @@ angular.module('pkerApp')
         else if( scope.card.indexOf( '9' ) > 0 ) {
           scope.value = "Nine";
         }
-        else if( scope.card.indexOf( '10' ) > 0 ) {
+        else if( scope.card.indexOf( 'T' ) > 0 ) {
           scope.value = "Ten";
         }
         else if( scope.card.indexOf( 'J' ) > 0 ) {
@@ -68,6 +71,9 @@ angular.module('pkerApp')
         }
         else if( scope.card.indexOf( 'A' ) > 0 ) {
           scope.value = "Ace";
+        }
+        else{
+          scope.value = "?"
         }
         
         // front or back

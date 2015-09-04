@@ -10,6 +10,7 @@
       </div>
 
       <div class="col-lg-6">
+            <div ng-hide="isLoggedIn()">
               <h1>Login</h1>
               <p>Default account is <code>test@test.com</code> / <code>test</code></p>
               <p>Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
@@ -48,6 +49,10 @@
                   </a>
                 </div>
               </form>
+          </div>
+          <div ng-show="ng-show="isLoggedIn()>
+            <a ui-sref="pker"><h1 class="" >Play Multi-hand 3 card poker</h1></a>
+          </div>
         </div>
       </div>
     </div>

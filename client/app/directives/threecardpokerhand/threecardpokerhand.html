@@ -1,52 +1,36 @@
 <tr>
 	<td>
-		<div class="col-xs-3 col-md-3" ><p>{{index}} {{hand.rank.handName}}
-</p></div>
+		<div class="col-xs-3 col-md-3" >
+		<p class="small">{{hand.rank.handName}}</p>
+		</div>
 	</td>
 	<td>
 		<div ng-repeat="card in hand.cards track by $index" style="float:left">
 		{{card}}
 			<playingcard 
 			size="50" 
-			value="{{card}}" 
-			suit="{{card}}" 
-			card="card">
+			card="{{card}}">
 			</playingcard>
 		</div>
+	
+		<a href="#"  ng-click="fold()" ng-show="state == 'play'">FOLD</a>
+{{state}}
 	</td>
 
-	<td><label>${{anti}}</label>
-		<input type="range" min="0" max="100" value="0" step="5" id="anti" ng-model="anti" width="25">
+	<td>{{parent}}
+		<label>${{anti}}</label>
+		<input type="number" ng-model="anti" min="0" max="100" value="0" ng-show="$rootScope.state == 'init'">
 	</td>
 	<td>
 		<p ng-show="anti > 0">YES</p>
 		<p ng-show="anti <= 0">NO</p>
 	</td>
 	<td>
-		<select class="form-control" ng-show="state = 'uninitialized'">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
+		<label>${{sidebet1}}</label>
+		<input type="number" ng-model="sidebet1" min="0" max="100" value="0" ng-show="$rootScope.state == 'init'">
 	</td>
 	<td>
-		<select class="form-control">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
-	</td>
-	<td>
-		<select class="form-control">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
+		<label>${{sidebet2}}</label>
+		<input type="number" ng-model="sidebet2" min="0" max="100" value="0" ng-show="$rootScope.state == 'init'">
 	</td>
 </tr>

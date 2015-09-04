@@ -1,6 +1,7 @@
  <header>
 	 <div class="container" ng-controller="ThreecardpokerCtrl">
-	 <h1>{{game._id}}</h1>
+	 <h1>game id: {{game._id}}</h1>
+	 <h2>state: {{state}}</h2>
 	 	<div class="row">
 			<div class="col-md-3" class="text-left">
 				<h5>BASIC PLAY RULES - 3 Card Poker</h5>
@@ -21,27 +22,99 @@
 					<li>Click Play (A play bet = to the Ante bet is automatically made)</li>
 					<li>View Winnings</li>
 				</ol>
-				
-				<a href="#" class="btn btn-sm btn-outline">
+
+                <div class="six_card_bonus_payout payout_section">
+                    <div class="payout_title">6-CARD BONUS</div>
+                    <div class="payline">
+                        <span class="orange">ROYAL FLUSH..................</span><span class="payout">1000 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">STRAIGHT FLUSH..............</span><span class="payout">200 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">FOUR OF A KIND..................</span><span class="payout">50 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">FULL HOUSE........................</span><span class="payout">25 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">FLUSH....................................</span><span class="payout">20 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">STRAIGHT..............................</span><span class="payout">10 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">THREE OF A KIND..................</span><span class="payout">5 to 1</span>
+                    </div>
+                </div>
+                <div class="pair_plus_payout payout_section">
+                    <div class="payout_title">PAIR PLUS</div>
+                    <div class="payline">
+                        <span class="yellow">STRAIGHT FLUSH...............</span><span class="payout">40 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="yellow">THREE OF A KIND...............</span><span class="payout">30 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="yellow">STRAIGHT................................</span><span class="payout">5 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="yellow">FLUSH.......................................</span><span class="payout">4 to 1</span>
+                    </div>
+                    <div class="payline"><span class="bonus_highlight flash"></span>
+                        <span class="yellow">PAIR...........................................</span><span class="payout">1 to 1</span>
+                    </div>
+                </div>
+                <div class="ante_bonus_payout payout_section">
+                    <div class="payout_title">ANTE BONUS</div>
+                    <div class="payline">
+                        <span class="orange">STRAIGHT FLUSH.................</span><span class="payout">5 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">THREE OF A KIND..................</span><span class="payout">4 to 1</span>
+                    </div>
+                    <div class="payline">
+                        <span class="orange">STRAIGHT................................</span><span class="payout">1 to 1</span>
+                    </div>
+                </div>
+            
+				<a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none'">
                     <i class="fa fa-download"></i> Send Shuffle List
                 </a>
-				<a href="#" class="btn btn-sm btn-outline">
+				<a href="#" class="btn btn-sm btn-outline" ng-disabled="state != 'none'">
                     <i class="glyphicon glyphicon-lock"></i> Send Decrypter
                 </a>
 
 			</div>
 
 			<div class="col-md-7">
+				<div class="text-center">
+					<a href="#" class="btn btn-sm btn-outline" ng-click="init()" ng-disabled="state != 'none'">
+	                    <i class="glyphicon glyphicon-asterisk"></i> 1. start new game
+	                </a>
+					<a href="#" class="btn btn-sm btn-outline"  ng-click="startGame()" ng-disabled="state != 'init'">
+	                    <i class="glyphicon glyphicon-play"></i> 2. Deal Cards
+	                </a>
+					<a href="#" class="btn btn-sm btn-outline"  ng-click="finalize()" ng-disabled="state != 'play'">
+	                    <i class="glyphicon glyphicon-play"></i> 3. Play with selected hands
+	                </a>
+
+				</div>
+
 				<div class="row" >
 				<h3>3-Card Poker with Multi-Hands</h3>
-				<h3>Dealer's hand</h3>
-				<div ng-repeat="card in dealer.cards track by $index" style="float:left">
+				<h3>Dealer</h3>
+				<div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
+				{{card}}
 					<playingcard 
-					size="100" 
-					value="{{card}}" 
-					suit="{{card}}" 
-					card="card">
+					size="100"
+					suit=""
+					value=""
+					card="{{card}}">
 					</playingcard>
+				</div>
+				<div>
+					{{game.dealer.rank}}
 				</div>
 				<table class="table table-striped">
 					<thead>
@@ -50,9 +123,8 @@
 							<th>cards</th>
 							<th>ante</th>
 							<th>play</th>
-							<th>pairs</th>
+							<th>pairs+</th>
 							<th>best 5</th>
-							<th>prime</th>
 						</tr>
 					</thead>
 					
@@ -79,7 +151,7 @@
 						      	size="50" 
 						      	value="{{card.value}}" 
 						      	suit="{{card.suit}}" 
-						      	card="{{card.card}}"
+						      	card="card.card"
 						      	>
 						      </playingcard>
 					</div>
@@ -90,12 +162,6 @@
 
 			<div class="col-md-2">
 				<h3>Options</h3>
-				<a href="#" class="btn btn-sm btn-outline" ng-click="init()" ng-show="state = 'stopped'">
-                    <i class="glyphicon glyphicon-asterisk"></i> 1. Shuffle and Deal
-                </a>
-				<a href="#" class="btn btn-sm btn-outline"  ng-click="startGame()">
-                    <i class="glyphicon glyphicon-play"></i> 2. Play
-                </a>
 
 				<form class="text-left">
 					<div class="radio">
