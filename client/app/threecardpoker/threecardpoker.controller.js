@@ -24,14 +24,14 @@ angular.module('pkerApp')
 
     $scope.game.dealer = {cards:[unknown, unknown, unknown]};
 
-    $scope.hands[0] = {cards:[unknown, unknown, unknown], anti:0};
-    $scope.hands[1] = {cards:[unknown, unknown, unknown], anti:0};
-    $scope.hands[2] = {cards:[unknown, unknown, unknown], anti:0};
-    $scope.hands[3] = {cards:[unknown, unknown, unknown], anti:0};
-    $scope.hands[4] = {cards:[unknown, unknown, unknown], anti:0};
-    $scope.hands[5] = {cards:[unknown, unknown, unknown], anti:0};
-    $scope.hands[6] = {cards:[unknown, unknown, unknown], anti:0};
-    $scope.hands[7] = {cards:[unknown, unknown, unknown], anti:0};
+    $scope.hands[0] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
+    $scope.hands[1] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
+    $scope.hands[2] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
+    $scope.hands[3] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
+    $scope.hands[4] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
+    $scope.hands[5] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
+    $scope.hands[6] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
+    $scope.hands[7] = {cards:[unknown, unknown, unknown], anti:0, pairsPlus: 0, sixCard: 0};
   };   
 
     $scope.startGame = function() {
@@ -40,7 +40,11 @@ angular.module('pkerApp')
       // update the game with the current bets
       var bets = [];
       for (var i = 0; i < $scope.hands.length; i++) {
-        bets[i] = {anti: $scope.hands[i].anti};
+        bets[i] = {
+          anti: $scope.hands[i].anti,
+          pairsPlus: $scope.hands[i].pairsPlus,
+          sixCard: $scope.hands[i].sixCard
+        };
       };
       
       $scope.game.bets = bets;

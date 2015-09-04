@@ -9,6 +9,9 @@ angular.module('pkerApp')
     return $resource( 'api/threecardpokers/:id', {id: '@_id' } , {
     	update: {
     		method: 'PUT'
+    	},
+    	resolve: {
+    		method: 'PUT'
     	}
     });
 

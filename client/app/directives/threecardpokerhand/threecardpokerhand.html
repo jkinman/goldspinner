@@ -1,36 +1,35 @@
-<tr>
+<tr ng-show="handActive">
 	<td>
 		<div class="col-xs-3 col-md-3" >
 		<p class="small">{{hand.rank.handName}}</p>
 		</div>
 	</td>
 	<td>
+		<p ng-show="anti > 0">YES</p>
+		<p ng-show="anti <= 0">NO</p>
+	</td>
+	<td>
 		<div ng-repeat="card in hand.cards track by $index" style="float:left">
-		{{card}}
+		<p>{{card}}</p>
 			<playingcard 
 			size="50" 
 			card="{{card}}">
 			</playingcard>
 		</div>
 	
-		<a href="#"  ng-click="fold()" ng-show="state == 'play'">FOLD</a>
-{{state}}
+		<a href="#" class="btn btn-sm btn-outline" ng-click="foldHand()" ng-show="state == 'created'">FOLD</a>
 	</td>
 
-	<td>{{parent}}
+	<td>
 		<label>${{anti}}</label>
-		<input type="number" ng-model="anti" min="0" max="100" value="0" ng-show="$rootScope.state == 'init'">
+		<input type="number" ng-model="anti" min="0" max="100" value="25" step="5"  ng-show="state == 'init'" style="color: black">
 	</td>
 	<td>
-		<p ng-show="anti > 0">YES</p>
-		<p ng-show="anti <= 0">NO</p>
+		<label>${{pairsPlus}}</label>
+		<input type="number" ng-model="pairsPlus" min="0" max="100" step="5" value="5" ng-show="state == 'init' && anti > 0" style="color: black">
 	</td>
 	<td>
-		<label>${{sidebet1}}</label>
-		<input type="number" ng-model="sidebet1" min="0" max="100" value="0" ng-show="$rootScope.state == 'init'">
-	</td>
-	<td>
-		<label>${{sidebet2}}</label>
-		<input type="number" ng-model="sidebet2" min="0" max="100" value="0" ng-show="$rootScope.state == 'init'">
+		<label>${{sixCard}}</label>
+		<input type="number" ng-model="sixCard" min="0" max="100" step="5"  value="5" ng-show="state == 'init' && anti > 0" style="color: black">
 	</td>
 </tr>

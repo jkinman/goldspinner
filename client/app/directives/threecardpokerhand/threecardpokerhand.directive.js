@@ -9,15 +9,22 @@ angular.module('pkerApp')
       scope: {
       	hand: "=",
       	index: "@",
-        anti: "="
+        anti: "=",
+        pairsPlus: "=",
+        sixCard: "=",
+        state: "=",
       },
       link: function (scope, element, attrs) {
         scope.hand.anti = 0;
+        scope.hand.sixCard = 0;
+        scope.hand.pairsPlus = 0;
+        scope.handActive = true;
 
       	// console.log( scope.hand );
-      },
-      foldHand: function() {
-        console.log( "fold hand " + scope.index );
+        scope.foldHand = function() {
+          console.log( "fold hand " + scope.index );
+          scope.handActive = false;
+        };
       }
     };
   });
