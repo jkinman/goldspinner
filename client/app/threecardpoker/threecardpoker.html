@@ -95,7 +95,7 @@
 					<a href="#" class="btn btn-sm btn-outline"  ng-click="startGame()" ng-disabled="state != 'init'">
 	                    2. Deal
 	                </a>
-					<a href="#" class="btn btn-sm btn-outline"  ng-click="finalize()" ng-disabled="state != 'created'">
+					<a href="#" class="btn btn-sm btn-outline"  ng-click="resolve()" ng-disabled="state != 'created'">
 	                    3. showdown
 	                </a>
 
@@ -134,9 +134,9 @@
 								ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}"
 								hand="hand" 
 								index="{{$index+1}}" 
-						      	anti="hand.anti"
-						      	pairs-plus="hand.pairsPlus"
-						      	six-card="hand.sixCard"
+						      	anti="hand.bets.anti"
+						      	pairs-plus="hand.bets.pairsPlus"
+						      	six-card="hand.bets.sixCard"
 						      	state="state"
 							>
 							</tr>
