@@ -54,6 +54,7 @@ angular.module('pkerApp')
 
     // get the dealers hand and money made
     $scope.resolve = function() {
+      $rootScope.state = 'resolved';
       $scope.game.$resolve( function(){
         // what did I get back?
         debugger;
