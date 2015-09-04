@@ -174,6 +174,10 @@ exports.resolveGame = function( req, res ) {
   
     scoreHands( threecardpoker.hands );
 
+    console.log( threecardpoker.hands );
+    threecardpoker.totalMoney = tallyWinnings(threecardpoker.hands) - tallyBets(threecardpoker.hands);
+    req.user.balance += threecardpoker.totalMoney;
+    req.user.save();
     // var updated = _.merge(threecardpoker, req.body);
 
     threecardpoker.save(function (err) {
@@ -262,7 +266,7 @@ function scoreHands( hands ){
       "three of a kind": 4, //threeOfKind
       "straight": 1,  //straight
       "flush": 0, //flush
-      "one pair": 1, //pair
+      "one pair": 0, //pair
       "invalid hand": 0,
       "high card": 0,
       "two pairs": 0,
@@ -291,9 +295,7 @@ function scoreHands( hands ){
     hands[i].winnings.pairsPlusTotal  = scoringTable.pairsPlus[hands[i].rank.handName] * hands[i].bets.pairsPlus;
     hands[i].winnings.antiBonus       = scoringTable.anti[hands[i].rank.handName] * hands[i].bets.anti;
     hands[i].winnings.sixCardBonus    = scoringTable.sixCard[hands[i].rank.handName] * hands[i].bets.sixCard;
-
   };
-
 }
 
 function evaluateHands( hands ){
@@ -309,5 +311,29 @@ function evaluateHands( hands ){
 function handleError(res, err) {
   return res.status(500).send(err);
 }
+
+// tally winnings from hands that werent folded and anited up
+function tallyWinnings( hands ){
+  
+  var retval = 0;
+  for (var i = hands.length - 1; i >= 0; i--) {
+    if( hands[i].bets.anti > 0 ){
+      retval = retval + hands[i].winnings.pairsPlusTotal + hands[i].winnings.antiBonus + hands[i].winnings.sixCardBonus;
+    }
+  };
+
+  return retval;
+}
+
+function tallyBets( hands ){
+  
+  var retval = 0;
+  for (var i = hands.length - 1; i >= 0; i--) {
+    retval = retval + hands[i].bets.pairsPlus + hands[i].bets.anti + hands[i].bets.sixCard;
+  };
+
+  return retval;
+}
+
 
 
