@@ -98,7 +98,6 @@
 					<a href="#" class="btn btn-sm btn-outline"  ng-click="resolve()" ng-disabled="state != 'created'">
 	                    3. showdown
 	                </a>
-
 				</div>
 
 				<div class="row" >
@@ -115,7 +114,10 @@
 					</playingcard>
 				</div>
 				<div>
-					{{game.dealer.rank}}
+					{{game.dealer.rank.handName}}
+				</div>
+				<div ng-show="game.dealerQualified">
+					<p>Dealer qualified</p>
 				</div>
 				<table class="table table-striped">
 					<thead>
