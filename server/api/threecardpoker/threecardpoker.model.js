@@ -40,7 +40,11 @@ var ThreecardpokerSchema = new Schema({
   	numberOfHands: Number,
   },
   bets: [
-  	{anti: Number}
+  	{
+		pairsPlus: Number,
+		anti: Number,
+		sixCard: Number
+	}
   ],
   userId: String,
   state: String
