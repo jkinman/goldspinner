@@ -118,14 +118,24 @@ exports.create = function(req, res) {
 
   var poker = new Threecardpoker( req.body );
 
+
   poker.deck = deck;
   poker.hands = nottkiDeal( deck );
-  poker.state = "start";
+  // extract and store the bets made by player
+  for (var i = poker.hands.length - 1; i >= 0; i--) {
+    poker.hands[i].bets = 
+    {
+      pairsPlus: poker.bets[i].pairsPlus,
+      anti: poker.bets[i].anti,
+      sixCard: poker.bets[i].sixCard
+    };
+  };
+
+  
+  scoreHands( poker.hands );
   poker.key = poker._id;
   poker.userId = req.user._id;
   poker.cipher = crypto.createCipher('aes192', poker.key);
-  poker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
-  poker.dealerQualified = poker.dealer.rank.handrank > 190;
   poker.state = "initialized";
 
   // poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
@@ -143,11 +153,39 @@ exports.create = function(req, res) {
       return handleError(res, err); 
     }
 
-  // console.log( threecardpoker.hands );
-
+    console.log( threecardpoker );
+    delete threecardpoker.dealer;
+    delete threecardpoker.dealerQualified;
+    console.log( threecardpoker );
     return res.status(201).json(threecardpoker);
   });
 };
+
+
+exports.resolveGame = function( req, res ) {
+  console.log( "Resolve an open threecardpoker in the DB." );
+
+  if(req.body._id) { delete req.body._id; }
+  
+  console.log( "looking for game: " );
+  console.log( req.params.id );
+
+  Threecardpoker.findById( req.params.id, function (err, threecardpoker) {
+    if (err) { return handleError(res, err); }
+    if(!threecardpoker) { return res.status(404).send('Not Found'); }
+
+    poker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
+    poker.dealerQualified = poker.dealer.rank.handrank > 190;
+    
+    var updated = _.merge(threecardpoker, req.body);
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(threecardpoker);
+    });
+  });
+
+
+}
 
 // Updates an existing threecardpoker in the DB.
 // this is if you decide to play hands.
@@ -162,6 +200,7 @@ exports.update = function(req, res) {
   Threecardpoker.findById( req.params.id, function (err, threecardpoker) {
     if (err) { return handleError(res, err); }
     if(!threecardpoker) { return res.status(404).send('Not Found'); }
+
     
     var updated = _.merge(threecardpoker, req.body);
     updated.save(function (err) {
@@ -201,25 +240,13 @@ function nottkiDeal( cards ){
 
   for (var i = hands.length - 1; i >= 0; i--) {
     hands[i].rank = ranks[i];
-    hands[i].bets = {
-      pairsPlus: 0,
-      anti: 0,
-      sixCard: 0
-    };
-
   };
   
-  scoreHands( hands );
-
   return hands;
 }
 
 function scoreHands( hands ){
   // score hands
-  // console.log( PokerEvaluator.evalHand( ["3s", "4s", "5s"] )); //SF
-  // console.log( PokerEvaluator.evalHand( ["3s", "4d", "5c"] ));// straigh
-  // console.log( PokerEvaluator.evalHand( ["2s", "2c", "2d"] ));//three
-  // console.log( PokerEvaluator.evalHand( ["3s", "2s", "5s"] ));// flush
 
   var scoringTable = {
     pairsPlus: {
@@ -259,8 +286,11 @@ function scoreHands( hands ){
       "full house": 0,
     }
 
-
   }
+
+  console.log( "scorehands" );
+  console.log( hands );
+
   for (var i = hands.length - 1; i >= 0; i--) {
     hands[i].winnings = {};
     hands[i].winnings.pairsPlusTotal  = scoringTable.pairsPlus[hands[i].rank.handName] * hands[i].bets.pairsPlus;
