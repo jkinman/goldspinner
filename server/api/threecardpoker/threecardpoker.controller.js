@@ -173,9 +173,11 @@ exports.resolveGame = function( req, res ) {
   Threecardpoker.findById( req.params.id, function (err, threecardpoker) {
     if (err) { return handleError(res, err); }
     if(!threecardpoker) { return res.status(404).send('Not Found'); }
-
-    poker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
-    poker.dealerQualified = poker.dealer.rank.handrank > 190;
+    var deck = threecardpoker.deck;
+    console.log( "found it about to update with dealers hands and ranks" );
+    threecardpoker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
+    threecardpoker.dealerQualified = threecardpoker.dealer.rank.handrank > 190;
+    threecardpoker.state = "resolved";
     
     var updated = _.merge(threecardpoker, req.body);
     updated.save(function (err) {
@@ -224,9 +226,7 @@ exports.destroy = function(req, res) {
 
 
 function nottkiDeal( cards ){
-  
   var hands = [];
-
   hands[0] = {cards:[cards[0], cards[4], cards[8]]} ;
   hands[1] = {cards:[cards[1], cards[5], cards[9]]} ;
   hands[2] = {cards:[cards[2], cards[6], cards[10]]} ;
@@ -289,7 +289,6 @@ function scoreHands( hands ){
   }
 
   console.log( "scorehands" );
-  console.log( hands );
 
   for (var i = hands.length - 1; i >= 0; i--) {
     hands[i].winnings = {};
