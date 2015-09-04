@@ -57,7 +57,7 @@ angular.module('pkerApp')
       $rootScope.state = 'resolved';
       $scope.game.$resolve( function(){
         // what did I get back?
-        debugger;
+        $scope.hands = $scope.game.hands;
       });
     };
 
