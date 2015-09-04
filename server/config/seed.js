@@ -36,20 +36,23 @@ User.find({}).remove(function() {
     provider: 'local',
     name: 'Test User',
     email: 'test@test.com',
-    password: 'test'
+    password: 'test',
+    balance: 1000
   },
   {
     provider: 'local',
     name: 'Joel Kinman Test',
     email: 'joel.kinman@gmail.com',
-    password: 'test'
+    password: 'test',
+    balance: 1000
   },
    {
     provider: 'local',
     role: 'admin',
     name: 'Admin',
     email: 'admin@admin.com',
-    password: 'admin'
+    password: 'admin',
+    balance: 1000    
   }, function() {
       console.log('finished populating users');
     }
