@@ -90,13 +90,13 @@
 			<div class="col-md-7">
 				<div class="text-center">
 					<a href="#" class="btn btn-sm btn-outline" ng-click="init()" ng-disabled="state != 'none'">
-	                    <i class="glyphicon glyphicon-asterisk"></i> 1. start new game
+	                    1. start new game
 	                </a>
 					<a href="#" class="btn btn-sm btn-outline"  ng-click="startGame()" ng-disabled="state != 'init'">
-	                    <i class="glyphicon glyphicon-play"></i> 2. Deal Cards
+	                    2. Deal Cards
 	                </a>
-					<a href="#" class="btn btn-sm btn-outline"  ng-click="finalize()" ng-disabled="state != 'play'">
-	                    <i class="glyphicon glyphicon-play"></i> 3. Play with selected hands
+					<a href="#" class="btn btn-sm btn-outline"  ng-click="finalize()" ng-disabled="state != 'created'">
+	                    3. Play with selected hands
 	                </a>
 
 				</div>
@@ -110,7 +110,8 @@
 					size="100"
 					suit=""
 					value=""
-					card="{{card}}">
+					card="{{card}}"
+					>
 					</playingcard>
 				</div>
 				<div>
@@ -120,43 +121,31 @@
 					<thead>
 						<tr>
 							<th>hand</th>
+							<th>play</th>
 							<th>cards</th>
 							<th>ante</th>
-							<th>play</th>
 							<th>pairs+</th>
-							<th>best 5</th>
+							<th>best 6</th>
 						</tr>
 					</thead>
 					
 					<tbody>	
-
 							<tr threecardpokerhand 
 								ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}"
 								hand="hand" 
 								index="{{$index+1}}" 
 						      	anti="hand.anti"
+						      	pairsPlus="hand.pairsPlus"
+						      	sixCard="hand.sixCard"
+						      	state="state"
 							>
 							</tr>
-						<!-- <threecardpokerhand ng-repeat="hand in hands" hand="hand" index="{{index}}">{{index}}</threecardpokerhand> -->
 					</tbody>
 
 				</table>
 
 				<hr>
 
-				<p>all cards</p>
-				<div class="row">
-					<div  ng-repeat="card in game.deck track by $index" style="float:left">
-						      <playingcard 
-						      	size="50" 
-						      	value="{{card.value}}" 
-						      	suit="{{card.suit}}" 
-						      	card="card.card"
-						      	>
-						      </playingcard>
-					</div>
-
-				</div>
 			</div>
 			</div>
 

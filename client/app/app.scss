@@ -15,6 +15,14 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     padding: 0.2em 0;
 }
 
+.form-control, input{
+	color: #000;
+}
+
+input {
+	color: black;
+}
+
 .table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
     background-color: hsla(168, 77%, 42%, 0.8);
 }
