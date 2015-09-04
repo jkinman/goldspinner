@@ -178,9 +178,10 @@ exports.resolveGame = function( req, res ) {
     threecardpoker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
     threecardpoker.dealerQualified = threecardpoker.dealer.rank.handrank > 190;
     threecardpoker.state = "resolved";
-    
-    var updated = _.merge(threecardpoker, req.body);
-    updated.save(function (err) {
+
+    // var updated = _.merge(threecardpoker, req.body);
+
+    threecardpoker.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.status(200).json(threecardpoker);
     });
