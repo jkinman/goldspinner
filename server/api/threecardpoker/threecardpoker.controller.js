@@ -112,10 +112,12 @@ exports.show = function(req, res) {
 // Creates a new threecardpoker in the DB.
 exports.create = function(req, res) {
   console.log( "Creates a new threecardpoker in the DB." );
-  var poker = new Threecardpoker( req.body );
 
   // shuffle and get a full deck
   var deck = exports.getCards( 52 );
+
+  var poker = new Threecardpoker( req.body );
+
   poker.deck = deck;
   poker.hands = nottkiDeal( deck );
   poker.state = "start";
@@ -123,6 +125,9 @@ exports.create = function(req, res) {
   poker.userId = req.user._id;
   poker.cipher = crypto.createCipher('aes192', poker.key);
   poker.dealer = {cards:[deck[11], deck[12], deck[13]], rank: PokerEvaluator.evalHand( [deck[11], deck[12], deck[13]])};
+  poker.dealerQualified = poker.dealer.rank.handrank > 190;
+  poker.state = "initialized";
+
   // poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
   // poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
 
@@ -145,6 +150,7 @@ exports.create = function(req, res) {
 };
 
 // Updates an existing threecardpoker in the DB.
+// this is if you decide to play hands.
 exports.update = function(req, res) {
   console.log( "Updates an existing threecardpoker in the DB." );
 
@@ -195,9 +201,74 @@ function nottkiDeal( cards ){
 
   for (var i = hands.length - 1; i >= 0; i--) {
     hands[i].rank = ranks[i];
+    hands[i].bets = {
+      pairsPlus: 0,
+      anti: 0,
+      sixCard: 0
+    };
+
   };
- 
+  
+  scoreHands( hands );
+
   return hands;
+}
+
+function scoreHands( hands ){
+  // score hands
+  // console.log( PokerEvaluator.evalHand( ["3s", "4s", "5s"] )); //SF
+  // console.log( PokerEvaluator.evalHand( ["3s", "4d", "5c"] ));// straigh
+  // console.log( PokerEvaluator.evalHand( ["2s", "2c", "2d"] ));//three
+  // console.log( PokerEvaluator.evalHand( ["3s", "2s", "5s"] ));// flush
+
+  var scoringTable = {
+    pairsPlus: {
+      "straight flush": 40, // straight flush
+      "three of a kind": 30, //threeOfKind
+      "straight": 5,  //straight
+      "flush": 4, //flush
+      "one pair": 1, //pair
+      "invalid hand": 0,
+      "high card": 0,
+      "two pairs": 1,
+      "full house": 0,
+      "four of a kind": 0,
+    },
+    anti: {
+      "straight flush": 5, // straight flush
+      "three of a kind": 4, //threeOfKind
+      "straight": 1,  //straight
+      "flush": 0, //flush
+      "one pair": 1, //pair
+      "invalid hand": 0,
+      "high card": 0,
+      "two pairs": 0,
+      "full house": 0,
+      "four of a kind": 0,
+    },
+    sixCard: {
+      "straight flush": 1000, // straight flush
+      "four of a kind": 50, //threeOfKind
+      "three of a kind": 5, //threeOfKind
+      "straight": 10,  //straight
+      "flush": 4, //flush
+      "one pair": 1, //pair
+      "invalid hand": 0,
+      "high card": 0,
+      "two pairs": 0,
+      "full house": 0,
+    }
+
+
+  }
+  for (var i = hands.length - 1; i >= 0; i--) {
+    hands[i].winnings = {};
+    hands[i].winnings.pairsPlusTotal  = scoringTable.pairsPlus[hands[i].rank.handName] * hands[i].bets.pairsPlus;
+    hands[i].winnings.antiBonus       = scoringTable.anti[hands[i].rank.handName] * hands[i].bets.anti;
+    hands[i].winnings.sixCardBonus    = scoringTable.sixCard[hands[i].rank.handName] * hands[i].bets.sixCard;
+
+  };
+
 }
 
 function evaluateHands( hands ){

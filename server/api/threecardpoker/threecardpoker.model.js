@@ -5,6 +5,20 @@ var mongoose = require('mongoose'),
 
 var hand = {
 	cards: [String],
+	bets:{
+		pairsPlus: Number,
+		anti: Number,
+		sixCard: Number
+	},
+	winnings:{
+			// flush: Boolean,
+			// straight: Boolean,
+			// threeOfKind: Boolean,
+			// straighFlush: Boolean,
+			pairsPlusTotal: Number,
+			antiBonus: Number,
+			sixCardBonus: Number,
+	},
 	rank: {
 		handName: String,
 		value: Number,
@@ -21,6 +35,7 @@ var ThreecardpokerSchema = new Schema({
   encryptedDeck: String,
   hands: [hand],
   dealer: hand,
+  dealerQualified: Boolean,
   options: {
   	numberOfHands: Number,
   },
