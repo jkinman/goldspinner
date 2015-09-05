@@ -52,6 +52,7 @@ URL: https://pker-jkinman.rhcloud.com/rockmongo/
 ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/
 
 to deploy:
+grunt build
 cd dist
 git commit -am "commit message"
 git push ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/ master 
@@ -65,10 +66,16 @@ http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
 
 ## todo / notes
 ### Aug 27
-
 - backdoor password tom&joel
-
-- new options
-	- nottki deal or traditional deal
-	- 
 - add tooltip for hand details
+
+### Sept 4
+- change to best 5 from best 6
+- add play bet on deal
+	- add message for raising play bet
+- add option for displaying string cards names
+- move card name under deal qualified
+- remove goldspinner from footer everywhere
+- add win / lost per hand as well summary
+- create simulation with 5 for everything and run 100 hands
+- 
