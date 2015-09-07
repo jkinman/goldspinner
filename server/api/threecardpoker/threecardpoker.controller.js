@@ -24,7 +24,7 @@ exports.convertCardFormat = function( cards ) {
           newCard.suit = 'Spades';
           break;
         default :
-          newCard.suit = 'Clubs';
+          newCard.suit = 'Hearts';
           break;
         }
 
@@ -86,7 +86,10 @@ exports.convertCardFormat = function( cards ) {
 
 exports.getCards = function( num ) {
     var deck = Shuffle.shuffle();
-    return( exports.convertCardFormat( deck.draw( num )));
+    deck.reset();
+    deck.shuffle();
+
+    return( exports.convertCardFormat( deck.drawRandom( num )));
 };
 
 // Get list of threecardpokers
