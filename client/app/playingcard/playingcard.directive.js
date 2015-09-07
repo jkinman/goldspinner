@@ -12,29 +12,26 @@ angular.module('pkerApp')
       	value: '@',
       },
       link: function (scope, el, attrs) {
-          if( scope.card.toLowerCase().indexOf( "h" ) > -1 ) {
-          console.log( "Hearts" );
-        }
           // scope.el = el;
           scope.$watch("card", function( newValue, oldValue ) {
 
             scope.card = newValue;
 
-        if( scope.card.toLowerCase().indexOf( "s" ) > -1 ) {
-          scope.suit = "Spades";
-        }
-        else if( scope.card.toLowerCase().indexOf( "d" ) > -1 ) {
-          scope.suit = "Diamonds";
-        }
-        else if( scope.card.toLowerCase().indexOf( "c" ) > -1 ) {
-          scope.suit = "Clubs";
-        }
-        else if( scope.card.toLowerCase().indexOf( "h" ) > -1 ) {
-          scope.suit = "Hearts";
-        }
-        else {
-          scope.suit = "?";
-        }
+        // if( scope.card.toLowerCase().indexOf( "s" ) > -1 ) {
+        //   scope.suit = "Spades";
+        // }
+        // else if( scope.card.toLowerCase().indexOf( "d" ) > -1 ) {
+        //   scope.suit = "Diamonds";
+        // }
+        // else if( scope.card.toLowerCase().indexOf( "c" ) > -1 ) {
+        //   scope.suit = "Clubs";
+        // }
+        // else if( scope.card.toLowerCase().indexOf( "h" ) > -1 ) {
+        //   scope.suit = "Hearts";
+        // }
+        // else {
+        //   scope.suit = "?";
+        // }
 
         // if( scope.card.indexOf( '2' ) > -1 ) {
         //   scope.value = '2';
@@ -80,9 +77,9 @@ angular.module('pkerApp')
         var card;
 
         var val = scope.card.charAt(0).toLowerCase();
-        var suit = scope.card.charAt(1).toUpperCase();
+        var suit = scope.card.charAt(scope.card.length-1).toUpperCase();
 
-        if( val.toLowerCase().indexOf( 't' ) != -1 ) {
+        if( val.toLowerCase().indexOf( 't' ) != -1 || val.toLowerCase().indexOf( '1' ) != -1 ) {
           val = '10';
         }
 
