@@ -23,14 +23,14 @@ angular.module('pkerApp')
 
       $scope.game.dealer = {cards:[unknown, unknown, unknown]};
 
-      $scope.hands[0] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[1] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[2] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[3] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[4] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[5] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[6] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[7] = {cards:[unknown, unknown, unknown], bets:{anti:0, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[0] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[1] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[2] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[3] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[4] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[5] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[6] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
+      $scope.hands[7] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
     };   
 
     // send init state to server and get the deck and your cards
