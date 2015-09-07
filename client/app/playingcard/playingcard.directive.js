@@ -12,79 +12,93 @@ angular.module('pkerApp')
       	value: '@',
       },
       link: function (scope, el, attrs) {
+          if( scope.card.toLowerCase().indexOf( "h" ) > -1 ) {
+          console.log( "Hearts" );
+        }
+          // scope.el = el;
+          scope.$watch("card", function( newValue, oldValue ) {
 
+            scope.card = newValue;
 
-        if( scope.card.indexOf( "s" ) > 0 ) {
+        if( scope.card.toLowerCase().indexOf( "s" ) > -1 ) {
           scope.suit = "Spades";
         }
-        else if( scope.card.indexOf( "d" ) > 0 ) {
+        else if( scope.card.toLowerCase().indexOf( "d" ) > -1 ) {
           scope.suit = "Diamonds";
         }
-        else if( scope.card.indexOf( "c" ) > 0 ) {
+        else if( scope.card.toLowerCase().indexOf( "c" ) > -1 ) {
           scope.suit = "Clubs";
         }
-        else if( scope.card.indexOf( "h" ) > 0 ) {
+        else if( scope.card.toLowerCase().indexOf( "h" ) > -1 ) {
           scope.suit = "Hearts";
         }
         else {
           scope.suit = "?";
         }
 
-        if( scope.card.indexOf( '2' ) > 0 ) {
-          scope.value = "Two";
-        }
-        else if( scope.card.indexOf( '2' ) > 0 ) {
-          scope.value = "Two";
-        }
-        else if( scope.card.indexOf( '3' ) > 0 ) {
-          scope.value = "Three";
-        }
-        else if( scope.card.indexOf( '4' ) > 0 ) {
-          scope.value = "Four";
-        }
-        else if( scope.card.indexOf( '5' ) > 0 ) {
-          scope.value = "Five";
-        }
-        else if( scope.card.indexOf( '6' ) > 0 ) {
-          scope.value = "Six";
-        }
-        else if( scope.card.indexOf( '7' ) > 0 ) {
-          scope.value = "Seven";
-        }
-        else if( scope.card.indexOf( '8' ) > 0 ) {
-          scope.value = "Eight";
-        }
-        else if( scope.card.indexOf( '9' ) > 0 ) {
-          scope.value = "Nine";
-        }
-        else if( scope.card.indexOf( 'T' ) > 0 ) {
-          scope.value = "Ten";
-        }
-        else if( scope.card.indexOf( 'J' ) > 0 ) {
-          scope.value = "Jack";
-        }
-        else if( scope.card.indexOf( 'Q' ) > 0 ) {
-          scope.value = "Queen";
-        }
-        else if( scope.card.indexOf( 'K' ) > 0 ) {
-          scope.value = "King";
-        }
-        else if( scope.card.indexOf( 'A' ) > 0 ) {
-          scope.value = "Ace";
-        }
-        else{
-          scope.value = "?"
-        }
+        // if( scope.card.indexOf( '2' ) > -1 ) {
+        //   scope.value = '2';
+        // }
+        // else if( scope.card.indexOf( '3' ) > -1 ) {
+        //   scope.value = '3';
+        // }
+        // else if( scope.card.indexOf( '4' ) > -1 ) {
+        //   scope.value = '4';
+        // }
+        // else if( scope.card.indexOf( '5' ) > -1 ) {
+        //   scope.value = 5;
+        // }
+        // else if( scope.card.indexOf( '6' ) > -1 ) {
+        //   scope.value = 6;
+        // }
+        // else if( scope.card.indexOf( '7' ) > -1 ) {
+        //   scope.value = 7;
+        // }
+        // else if( scope.card.indexOf( '8' ) > -1 ) {
+        //   scope.value = 8;
+        // }
+        // else if( scope.card.indexOf( '9' ) > -1 ) {
+        //   scope.value = 9;
+        // }
+        // else if( scope.card.indexOf( 'J' ) > -1 ) {
+        //   scope.value = "J";
+        // }
+        // else if( scope.card.indexOf( 'Q' ) > -1 ) {
+        //   scope.value = "Q";
+        // }
+        // else if( scope.card.indexOf( 'K' ) > -1 ) {
+        //   scope.value = "K";
+        // }
+        // else if( scope.card.indexOf( 'A' ) > -1 ) {
+        //   scope.value = "A";
+        // }
+        // else{
+        //   scope.value = "?"
+        // }
         
         // front or back
         var card;
-        if( scope.suit.indexOf( '?' ) >= 0 || scope.value.indexOf( '?' ) >= 0 ) {
-      	 card = $window.Poker.getBackImage(scope.size );
+
+        var val = scope.card.charAt(0).toLowerCase();
+        var suit = scope.card.charAt(1).toUpperCase();
+
+        if( val.toLowerCase().indexOf( 't' ) != -1 ) {
+          val = '10';
+        }
+
+
+        if( scope.card.indexOf( '?' ) == -1 ) {
+          // card = $window.Poker.getCardImage(scope.size, scope.value, suit );
+          card = $window.Poker.getCardImage(scope.size, suit, val );
         }
         else{
-          card = $window.Poker.getCardImage(scope.size, scope.suit, scope.value.toLowerCase());
+         card = $window.Poker.getBackImage(scope.size );
         }
-      	el.append( card );
-      }
+        el.html( card );
+
+          });
+
+      },
+
     };
   });
