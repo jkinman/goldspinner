@@ -6,90 +6,27 @@ var Threecardpoker = require('./threecardpoker.model');
 var Shuffle = require('shuffle');
 var PokerEvaluator = require("poker-evaluator");
 
-// reformat the card style to work with all libs
-exports.convertCardFormat = function( cards ) {
-  var newCards = [];
-  for (var i = cards.length - 1; i >= 0; i--) {
-      var newCard = {suit:"spade", value: "2", card: "2s"};
 
-      // get suit
-      switch( cards[i].suit ) {
-        case "Spade" :
-          newCard.suit = 'Spades';
-          break;
-        case "Diamond" :
-          newCard.suit = 'Diamonds';
-          break;
-        case "Spade" :
-          newCard.suit = 'Spades';
-          break;
-        default :
-          newCard.suit = 'Hearts';
-          break;
-        }
-
-      // get value
-      switch( cards[i].description ) {
-        case "Two" :
-          newCard.value = '2';
-          break;
-        case "Three" :
-          newCard.value = '3';
-          break;
-        case "Four" :
-          newCard.value = '4';
-          break;
-        case "Five" :
-          newCard.value = '5';
-          break;
-        case "Six" :
-          newCard.value = '6';
-          break;
-        case "Seven" :
-          newCard.value = '7';
-          break;
-        case "Eight" :
-          newCard.value = '8';
-          break;
-        case "Nine" :
-          newCard.value = '9';
-          break;
-        case "Ten" :
-          newCard.value = 'T';
-          break;
-        case "Jack" :
-          newCard.value = 'J';
-          break;
-        case "Queen" :
-          newCard.value = 'Q';
-          break;
-        case "King" :
-          newCard.value = 'K';
-          break;
-        case "Ace" :
-          newCard.value = 'A';
-          break;
-        default:
-          newCard.value = 'A';
-          break;
-      }
-
-      //only return the shorthand value
-      newCard.card = newCard.value + newCard.suit.toLowerCase().charAt(0);
-      newCards.push( newCard.card );
-    }
-
-  return newCards;
-
-// [{"suit":"Heart","description":"Jack","sort":11},{"suit":"Diamond","description":"Jack","sort":11},{"suit":"Spade","description":"Seven","sort":7},{"suit":"Club","description":"Four","sort":4},{"suit":"Spade","description":"Jack","sort":11},{"suit":"Heart","description":"Ten","sort":10},{"suit":"Heart","description":"Queen","sort":12},{"suit":"Club","description":"Ace","sort":14},{"suit":"Diamond","description":"Six","sort":6},{"suit":"Diamond","description":"Five","sort":5},{"suit":"Heart","description":"King","sort":13},{"suit":"Heart","description":"Seven","sort":7}]
-};
 
 exports.getCards = function( num ) {
     var deck = Shuffle.shuffle();
     deck.reset();
     deck.shuffle();
+    deck.shuffle();
+    deck.shuffle();
+    deck.shuffle();
+    deck.shuffle();
 
-    return( exports.convertCardFormat( deck.drawRandom( num )));
+    console.log( 'shuffling a new deck' );
+    console.log( 'getting ' + num + 'cards' );
+    console.log( 'deck has ' + deck.length + 'cards in it' );
+    var retval = [];
+    for (var i = deck.cards.length - 1; i >= 0; i--) {
+      retval.push( deck.cards[i].toShortDisplayString());
+      // console.log( deck.cards[i].toShortDisplayString() );
+    };
+    return( retval );
+    // return( exports.convertCardFormat( deck.draw( num )));
 };
 
 // Get list of threecardpokers
@@ -117,7 +54,7 @@ exports.create = function(req, res) {
   console.log( "Creates a new threecardpoker in the DB." );
 
   // shuffle and get a full deck
-  var deck = exports.getCards( 52 );
+  var deck = exports.getCards( 50 );
 
   var poker = new Threecardpoker( req.body );
 
@@ -177,7 +114,6 @@ exports.resolveGame = function( req, res ) {
   
     scoreHands( threecardpoker.hands );
 
-    console.log( threecardpoker.hands );
     threecardpoker.totalMoney = tallyWinnings(threecardpoker.hands) - tallyBets(threecardpoker.hands);
     req.user.balance += threecardpoker.totalMoney;
     req.user.save();
@@ -243,10 +179,39 @@ function nottkiDeal( cards ){
 
   for (var i = hands.length - 1; i >= 0; i--) {
     hands[i].rank = ranks[i];
+
+    var flushHand = isFlush(hands[i].cards );
+    var strHand = (hands[i].cards[0] + hands[i].cards[1] + hands[i].cards[2]).toLowerCase();
+
+    if( flushHand ){
+
+      if( strHand.indexOf( 'a' ) > -1 && strHand.indexOf( 'k' ) > -1 && strHand.indexOf( 'q' ) > -1 ){
+        hands[i].rank.handName = "straight flush";
+      }
+      else if( hands[i].rank.handName == "straight" ){
+        hands[i].rank.handName = "royal flush";
+      }
+      else{
+        hands[i].rank.handName = "flush";
+
+      }
+    }
+
   };
   
   return hands;
 }
+
+function isFlush( hand ){
+
+  var strHand = (hand[0] + hand[1] + hand[2]).toLowerCase();
+
+  if( strHand.split("s").length - 1 > 2 || strHand.split("d").length - 1 > 2 || strHand.split("c").length - 1 > 2 || strHand.split("h").length - 1 > 2){
+    return true;
+  }
+  return false;
+}
+
 
 function scoreHands( hands ){
   // score hands
@@ -307,6 +272,9 @@ function evaluateHands( hands ){
   for (var i = hands.length - 1; i >= 0; i--) {
     var hand = [hands[i].cards[0], hands[i].cards[1], hands[i].cards[2]];
     valuations[i] = PokerEvaluator.evalHand( hand );
+    
+
+
   }
   return valuations;
 }
@@ -337,6 +305,81 @@ function tallyBets( hands ){
 
   return retval;
 }
+
+// reformat the card style to work with all libs
+function convertCardFormat ( cards ) {
+  var newCards = [];
+  for (var i = cards.length - 1; i >= 0; i--) {
+      var newCard = {suit:"", value: "", card: ""};
+
+      // get suit
+      switch( cards[i].suit ) {
+        case "Spade" :
+          newCard.suit = 'Spades';
+          break;
+        case "Diamond" :
+          newCard.suit = 'Diamonds';
+          break;
+        case "Spade" :
+          newCard.suit = 'Spades';
+          break;
+        default :
+          newCard.suit = 'Hearts';
+          break;
+        }
+
+      // get value
+      switch( cards[i].description ) {
+        case "Two" :
+          newCard.value = '2';
+          break;
+        case "Three" :
+          newCard.value = '3';
+          break;
+        case "Four" :
+          newCard.value = '4';
+          break;
+        case "Five" :
+          newCard.value = '5';
+          break;
+        case "Six" :
+          newCard.value = '6';
+          break;
+        case "Seven" :
+          newCard.value = '7';
+          break;
+        case "Eight" :
+          newCard.value = '8';
+          break;
+        case "Nine" :
+          newCard.value = '9';
+          break;
+        case "Ten" :
+          newCard.value = 'T';
+          break;
+        case "Jack" :
+          newCard.value = 'J';
+          break;
+        case "Queen" :
+          newCard.value = 'Q';
+          break;
+        case "King" :
+          newCard.value = 'K';
+          break;
+        case "Ace" :
+          newCard.value = 'A';
+          break;
+      }
+
+      //only return the shorthand value
+      newCard.card = newCard.value + newCard.suit.toLowerCase().charAt(0);
+      newCards.push( newCard.card );
+    }
+
+  return newCards;
+
+// [{"suit":"Heart","description":"Jack","sort":11},{"suit":"Diamond","description":"Jack","sort":11},{"suit":"Spade","description":"Seven","sort":7},{"suit":"Club","description":"Four","sort":4},{"suit":"Spade","description":"Jack","sort":11},{"suit":"Heart","description":"Ten","sort":10},{"suit":"Heart","description":"Queen","sort":12},{"suit":"Club","description":"Ace","sort":14},{"suit":"Diamond","description":"Six","sort":6},{"suit":"Diamond","description":"Five","sort":5},{"suit":"Heart","description":"King","sort":13},{"suit":"Heart","description":"Seven","sort":7}]
+};
 
 
 
