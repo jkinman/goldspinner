@@ -17,6 +17,7 @@ angular.module('pkerApp')
 			},
 			link: function(scope, element, attrs) {
 				scope.hand.bets.anti = 10;
+				scope.hand.bets.play = 0;
 				scope.hand.bets.sixCard = 10;
 				scope.hand.bets.pairsPlus = 10;
 				scope.handActive = true;
