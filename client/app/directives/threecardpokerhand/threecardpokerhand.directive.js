@@ -14,19 +14,18 @@ angular.module('pkerApp')
 				pairsPlus: "=",
 				sixCard: "=",
 				state: "=",
-				handActive: "=",
+				handActive: "@",
 			},
 			link: function(scope, element, attrs) {
 				scope.hand.bets.anti = 10;
 				scope.hand.bets.play = 0;
 				scope.hand.bets.sixCard = 10;
 				scope.hand.bets.pairsPlus = 10;
-				scope.handActive = true;
+				scope.handActive = 1;
 
-				// console.log( scope.hand );
 				scope.foldHand = function() {
 					console.log("fold hand " + scope.index);
-					scope.handActive = false;
+					scope.handActive = 0;
 				};
 			}
 		};
