@@ -1,37 +1,102 @@
 'use strict';
 
 angular.module('pkerApp')
-  .controller('ThreecardpokerCtrl', function ($scope, threecardpoker, $rootScope) {
+  .controller('ThreecardpokerCtrl', function($scope, threecardpoker, $rootScope) {
 
-  	// figure out if a game is in progress of a new one should be created
+    // figure out if a game is in progress of a new one should be created
     $rootScope.message = "Click Shuffle to start playing";
-  	$scope.game = new threecardpoker();
+    $scope.game = new threecardpoker();
     // $scope.game.state = 'stopped';
     $rootScope.state = 'none'
     $scope.hands = [];
-    $scope.game.dealer = {cards:[]};
+    $scope.game.dealer = {
+      cards: []
+    };
     $scope.bets = [];
-    $scope.cards = {hands:{},dealer:{cards:[]}};
+    $scope.cards = {
+      hands: {},
+      dealer: {
+        cards: []
+      }
+    };
 
 
     // build hands and init bets
     $scope.init = function() {
       $rootScope.message = "place bets and click deal to lock them in";
-    
+
       var unknown = '?';
       $rootScope.state = 'init';
 
-      $scope.game.dealer = {cards:[unknown, unknown, unknown]};
+      $scope.game.dealer = {
+        cards: [unknown, unknown, unknown]
+      };
 
-      $scope.hands[0] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[1] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[2] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[3] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[4] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[5] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[6] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-      $scope.hands[7] = {cards:[unknown, unknown, unknown], bets:{anti:25, pairsPlus: 0, sixCard: 0}};
-    };   
+      $scope.hands[0] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+      $scope.hands[1] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+      $scope.hands[2] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+      $scope.hands[3] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+      $scope.hands[4] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+      $scope.hands[5] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+      $scope.hands[6] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+      $scope.hands[7] = {
+        cards: [unknown, unknown, unknown],
+        bets: {
+          anti: 25,
+          pairsPlus: 0,
+          sixCard: 0
+        }
+      };
+    };
 
     // send init state to server and get the deck and your cards
     $scope.startGame = function() {
@@ -48,26 +113,25 @@ angular.module('pkerApp')
           sixCard: $scope.hands[i].bets.sixCard
         };
       };
-      
+
       $scope.game.bets = bets;
-      
-      $scope.game.$save( function(){
+
+      $scope.game.$save(function() {
         $scope.hands = $scope.game.hands;
       });
     };
 
     // get the dealers hand and money made
     $scope.resolve = function() {
-      
+
       $rootScope.message = "Resolving game";
 
       $rootScope.state = 'resolved';
-      $scope.game.$resolve( function(){
-        if( $scope.game.totalMoney > 0 ){
+      $scope.game.$resolve(function() {
+        if ($scope.game.totalMoney > 0) {
           $rootScope.message = "Finished. Congrats you won $" + $scope.game.totalMoney;
-        }
-        else {
-          $rootScope.message = "Finished. You lost $" + $scope.game.totalMoney;          
+        } else {
+          $rootScope.message = "Finished. You lost $" + $scope.game.totalMoney;
         }
         // what did I get back?
         $scope.hands = $scope.game.hands;
@@ -80,9 +144,16 @@ angular.module('pkerApp')
       // $scope.game.state = 'stopped';
       $rootScope.state = 'none'
       $scope.hands = [];
-      $scope.game.dealer = {cards:[]};
+      $scope.game.dealer = {
+        cards: []
+      };
       $scope.bets = [];
-      $scope.cards = {hands:{},dealer:{cards:[]}};
+      $scope.cards = {
+        hands: {},
+        dealer: {
+          cards: []
+        }
+      };
 
     };
 

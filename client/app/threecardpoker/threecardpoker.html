@@ -1,27 +1,24 @@
- <header>
-	 <div class="container" ng-controller="ThreecardpokerCtrl">
-	 <h2>{{message}}</h2>
-	 	<div class="row">
-			<div class="col-md-3" class="text-left">
-				<h5>BASIC PLAY RULES - 3 Card Poker</h5>
-
-				<div class="row">
-					<div class="col-md-6">
-						<h5>ANTE BONUS PAYS</h5>
-					</div>
-					<div class="col-md-6">
-						<h5>BEST-5 CARDS PAYS</h5>
-					</div>
-				</div>
-
-				<ol>
-					<li>Place Ante and Side Bets</li>
-					<li>Click Shuffle and Deal</li>
-					<li>Fold or Raise Ante (not side bets)</li>
-					<li>Click Play (A play bet = to the Ante bet is automatically made)</li>
-					<li>View Winnings</li>
-				</ol>
-
+<header>
+    <div class="container" ng-controller="ThreecardpokerCtrl">
+        <h2>{{message}}</h2>
+        <div class="row">
+            <div class="col-md-3" class="text-left">
+                <h5>BASIC PLAY RULES - 3 Card Poker</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>ANTE BONUS PAYS</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>BEST-5 CARDS PAYS</h5>
+                    </div>
+                </div>
+                <ol>
+                    <li>Place Ante and Side Bets</li>
+                    <li>Click Shuffle and Deal</li>
+                    <li>Fold or Raise Ante (not side bets)</li>
+                    <li>Click Play (A play bet = to the Ante bet is automatically made)</li>
+                    <li>View Winnings</li>
+                </ol>
                 <div class="six_card_bonus_payout payout_section">
                     <div class="payout_title">6-CARD BONUS</div>
                     <div class="payline">
@@ -76,183 +73,142 @@
                         <span class="orange">STRAIGHT................................</span><span class="payout">1 to 1</span>
                     </div>
                 </div>
-            
-				<a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none'">
+                <a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none'">
                     <i class="fa fa-download"></i> Send Shuffle List
                 </a>
-				<a href="#" class="btn btn-sm btn-outline" ng-disabled="state != 'none'">
+                <a href="#" class="btn btn-sm btn-outline" ng-disabled="state != 'none'">
                     <i class="glyphicon glyphicon-lock"></i> Send Decrypter
                 </a>
-
-			</div>
-
-			<div class="col-md-7">
-				<div class="text-center">
-					<a href="#" class="btn btn-sm btn-outline" ng-click="init()" ng-disabled="state != 'none' || state=='resolved'">
+            </div>
+            <div class="col-md-7">
+                <div class="text-center">
+                    <a href="#" class="btn btn-sm btn-outline" ng-click="init()" ng-disabled="state != 'none' || state=='resolved'">
 	                    1. Shuffle
 	                </a>
-					<a href="#" class="btn btn-sm btn-outline"  ng-click="startGame()" ng-disabled="state != 'init'">
+                    <a href="#" class="btn btn-sm btn-outline" ng-click="startGame()" ng-disabled="state != 'init'">
 	                    2. Deal
 	                </a>
-					<a href="#" class="btn btn-sm btn-outline"  ng-click="resolve()" ng-disabled="state != 'created'">
+                    <a href="#" class="btn btn-sm btn-outline" ng-click="resolve()" ng-disabled="state != 'created'">
 	                    3. showdown
 	                </a>
-					<a href="#" class="btn btn-sm btn-outline"  ng-click="reset()" ng-disabled="state != 'resolved'">
+                    <a href="#" class="btn btn-sm btn-outline" ng-click="reset()" ng-disabled="state != 'resolved'">
 	                    4. reset
 	                </a>
-				</div>
-
-				<div class="row text-center" >
-					<div class="col-md-7" >
-						<div class="">
-							<h3>3-Card Poker with Multi-Hands</h3>
-							<h3>Dealer's cards</h3>
-							<div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
-							{{card}}
-								<playingcard 
-								size="100"
-								suit=""
-								value=""
-								card="{{card}}"
-								>
-								</playingcard>
-							</div>
-							<div>
-								{{game.dealer.rank.handName}}
-							</div>
-							<div ng-show="game.dealerQualified">
-								<p>Dealer qualified</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row" >
-					<div class="col-md-7">
-						<h3>Your hands</h3>
-					</div>
-				</div>
-
-				<div class="col-md-12">
-					<div class="text-center">
-
-						<div class="row" threecardpokerhand 
-							ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}"
-							hand="hand" 
-							index="{{$index+1}}" 
-					      	anti="hand.bets.anti"
-					      	pairs-plus="hand.bets.pairsPlus"
-					      	six-card="hand.bets.sixCard"
-					      	state="state"
-					      	hand-active="true"
-						></div>
-
-					</div>
-				</div>
-
-
-				<hr>
-				<p>game id: {{game._id}}</p>
-			</div>
-
-			<div class="col-md-2">
-				<h3>Options</h3>
-
-				<form class="text-left">
-					<div class="radio">
-					play for: <br>
-					  <label class="checkbox-inline">
-					    <input type="radio" name="moneyOption" id="moneyOption1" value="real" checked class="checkbox-inline">
-					     Real money
-					  </label>
-					</div>
-					<div class="radio">
-					  <label>
-					    <input type="radio" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline">
-					    Fun
-					  </label>
-					</div>
-					
-					<div class="radio">
-					Deal method: <br>
-					  <label class="checkbox-inline">
-					    <input type="radio" name="dealOption" id="dealOption1" value="real" checked class="checkbox-inline">
-					     Nottki
-					  </label>
-					</div>
-					<div class="radio">
-					  <label>
-					    <input type="radio" name="dealOption" id="dealOption2" value="fake" class="checkbox-inline">
-					    Traditional
-					  </label>
-					</div>
-					
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Turn off 8 hands intro at start
-						</label>
-					</div>
-
-					<div class="radio">
-					Deck colour <br>
-					  <label class="checkbox-inline">
-					    <input type="radio" name="colourOption" id="colourOption1" value="red" checked class="checkbox-inline">
-					     red
-					  </label>
-					</div>
-					<div class="radio">
-					  <label>
-					    <input type="radio" name="colourOption" id="colourOption2" value="blue" class="checkbox-inline">
-					    blue
-					  </label>
-					</div>
-
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Enable anti raise
-						</label>
-					</div>
-
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Enable sounds
-						</label>
-					</div>
-
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Casino ambient
-						</label>
-					</div>
-
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Enable advice
-						</label>
-					</div>
-
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Show cards faster
-						</label>
-					</div>
-
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Always fold if Q-6-4 or less
-						</label>
-					</div>
-
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Send decypter at end of game if shuffle list sent
-						</label>
-					</div>
-
-				</form>
-			</div>
-		 
-<!-- 				<div ng-repeat="card in game.deck" style="float:left">
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-7">
+                        <div class="">
+                            <h3>3-Card Poker with Multi-Hands</h3>
+                            <h3>Dealer's cards</h3>
+                            <div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
+                                {{card}}
+                                <playingcard size="100" suit="" value="" card="{{card}}">
+                                </playingcard>
+                            </div>
+                            <div>
+                                {{game.dealer.rank.handName}}
+                            </div>
+                            <div ng-show="game.dealerQualified">
+                                <p>Dealer qualified</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <h3>Your hands</h3>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <div class="row" threecardpokerhand ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}" hand="hand" index="{{$index+1}}" anti="hand.bets.anti" pairs-plus="hand.bets.pairsPlus" six-card="hand.bets.sixCard" state="state" hand-active="true"></div>
+                    </div>
+                </div>
+                <hr>
+                <p>game id: {{game._id}}</p>
+            </div>
+            <div class="col-md-2">
+                <h3>Options</h3>
+                <form class="text-left">
+                    <div class="radio">
+                        play for:
+                        <br>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="moneyOption" id="moneyOption1" value="real" checked class="checkbox-inline"> Real money
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline"> Fun
+                        </label>
+                    </div>
+                    <div class="radio">
+                        Deal method:
+                        <br>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="dealOption" id="dealOption1" value="real" checked class="checkbox-inline"> Nottki
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="dealOption" id="dealOption2" value="fake" class="checkbox-inline"> Traditional
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Turn off 8 hands intro at start
+                        </label>
+                    </div>
+                    <div class="radio">
+                        Deck colour
+                        <br>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="colourOption" id="colourOption1" value="red" checked class="checkbox-inline"> red
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="colourOption" id="colourOption2" value="blue" class="checkbox-inline"> blue
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Enable anti raise
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Enable sounds
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Casino ambient
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Enable advice
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Show cards faster
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Always fold if Q-6-4 or less
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Send decypter at end of game if shuffle list sent
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <!-- 				<div ng-repeat="card in game.deck" style="float:left">
 				{{card}}
 					<playingcard 
 					size="50"
@@ -262,6 +218,6 @@
 					>
 					</playingcard>
 				</div>
- -->		</div>
-	</div>
+ --></div>
+    </div>
 </header>
