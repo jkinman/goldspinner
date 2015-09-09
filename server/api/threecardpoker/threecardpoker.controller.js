@@ -5,8 +5,9 @@ var _ = require('lodash');
 var Threecardpoker = require('./threecardpoker.model');
 var Shuffle = require('shuffle');
 var PokerEvaluator = require("poker-evaluator");
-
-
+var encrypt = require('triplesec');
+var decrypt = require('triplesec');
+var triplesec = require('triplesec');
 
 exports.getCards = function(num) {
 	var deck = Shuffle.shuffle();
@@ -81,8 +82,28 @@ exports.create = function(req, res) {
 
 	poker.key = poker._id;
 	poker.userId = req.user._id;
-	poker.cipher = crypto.createCipher('aes192', poker.key);
+	// poker.cipher = crypto.createCipher('aes192', poker.key);
 	poker.state = "initialized";
+
+	// use tripplesec encrypt
+
+
+	triplesec.encrypt({
+
+		data: new triplesec.Buffer(poker.deck),
+		key: new triplesec.Buffer(poker.key),
+		progress_hook: function(obj) { /* ... */ }
+
+	}, function(err, buff) {
+
+		if (!err) {
+			var ciphertext = buff.toString('hex');
+			console.log( "cipher done " + ciphertext );
+			poker.encryptedDeck = ciphertext;
+		}
+
+	});
+
 
 	// poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
 	// poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
@@ -325,6 +346,39 @@ function scoreHands(hands) {
 		hands[i].winnings.antiBonus = scoringTable.anti[hands[i].rank.handName] * (hands[i].bets.anti + hands[i].bets.play);
 		hands[i].winnings.sixCardBonus = scoringTable.sixCard[hands[i].sixCardRank.handName] * hands[i].bets.sixCard;
 	};
+}
+
+function encryptDeck(data, password) {
+	triplesec.encrypt({
+
+		data: new triplesec.Buffer(data),
+		key: new triplesec.Buffer(password),
+		progress_hook: function(obj) { /* ... */ }
+
+	}, function(err, buff) {
+
+		if (!err) {
+			var ciphertext = buff.toString('hex');
+			return ciphertext;
+		}
+
+	});
+}
+
+function decryptDeck(ciphertext, password) {
+	triplesec.decrypt({
+
+		data: new triplesec.Buffer(ciphertext, "hex"),
+		key: new triplesec.Buffer(password),
+		progress_hook: function(obj) { /* ... */ }
+
+	}, function(err, buff) {
+
+		if (!err) {
+			console.log(buff.toString());
+		}
+
+	});
 }
 
 function evaluateHands(hands) {
