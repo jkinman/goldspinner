@@ -1,17 +1,22 @@
-<tr ng-show="state=='init' || anti > 0 && handActive">
-	<td>
-		<div class="col-xs-3 col-md-3" >
+
+<div class="pokerhand" ng-show="state=='init' || anti > 0 && handActive">
+	<div class="row">
+		<div class="col-md-12 pokerhandtitle">
+				<p>hand {{index}}</p>
+		</div>
+
+	</div>
+
+	<div class="col-xs-3 col-md-2" >
 		<p class="small">{{hand.rank.handName}}</p>
 		<p class="small" ng-show="hand.winnings">anti: ${{hand.winnings.antiBonus}}</p>
 		<p class="small" ng-show="hand.winnings">pairs+: ${{hand.winnings.pairsPlusTotal}}</p>
 		<p class="small" ng-show="hand.winnings">6 card: ${{hand.winnings.sixCardBonus}}</p>
-		</div>
-	</td>
-	<td>
 		<p ng-show="anti > 0">YES</p>
 		<p ng-show="anti <= 0">NO</p>
-	</td>
-	<td>
+	</div>
+
+	<div class="col-xs-3 col-md-5" >
 		<div ng-repeat="card in hand.cards track by $index" style="float:left">
 		<!-- <p>{{card}}</p> -->
 			<playingcard 
@@ -19,20 +24,23 @@
 			card="{{card}}">
 			</playingcard>
 		</div>
-	
-		<a href="#" class="btn btn-sm btn-outline" ng-click="foldHand()" ng-show="state == 'created' && anti > 0">FOLD</a>
-	</td>
+	</div>
 
-	<td>
+	<div class="col-xs-3 col-md-1" >
+		<a href="#" class="btn btn-sm btn-outline" ng-click="foldHand()" ng-show="state == 'created' && anti > 0">FOLD</a>
+	</div>
+
+	<div class="col-xs-3 col-md-3" >
+
 		<label>${{anti}}</label>
 		<input type="number" ng-model="anti" min="0" max="100" value="25" step="5"  ng-show="state == 'init'" style="color: black">
-	</td>
-	<td>
+
 		<label>${{pairsPlus}}</label>
 		<input type="number" ng-model="pairsPlus" min="0" max="100" step="5" value="5" ng-show="state == 'init' && anti > 0" style="color: black">
-	</td>
-	<td>
+
 		<label>${{sixCard}}</label>
 		<input type="number" ng-model="sixCard" min="0" max="100" step="5"  value="5" ng-show="state == 'init' && anti > 0" style="color: black">
-	</td>
-</tr>
+
+	</div>
+</div>
+
