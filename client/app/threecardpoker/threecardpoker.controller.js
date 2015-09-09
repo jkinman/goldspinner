@@ -117,6 +117,7 @@ angular.module('pkerApp')
       for (var i = 0; i < $scope.hands.length; i++) {
         bets[i] = {
           anti: $scope.hands[i].bets.anti,
+          play: $scope.hands[i].bets.anti,
           pairsPlus: $scope.hands[i].bets.pairsPlus,
           sixCard: $scope.hands[i].bets.sixCard
         };

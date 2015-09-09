@@ -4,7 +4,12 @@
             <span class="glyphicon glyphicon-ok" ng-show="state == 'init' && anti > 0"></span>
             <span class="glyphicon glyphicon-remove" ng-show="state == 'init' && anti == 0"></span>
             <h1>hand {{index}}</h1>
-            <p class="badge handrank">{{hand.rank.handName}}</p>
+            <p class="badge handrank" ng-show="state == 'resolved' || state == 'created'">{{hand.rank.handName}} (rank:{{hand.rank.handRank}})</p>
+            <div class="row">
+                <div class="col-md-12 pokerhandtitle">
+                    <p class="badge handrank" ng-show="state == 'resolved'">6 card hand: {{hand.sixCardRank.handName}} (rank:{{hand.sixCardRank.handRank}})</p>
+                </div>
+            </div>
         </div>
     </div>
     <!-- CARDS -->

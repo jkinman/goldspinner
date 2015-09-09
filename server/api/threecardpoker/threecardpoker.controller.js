@@ -13,9 +13,6 @@ exports.getCards = function(num) {
 	deck.reset();
 	deck.shuffle();
 	deck.shuffle();
-	deck.shuffle();
-	deck.shuffle();
-	deck.shuffle();
 
 	console.log('shuffling a new deck');
 	console.log('getting ' + num + 'cards');
@@ -41,7 +38,7 @@ exports.index = function(req, res) {
 		if (err) {
 			return handleError(res, err);
 		}
-		var hand = exports.getCards(12);
+		var hand = exports.getCards(52);
 		return res.status(200).json(hand);
 	});
 };
@@ -65,7 +62,7 @@ exports.create = function(req, res) {
 	console.log("Creates a new threecardpoker in the DB.");
 
 	// shuffle and get a full deck
-	var deck = exports.getCards(50);
+	var deck = exports.getCards(52);
 
 	var poker = new Threecardpoker(req.body);
 
@@ -77,6 +74,7 @@ exports.create = function(req, res) {
 		poker.hands[i].bets = {
 			pairsPlus: poker.bets[i].pairsPlus,
 			anti: poker.bets[i].anti,
+			play: poker.bets[i].play,
 			sixCard: poker.bets[i].sixCard
 		};
 	};
@@ -123,6 +121,10 @@ exports.resolveGame = function(req, res) {
 			return res.status(404).send('Not Found');
 		}
 		var deck = threecardpoker.deck;
+		// extract and store the bets made by player
+		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
+			threecardpoker.hands[i].bets.play = threecardpoker.bets[i].play;
+		};
 
 		console.log("found it about to update with dealers hands and ranks");
 		threecardpoker.dealer = {
@@ -320,7 +322,7 @@ function scoreHands(hands) {
 	for (var i = hands.length - 1; i >= 0; i--) {
 		hands[i].winnings = {};
 		hands[i].winnings.pairsPlusTotal = scoringTable.pairsPlus[hands[i].rank.handName] * hands[i].bets.pairsPlus;
-		hands[i].winnings.antiBonus = scoringTable.anti[hands[i].rank.handName] * hands[i].bets.anti;
+		hands[i].winnings.antiBonus = scoringTable.anti[hands[i].rank.handName] * (hands[i].bets.anti + hands[i].bets.play);
 		hands[i].winnings.sixCardBonus = scoringTable.sixCard[hands[i].sixCardRank.handName] * hands[i].bets.sixCard;
 	};
 }

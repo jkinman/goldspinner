@@ -92,27 +92,27 @@
 	                    4. reset
 	                </a>
                 </div>
+                <br>
                 <div class="row text-center">
-                    <div class="col-md-12">
-                        <div class="row" ng-show="state != 'none'">
+                    <div class="col-md-12 pokerhand" ng-show="state != 'none'" >
+                        <div class="row">
                             <div class="col-md-12">
                                 <h3>Dealer</h3>
                             </div>
-                            <div class="row">
+                            <div class="row " >
                                 <div class="col-md-6">
-                                    <h3 class="badge" style="font-size: 20px;">{{game.dealer.rank.handName}}</h3>
+                                    <h3 class="badge" ng-show="state == 'resolved'" style="font-size: 20px;">{{game.dealer.rank.handName}} (rank:{{game.dealer.rank.handRank}})</h3>
                                     <div class="row text-center" ng-show="state == 'resolved'">
                                         <div class="col-md-12">
                                             <p>
-                                                <span class="glyphicon glyphicon-ok" ng-show="game.dealerQualified"></span>
-                                                <span class="glyphicon glyphicon-remove" ng-show="!game.dealerQualified"></span> Dealer qualified
+                                                <span class="glyphicon glyphicon-ok" ng-show="game.dealerQualified"> Dealer Plays</span>
+                                                <span class="glyphicon glyphicon-remove" ng-show="!game.dealerQualified"> Dealer Folds</span> 
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
-                                        {{card}}
                                         <playingcard size="100" suit="" value="" card="{{card}}">
                                         </playingcard>
                                     </div>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="text-center">
-                        <div class="row" threecardpokerhand ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}" hand="hand" index="{{$index+1}}" anti="hand.bets.anti" pairs-plus="hand.bets.pairsPlus" six-card="hand.bets.sixCard" state="state" hand-active="true"></div>
+                        <div class="row" threecardpokerhand ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}" hand="hand" index="{{$index+1}}" anti="hand.bets.anti" play="hand.bets.play" pairs-plus="hand.bets.pairsPlus" six-card="hand.bets.sixCard" state="state" hand-active="true"></div>
                     </div>
                 </div>
                 <hr>
@@ -210,7 +210,12 @@
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox"> Send decypter at end of game if shuffle list sent
+                            <input type="checkbox"> Send decipher at end of game if shuffle list sent
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Display card names as a string
                         </label>
                     </div>
                 </form>

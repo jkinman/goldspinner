@@ -10,6 +10,7 @@ angular.module('pkerApp')
 				hand: "=",
 				index: "@",
 				anti: "=",
+				play: "=",
 				pairsPlus: "=",
 				sixCard: "=",
 				state: "=",
