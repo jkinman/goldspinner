@@ -1,5 +1,5 @@
 .pokerhand{
-	padding: 5px;
+	padding: 10px;
 	border:1px solid #fff;
 	margin-bottom: 10px;
 	background-color: #15A78A;
@@ -32,9 +32,9 @@ pokerhand label{
 	text-transform: uppercase;
 }
 
-.pokerhand .badge .black {
+.winnings .black {
 	background-color: black;
 }
-.pokerhand .badge .red {
+.winnings .red {
 	background-color: red;
 }
