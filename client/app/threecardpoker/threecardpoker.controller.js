@@ -37,6 +37,7 @@ angular.module('pkerApp')
         bets: {
           anti: 25,
           pairsPlus: 0,
+          play: 0,
           sixCard: 0
         }
       };
@@ -44,6 +45,7 @@ angular.module('pkerApp')
         cards: [unknown, unknown, unknown],
         bets: {
           anti: 25,
+          play: 0,
           pairsPlus: 0,
           sixCard: 0
         }
@@ -52,6 +54,7 @@ angular.module('pkerApp')
         cards: [unknown, unknown, unknown],
         bets: {
           anti: 25,
+          play: 0,
           pairsPlus: 0,
           sixCard: 0
         }
@@ -60,6 +63,7 @@ angular.module('pkerApp')
         cards: [unknown, unknown, unknown],
         bets: {
           anti: 25,
+          play: 0,
           pairsPlus: 0,
           sixCard: 0
         }
@@ -69,12 +73,14 @@ angular.module('pkerApp')
         bets: {
           anti: 25,
           pairsPlus: 0,
+          play: 0,
           sixCard: 0
         }
       };
       $scope.hands[5] = {
         cards: [unknown, unknown, unknown],
         bets: {
+          play: 0,
           anti: 25,
           pairsPlus: 0,
           sixCard: 0
@@ -84,6 +90,7 @@ angular.module('pkerApp')
         cards: [unknown, unknown, unknown],
         bets: {
           anti: 25,
+          play: 0,
           pairsPlus: 0,
           sixCard: 0
         }
@@ -92,6 +99,7 @@ angular.module('pkerApp')
         cards: [unknown, unknown, unknown],
         bets: {
           anti: 25,
+          play: 0,
           pairsPlus: 0,
           sixCard: 0
         }
@@ -102,7 +110,7 @@ angular.module('pkerApp')
     $scope.startGame = function() {
       $rootScope.state = 'created';
 
-      $rootScope.message = "Click showdown for final outcome.";
+      $rootScope.message = "Set your Play bets or fold hands and Click SHOWDOWN.";
 
       // update the game with the current bets
       var bets = [];

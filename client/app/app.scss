@@ -28,17 +28,6 @@ input {
 }
 
 
-.pokerhand{
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	border:1px solid #fff;
-}
-
-.pokerhandtitle{
-	background-color: hsla(168, 77%, 42%, 0.9);
-}
-
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';

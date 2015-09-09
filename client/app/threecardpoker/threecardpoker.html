@@ -1,6 +1,10 @@
 <header>
     <div class="container" ng-controller="ThreecardpokerCtrl">
-        <h2>{{message}}</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>{{message}}</h2>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3" class="text-left">
                 <h5>BASIC PLAY RULES - 3 Card Poker</h5>
@@ -96,26 +100,28 @@
 	                </a>
                 </div>
                 <div class="row text-center">
-                    <div class="col-md-7">
+                    <div class="col-md-12">
                         <div class="">
                             <h3>3-Card Poker with Multi-Hands</h3>
-                            <h3>Dealer's cards</h3>
-                            <div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
-                                {{card}}
-                                <playingcard size="100" suit="" value="" card="{{card}}">
-                                </playingcard>
-                            </div>
-                            <div>
-                                {{game.dealer.rank.handName}}
-                            </div>
-                            <div ng-show="game.dealerQualified">
-                                <p>Dealer qualified</p>
+                            <div class="row" ng-show="state != 'none'">
+                                <h3>Dealer's cards</h3>
+                                <div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
+                                    {{card}}
+                                    <playingcard size="100" suit="" value="" card="{{card}}">
+                                    </playingcard>
+                                </div>
+                                <div>
+                                    {{game.dealer.rank.handName}}
+                                </div>
+                                <div ng-show="game.dealerQualified">
+                                    <p>Dealer qualified</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-7">
+                <div class="row" ng-show="state != 'none'">
+                    <div class="col-md-12">
                         <h3>Your hands</h3>
                     </div>
                 </div>
