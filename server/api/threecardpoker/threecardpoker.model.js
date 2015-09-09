@@ -25,6 +25,12 @@ var hand = {
 		handRank: Number,
 		handType: Number
 	},
+	sixCardRank: {
+		handName: String,
+		value: Number,
+		handRank: Number,
+		handType: Number
+	},
 	handActive: Boolean
 };
 
