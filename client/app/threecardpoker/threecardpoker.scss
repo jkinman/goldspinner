@@ -5,6 +5,10 @@
 	background-color: #15A78A;
 }
 
+pokerhand label{
+	font-size: 18px;
+}
+
 .pokerhand h1{
 	margin-top: 0px;
     margin-bottom: 10.5px;
@@ -14,10 +18,23 @@
 	font-weight: 700;
 }
 
+.pokerhand .winnings p{
+	text-transform: uppercase;
+	display: inline-block;
+	font-weight: 700;
+	font-size: 18px;
+}
 .pokerhand .badge{
 	display: inline-block;
 }
 .pokerhandtitle > .handrank {
 	display: inline-block;
 	text-transform: uppercase;
+}
+
+.pokerhand .badge .black {
+	background-color: black;
+}
+.pokerhand .badge .red {
+	background-color: red;
 }

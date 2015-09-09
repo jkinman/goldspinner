@@ -2,6 +2,7 @@
     <div class="container" ng-controller="ThreecardpokerCtrl">
         <div class="row">
             <div class="col-md-12">
+                <h3>3-Card Poker with Multi-Hands</h3>
                 <h2>{{message}}</h2>
             </div>
         </div>
@@ -101,20 +102,28 @@
                 </div>
                 <div class="row text-center">
                     <div class="col-md-12">
-                        <div class="">
-                            <h3>3-Card Poker with Multi-Hands</h3>
-                            <div class="row" ng-show="state != 'none'">
-                                <h3>Dealer's cards</h3>
-                                <div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
-                                    {{card}}
-                                    <playingcard size="100" suit="" value="" card="{{card}}">
-                                    </playingcard>
+                        <div class="row" ng-show="state != 'none'">
+                            <div class="col-md-12">
+                                <h3>Dealer</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="badge" style="font-size: 20px;">{{game.dealer.rank.handName}}</h3>
+                                    <div class="row text-center" ng-show="state == 'resolved'">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <span class="glyphicon glyphicon-ok" ng-show="game.dealerQualified"></span>
+                                                <span class="glyphicon glyphicon-remove" ng-show="!game.dealerQualified"></span> Dealer qualified
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    {{game.dealer.rank.handName}}
-                                </div>
-                                <div ng-show="game.dealerQualified">
-                                    <p>Dealer qualified</p>
+                                <div class="col-md-6">
+                                    <div ng-repeat="card in game.dealer.cards track by $index" style="float:left">
+                                        {{card}}
+                                        <playingcard size="100" suit="" value="" card="{{card}}">
+                                        </playingcard>
+                                    </div>
                                 </div>
                             </div>
                         </div>

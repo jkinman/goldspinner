@@ -7,20 +7,7 @@
             <p class="badge handrank">{{hand.rank.handName}}</p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-6 col-md-6" ng-show="state != 'init'">
-            <h1>bets: </h1>
-            <p class="badge">Anti ${{anti}}</p>
-            <p class="badge">Pairs+ ${{pairsPlus}}</p>
-            <p class="badge">6 Card ${{sixCard}}</p>
-        </div>
-    </div>
-    <div class="row" ng-show="state == 'resolved'">
-        <div class="col-xs-12 col-md-12">
-            <p class="small" ng-show="hand.winnings">anti: ${{hand.winnings.antiBonus}} pairs+: ${{hand.winnings.pairsPlusTotal}} 6 card: ${{hand.winnings.sixCardBonus}}</p>
-        </div>
-    </div>
-
+    <!-- CARDS -->
     <div class="row">
         <div class="col-md-3">
             <div ng-repeat="card in hand.cards track by $index" style="float:left">
@@ -29,21 +16,39 @@
                 </playingcard>
             </div>
         </div>
+        <!-- WINNINGS -->
+        <div class="col-xs-9 col-md-9 winnings" ng-show="state == 'resolved'">
+            <span class="glyphicon glyphicon-usd"></span>
+            <h1>payout </h1>
+            <p class="badge" ng-class="{ black: true, red: hand.winnings.antiBonus < 0 }">anti: ${{hand.winnings.antiBonus}}</p>
+            <p class="badge">pairs+: ${{hand.winnings.pairsPlusTotal}}</p>
+            <p class="badge">6 card: ${{hand.winnings.sixCardBonus}}</p>
+        </div>
         <!-- deal state -->
         <div class="col-xs-3 col-md-6" ng-show="state == 'created' && anti > 0">
-            <label>Play Bet: </label>
-            <input type="number" ng-model="playBet" min="{{anti}}" max="100" value="{{anti}}" step="5" style="color: black">
-            <p>-OR-</p>
-            <a href="#" class="btn btn-sm btn-outline" ng-click="foldHand()" >FOLD</a>
+            <label>Set a Play Bet: </label>
+            <input type="number" ng-model="play" min="{{anti}}" max="100" value="{{anti}}" step="5" style="color: black" style="display:inline-block">
+            <span>OR</span>
+            <a href="#" class="btn btn-md btn-outline" ng-click="foldHand()">FOLD</a>
         </div>
-
-        <div class="col-xs-6 col-md-6" ng-show="state == 'init'">
+        <!-- BETS FORM -->
+        <div class="col-xs-8 col-md-8" ng-show="state == 'init'">
             <label>Anti: </label>
             <input type="number" ng-model="anti" min="0" max="100" value="25" step="5" ng-show="state == 'init'" style="color: black">
             <label>Pairs +: </label>
             <input type="number" ng-model="pairsPlus" min="0" max="100" step="5" value="5" ng-show="state == 'init' && anti > 0" style="color: black">
             <label>6 Card: </label>
             <input type="number" ng-model="sixCard" min="0" max="100" step="5" value="5" ng-show="state == 'init' && anti > 0" style="color: black">
+        </div>
+    </div>
+    <!-- BETS -->
+    <div class="row">
+        <div class="col-md-12" ng-show="state != 'init'">
+            <h1>bets: </h1>
+            <p class="badge">Anti ${{anti}}</p>
+            <p class="badge">Play ${{play}}</p>
+            <p class="badge">Pairs+ ${{pairsPlus}}</p>
+            <p class="badge">6 Card ${{sixCard}}</p>
         </div>
     </div>
 </div>
