@@ -135,11 +135,12 @@ exports.resolveGame = function(req, res) {
         // eval and add the highest 6 card hand.
         console.log(threecardpoker.dealer.cards);
         for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
-
             var highestSixCard = evalSixCard(threecardpoker.hands[i].cards, threecardpoker.dealer.cards);
+            console.log( highestSixCard );
             threecardpoker.hands[i].sixCardRank = highestSixCard;
-
         };
+
+        // run through the tally algo
         scoreHands(threecardpoker.hands, threecardpoker.dealer.cards);
 
         threecardpoker.totalMoney = tallyWinnings(threecardpoker.hands) - tallyBets(threecardpoker.hands);
@@ -420,12 +421,12 @@ function evalSixCard(hand1, hand2) {
         ],
     ];
 
-    var highestHand = {};
+    var highestHand = {handRank:0};
     for (var i = Things.length - 1; i >= 0; i--) {
         var rank = PokerEvaluator.evalHand(Things[i]);
-        console.log(Things[i]);
-        console.log(rank);
-        if (highestHand.rank < rank.rank) {
+        // console.log(Things[i]);
+        // console.log(rank);
+        if (highestHand.handRank < rank.handRank) {
             highestHand = rank;
         }
     };
