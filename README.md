@@ -54,6 +54,7 @@ ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/
 to deploy:
 grunt build
 cd dist
+git add .
 git commit -am "commit message"
 git push ssh://55d7e3442d527148370000f7@pker-jkinman.rhcloud.com/~/git/pker.git/ master 
 
