@@ -24,11 +24,9 @@ exports.getCards = function(num) {
     var retval = [];
     for (var i = deck.cards.length - 1; i >= 0; i--) {
         var card = deck.cards[i].toShortDisplayString();
-        if (card.indexOf("10") > 0) {
-            console.log("found 10, replacing with T");
-            card.replace("10", "T");
+        if (card.indexOf('10') > -1) {
+            card = card.replace('10', 'T');
         }
-        console.log(card);
         retval.push(card);
     };
 
