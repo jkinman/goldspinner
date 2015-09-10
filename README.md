@@ -64,6 +64,10 @@ ssh 55d7e3442d527148370000f7@pker-jkinman.rhcloud.com
 
 http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
 
+## known issues
+- 3 card straights not being recognised
+- dealer non qualify anti not being refunded properly
+- anti payout not working right
 
 ## todo / notes
 ### Aug 27
@@ -71,12 +75,13 @@ http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
 - add tooltip for hand details
 
 ### Sept 4
-- change to best 5 from best 6
+- create simulation with 5 for everything and run 100 hands
+- 
+done
 - add play bet on deal
 	- add message for raising play bet
-- add option for displaying string cards names
 - move card name under deal qualified
 - remove goldspinner from footer everywhere
 - add win / lost per hand as well summary
-- create simulation with 5 for everything and run 100 hands
-- 
+- change to best 5 from best 6
+- add option for displaying string cards names

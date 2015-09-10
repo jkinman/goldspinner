@@ -55,3 +55,11 @@ pokerhand label {
 .winnings .red {
     background-color: red;
 }
+
+.cssFade {
+    transition: 0.5s linear all;
+    opacity: 1;
+}
+.cssFade.ng-hide {
+    opacity: 0;
+}
