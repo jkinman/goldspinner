@@ -108,9 +108,7 @@ angular.module('pkerApp')
 
     // send init state to server and get the deck and your cards
     $scope.startGame = function() {
-      $rootScope.state = 'created';
 
-      $rootScope.message = "Set your Play bets or fold hands and Click SHOWDOWN.";
 
       // update the game with the current bets
       var bets = [];
@@ -127,6 +125,10 @@ angular.module('pkerApp')
 
       $scope.game.$save(function() {
         $scope.hands = $scope.game.hands;
+        
+        $rootScope.state = 'created';
+        $rootScope.message = "Set your Play bets or fold hands and Click SHOWDOWN.";
+
       });
     };
 
