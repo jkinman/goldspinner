@@ -89,19 +89,25 @@ exports.create = function(req, res) {
 
 
 	triplesec.encrypt({
-
 		data: new triplesec.Buffer(poker.deck),
 		key: new triplesec.Buffer(poker.key),
-		progress_hook: function(obj) { /* ... */ }
-
+		progress_hook: function(obj) {
+			// console.log( obj );
+		}
 	}, function(err, buff) {
-
 		if (!err) {
 			var ciphertext = buff.toString('hex');
-			console.log( "cipher done " + ciphertext );
+			console.log("cipher done " + ciphertext);
 			poker.encryptedDeck = ciphertext;
+			poker.save();
 		}
 
+	});
+	poker.save(function(err, threecardpoker) {
+		if (err) {
+			return handleError(res, err);
+		}
+		return res.status(201).json(threecardpoker);
 	});
 
 
@@ -115,12 +121,6 @@ exports.create = function(req, res) {
 	// var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
 
 	// console.log( poker.hands );
-	poker.save(function(err, threecardpoker) {
-		if (err) {
-			return handleError(res, err);
-		}
-		return res.status(201).json(threecardpoker);
-	});
 };
 
 
@@ -152,9 +152,10 @@ exports.resolveGame = function(req, res) {
 			cards: [deck[11], deck[12], deck[13]],
 			rank: PokerEvaluator.evalHand([deck[11], deck[12], deck[13]])
 		};
-		threecardpoker.dealerQualified = threecardpoker.dealer.rank.handRank > 190;
+		threecardpoker.dealerQualified = threecardpoker.dealer.rank.value > 4344;
 		threecardpoker.state = "resolved";
 
+		console.log(PokerEvaluator.evalHand(["qs", "6d", "4c"]));
 		// eval and add the highest 6 card hand.
 		console.log(threecardpoker.dealer.cards);
 		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
@@ -164,9 +165,9 @@ exports.resolveGame = function(req, res) {
 		};
 
 		// run through the tally algo
-		scoreHands(threecardpoker.hands, threecardpoker.dealer.cards);
+		scoreHands(threecardpoker);
 
-		threecardpoker.totalMoney = tallyWinnings(threecardpoker.hands) - tallyBets(threecardpoker.hands);
+		threecardpoker.totalMoney = tallyWinnings(threecardpoker.hands);
 		req.user.balance += threecardpoker.totalMoney;
 		req.user.save();
 		// var updated = _.merge(threecardpoker, req.body);
@@ -263,7 +264,7 @@ function nottkiDeal(cards) {
 
 	for (var i = hands.length - 1; i >= 0; i--) {
 		hands[i].rank = ranks[i];
-
+		hands[i].handActive = true;
 		var flushHand = isFlush(hands[i].cards);
 		var strHand = (hands[i].cards[0] + hands[i].cards[1] + hands[i].cards[2]).toLowerCase();
 
@@ -295,7 +296,7 @@ function isFlush(hand) {
 }
 
 
-function scoreHands(hands) {
+function scoreHands(game) {
 	// score hands
 
 	var scoringTable = {
@@ -306,7 +307,7 @@ function scoreHands(hands) {
 			"flush": 4, //flush
 			"one pair": 1, //pair
 			"invalid hand": 0,
-			"high card": 0,
+			"high card": -1,
 			"two pairs": 1,
 			"full house": 0,
 			"four of a kind": 0,
@@ -328,23 +329,88 @@ function scoreHands(hands) {
 			"four of a kind": 50, //threeOfKind
 			"three of a kind": 5, //threeOfKind
 			"straight": 10, //straight
-			"flush": 4, //flush
-			"one pair": 1, //pair
+			"flush": 20, //flush
+			"one pair": -1, //pair
 			"invalid hand": 0,
-			"high card": 0,
-			"two pairs": 0,
-			"full house": 0,
+			"high card": -1,
+			"two pairs": -1,
+			"full house": 25,
 		}
 
 	}
 
-	console.log("scorehands");
+	console.log("scoring hands");
+
+	/**
+	Player makes an Ante and/or Pairplus bet
+
+	The dealer gives each player three cards and himself three cards. The player may examine his own cards. 
+	The dealer's cards are dealt face down.
+
+	If the player made the Ante bet, then he has must either fold or raise.
+
+	If the player folds, then he forfeits his Ante wager.
+
+	If the player raises, then he must make an additional Play bet, equal exactly to his Ante bet.
+
+	The dealer will turn over his cards.
+
+	The dealer needs a queen high or better to qualify.
+
+	If the dealer does not qualify then the player will win even money on the Ante bet and the Play bet will push.
+
+	If the dealer qualifies, then the player's hand will be compared to the dealer's hand, the higher hand wins. 
+	The order of poker hands is indicated below.
+
+	If the player has the higher poker hand then the Ante and Play will both pay even money.
+
+	If the dealer has the higher poker hand then the Ante and Play will both lose.
+
+	If the player and dealer tie then the Ante and Play bets will push.
+
+	If the player made the Ante bet and has a straight or higher then the player will receive an Ante Bonus, 
+	regardless of the value of the dealer's hand.
+
+	The Pairplus bet will pay entirely based on the poker value of the player's hand, as shown in the Pairplus section below.
+	**/
+	var hands = game.hands;
 
 	for (var i = hands.length - 1; i >= 0; i--) {
+		// init the starting values and go from there
 		hands[i].winnings = {};
+		hands[i].winnings.anti = hands[i].bets.anti;
+		hands[i].winnings.playBonus = 0;
+		// antis only pasy if had is not folded
+		// did not dealer qualify
+		if (false == game.dealerQualified) {
+			// anti pays play bet push
+			hands[i].winnings.playBonus = 0;
+			hands[i].winnings.anti = (hands[i].bets.anti);
+		} else { // dealer did qualify
+			// player fold?
+			if (hands[i].handActive) { // didnt fold
+				if (hands[i].rank.value > game.dealer.rank.value) {
+					// player won
+					hands[i].winnings.playBonus = hands[i].bets.play;
+					hands[i].winnings.anti = hands[i].bets.anti;
+				} else {
+					// player lost
+					hands[i].winnings.playBonus = hands[i].bets.play * -1;
+					hands[i].winnings.anti = hands[i].bets.anti * -1;
+				}
+
+			} else {
+				// folded
+				hands[i].winnings.anti = 0;
+				hands[i].winnings.playBonus = 0;
+			}
+
+		}
+
+		hands[i].winnings.antiBonus = scoringTable.anti[hands[i].rank.handName] * (hands[i].bets.anti);
 		hands[i].winnings.pairsPlusTotal = scoringTable.pairsPlus[hands[i].rank.handName] * hands[i].bets.pairsPlus;
-		hands[i].winnings.antiBonus = scoringTable.anti[hands[i].rank.handName] * (hands[i].bets.anti + hands[i].bets.play);
 		hands[i].winnings.sixCardBonus = scoringTable.sixCard[hands[i].sixCardRank.handName] * hands[i].bets.sixCard;
+
 	};
 }
 
@@ -402,7 +468,11 @@ function tallyWinnings(hands) {
 	var retval = 0;
 	for (var i = hands.length - 1; i >= 0; i--) {
 		if (hands[i].bets.anti > 0) {
-			retval = retval + hands[i].winnings.pairsPlusTotal + hands[i].winnings.antiBonus + hands[i].winnings.sixCardBonus;
+			retval += hands[i].winnings.pairsPlusTotal;
+			retval += hands[i].winnings.anti;
+			retval += hands[i].winnings.antiBonus;
+			retval += hands[i].winnings.sixCardBonus;
+			retval += hands[i].winnings.playBonus;
 		}
 	};
 
