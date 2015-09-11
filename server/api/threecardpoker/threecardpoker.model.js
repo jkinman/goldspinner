@@ -12,8 +12,10 @@ var hand = {
 		sixCard: Number
 	},
 	winnings: {
-		pairsPlusTotal: Number,
+		anti: Number,
 		antiBonus: Number,
+		playBonus: Number,
+		pairsPlusTotal: Number,
 		sixCardBonus: Number,
 	},
 	rank: {
