@@ -9,10 +9,10 @@
         <div class="row">
             <div class="col-md-3" class="text-left">
                 <a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none'">
-                    <i class="fa fa-download"></i> Send Shuffle List
+                    <i class="fa fa-download"></i> Download Encrypted Deck
                 </a>
                 <a href="#" class="btn btn-sm btn-outline" ng-disabled="state != 'none'">
-                    <i class="glyphicon glyphicon-lock"></i> Send Decipher
+                    <i class="glyphicon glyphicon-lock"></i> Get Decipher
                 </a>
                 <h5>BASIC PLAY RULES - 3 Card Poker</h5>
                 <ol>
@@ -101,7 +101,7 @@
                             </div>
                             <div class="row " >
                                 <div class="col-md-6">
-                                    <h3 class="badge" ng-show="state == 'resolved'" style="font-size: 20px;">{{game.dealer.rank.handName}} (rank:{{game.dealer.rank.handRank}})</h3>
+                                    <h3 class="badge" ng-show="state == 'resolved'" style="font-size: 20px;">{{game.dealer.rank.handName}} (value:{{game.dealer.rank.value}})</h3>
                                     <div class="row text-center" ng-show="state == 'resolved'">
                                         <div class="col-md-12">
                                             <p>

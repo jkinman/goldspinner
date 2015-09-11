@@ -5,10 +5,10 @@
             <span class="glyphicon glyphicon-ok" ng-show="state == 'init' && anti > 0"></span>
             <span class="glyphicon glyphicon-remove" ng-show="state == 'init' && anti == 0"></span>
             <h1>hand {{index}}</h1>
-            <p class="badge handrank" ng-show="state == 'resolved' || state == 'created'">{{hand.rank.handName}} (rank:{{hand.rank.handRank}})</p>
+            <p class="badge handrank" ng-show="state == 'resolved' || state == 'created'">{{hand.rank.handName}} (value:{{hand.rank.value}})</p> 
             <div class="row">
                 <div class="col-md-12 pokerhandtitle">
-                    <p class="badge handrank" ng-show="state == 'resolved'">6 card hand: {{hand.sixCardRank.handName}} (rank:{{hand.sixCardRank.handRank}})</p>
+                    <p class="badge handrank" ng-show="state == 'resolved'">6 card hand: {{hand.sixCardRank.handName}} (value:{{hand.sixCardRank.value}})</p>
                 </div>
             </div>
         </div>
@@ -16,6 +16,7 @@
     <!-- CARDS -->
     <div class="row">
         <div class="col-md-3">
+        <h1 ng-show="state == 'resolved' && hand.winnings.playBonus > 0">you won!</h1>
             <div ng-repeat="card in hand.cards track by $index" style="float:left">
                 <!-- <p>{{card}}</p> -->
                 <playingcard size="60" card="{{card}}">
@@ -26,9 +27,11 @@
         <div class="col-xs-9 col-md-9 winnings" ng-show="state == 'resolved'">
             <span class="glyphicon glyphicon-usd"></span>
             <h1>payout </h1>
-            <p class="badge" ng-class="{ black: hand.winnings.antiBonus >=anti+play, red: hand.winnings.antiBonus < anti+play }">anti: ${{hand.winnings.antiBonus - anti - play}}</p>
-            <p class="badge" ng-class="{ black: hand.winnings.pairsPlusTotal >=pairsPlus, red: hand.winnings.pairsPlusTotal < pairsPlus }">pairs+: ${{hand.winnings.pairsPlusTotal - pairsPlus}}</p>
-            <p class="badge" ng-class="{ black: hand.winnings.sixCardBonus >=sixCard, red: hand.winnings.sixCardBonus < sixCard }">6 card: ${{hand.winnings.sixCardBonus - sixCard}}</p>
+            <p class="badge" ng-class="{ black: hand.winnings.anti > 0, red: hand.winnings.anti < 0 }">anti: ${{hand.winnings.anti}}</p>
+            <p class="badge" ng-class="{ black: hand.winnings.playBonus > 0, red: hand.winnings.playBonus < 0 }">play: ${{hand.winnings.playBonus}}</p>
+            <p class="badge" ng-class="{ black: hand.winnings.antiBonus > 0, red: hand.winnings.antiBonus < 0 }">anti bonus: ${{hand.winnings.antiBonus}}</p>
+            <p class="badge" ng-class="{ black: hand.winnings.pairsPlusTotal > 0, red: hand.winnings.pairsPlusTotal < 0 }">pairs+: ${{hand.winnings.pairsPlusTotal}}</p>
+            <p class="badge" ng-class="{ black: hand.winnings.sixCardBonus > 0, red: hand.winnings.sixCardBonus < 0 }">6 card: ${{hand.winnings.sixCardBonus}}</p>
         </div>
         <!-- deal state -->
         <div class="col-xs-3 col-md-6" ng-show="state == 'created' && anti > 0">
