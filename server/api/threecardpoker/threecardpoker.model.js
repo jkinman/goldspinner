@@ -22,7 +22,8 @@ var hand = {
 		handName: String,
 		value: Number,
 		handRank: Number,
-		handType: Number
+		handType: Number,
+		cardVal: Number
 	},
 	sixCardRank: {
 		handName: String,
