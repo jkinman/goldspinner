@@ -34,6 +34,7 @@ angular.module('pkerApp')
 
       $scope.hands[0] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           anti: 25,
           pairsPlus: 0,
@@ -43,6 +44,7 @@ angular.module('pkerApp')
       };
       $scope.hands[1] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           anti: 25,
           play: 0,
@@ -52,6 +54,7 @@ angular.module('pkerApp')
       };
       $scope.hands[2] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           anti: 25,
           play: 0,
@@ -61,6 +64,7 @@ angular.module('pkerApp')
       };
       $scope.hands[3] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           anti: 25,
           play: 0,
@@ -70,6 +74,7 @@ angular.module('pkerApp')
       };
       $scope.hands[4] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           anti: 25,
           pairsPlus: 0,
@@ -79,6 +84,7 @@ angular.module('pkerApp')
       };
       $scope.hands[5] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           play: 0,
           anti: 25,
@@ -88,6 +94,7 @@ angular.module('pkerApp')
       };
       $scope.hands[6] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           anti: 25,
           play: 0,
@@ -97,6 +104,7 @@ angular.module('pkerApp')
       };
       $scope.hands[7] = {
         cards: [unknown, unknown, unknown],
+        payout: 0,
         bets: {
           anti: 25,
           play: 0,
@@ -115,7 +123,7 @@ angular.module('pkerApp')
       for (var i = 0; i < $scope.hands.length; i++) {
         bets[i] = {
           anti: $scope.hands[i].bets.anti,
-          play: $scope.hands[i].bets.anti,
+          play: $scope.hands[i].bets.play,
           pairsPlus: $scope.hands[i].bets.pairsPlus,
           sixCard: $scope.hands[i].bets.sixCard
         };
@@ -125,7 +133,7 @@ angular.module('pkerApp')
 
       $scope.game.$save(function() {
         $scope.hands = $scope.game.hands;
-        
+
         $rootScope.state = 'created';
         $rootScope.message = "Set your Play bets or fold hands and Click SHOWDOWN.";
 
@@ -136,6 +144,12 @@ angular.module('pkerApp')
     $scope.resolve = function() {
 
       $rootScope.message = "Resolving game";
+      // update the game with the current bets
+      // var bets = [];
+      for (var i = 0; i < $scope.game.hands.length; i++) {
+        $scope.game.hands[i].bets.play = $scope.hands[i].bets.play;
+      };
+
 
       $rootScope.state = 'resolved';
       $scope.game.$resolve(function() {

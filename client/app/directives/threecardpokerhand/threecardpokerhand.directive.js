@@ -13,19 +13,21 @@ angular.module('pkerApp')
 				play: "=",
 				pairsPlus: "=",
 				sixCard: "=",
+				payout: "=",
 				state: "=",
-				handActive: "@",
+				handActive: "=",
 			},
 			link: function(scope, element, attrs) {
 				scope.hand.bets.anti = 10;
 				scope.hand.bets.play = 0;
 				scope.hand.bets.sixCard = 10;
 				scope.hand.bets.pairsPlus = 10;
-				scope.handActive = 1;
+				scope.hand.handActive = 1;
 
 				scope.foldHand = function() {
 					console.log("fold hand " + scope.index);
-					scope.handActive = 0;
+					scope.hand.handActive = false;
+					scope.hand.bets.play = 0;
 				};
 			}
 		};
