@@ -34,14 +34,34 @@ exports.getCards = function(num) {
 
 // Get list of threecardpokers
 exports.index = function(req, res) {
-	console.log("Get list of threecardpokers");
-	Threecardpoker.find(function(err, threecardpokers) {
-		if (err) {
-			return handleError(res, err);
-		}
-		var hand = exports.getCards(52);
-		return res.status(200).json(hand);
-	});
+
+	console.log("testing poker hand eval");
+	var hands = [];
+	//hands.push(['5d', '4d', '3d']);
+	//hands.push(['5s', '2d', '6c']);
+	hands.push(['qd', 'qs', 'qh']);
+	hands.push(['3h', '4h', '5s']);
+	hands.push(['jh', 'kh', 'qh']);
+	hands.push(['jh', 'js', 'qh']);
+	hands.push(['4h', 'jh', 'qh']);
+
+	for (var i = 0; i < hands.length; i++) {
+		console.log('hand : ' + hands[i]);
+		console.log('Me   : ');
+		console.log(evalThreeCardHand(hands[i]));
+		// console.log('Lib  : ');
+		// console.log(PokerEvaluator.evalHand(hands[i]));
+	};
+
+	return res.status(200).json({});
+
+	// Threecardpoker.find(function(err, threecardpokers) {
+	// 	if (err) {
+	// 		return handleError(res, err);
+	// 	}
+	// 	var hand = exports.getCards(52);
+	// 	return res.status(200).json(hand);
+	// });
 };
 
 // Get a single threecardpoker
@@ -75,7 +95,7 @@ exports.create = function(req, res) {
 		poker.hands[i].bets = {
 			pairsPlus: poker.bets[i].pairsPlus,
 			anti: poker.bets[i].anti,
-			play: poker.bets[i].play,
+			play: poker.bets[i].anti,
 			sixCard: poker.bets[i].sixCard
 		};
 	};
@@ -144,18 +164,19 @@ exports.resolveGame = function(req, res) {
 		var deck = threecardpoker.deck;
 		// extract and store the bets made by player
 		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
-			threecardpoker.hands[i].bets.play = threecardpoker.bets[i].play;
+			threecardpoker.hands[i].handActive = req.body.hands[i].handActive;
+			threecardpoker.bets[i].play = req.body.hands[i].bets.play;
+			threecardpoker.hands[i].bets.play = req.body.hands[i].bets.play;
 		};
 
 		console.log("found it about to update with dealers hands and ranks");
 		threecardpoker.dealer = {
 			cards: [deck[11], deck[12], deck[13]],
-			rank: PokerEvaluator.evalHand([deck[11], deck[12], deck[13]])
+			rank: evalThreeCardHand([deck[11], deck[12], deck[13]])
 		};
 		threecardpoker.dealerQualified = threecardpoker.dealer.rank.value > 4344;
 		threecardpoker.state = "resolved";
 
-		console.log(PokerEvaluator.evalHand(["qs", "6d", "4c"]));
 		// eval and add the highest 6 card hand.
 		console.log(threecardpoker.dealer.cards);
 		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
@@ -389,7 +410,7 @@ function scoreHands(game) {
 		} else { // dealer did qualify
 			// player fold?
 			if (hands[i].handActive) { // didnt fold
-				if (hands[i].rank.value > game.dealer.rank.value) {
+				if (hands[i].rank.handType > game.dealer.rank.handType ) {
 					// player won
 					hands[i].winnings.playBonus = hands[i].bets.play;
 					hands[i].winnings.anti = hands[i].bets.anti;
@@ -401,7 +422,7 @@ function scoreHands(game) {
 
 			} else {
 				// folded
-				hands[i].winnings.anti = 0;
+				hands[i].winnings.anti = hands[i].bets.anti * -1;
 				hands[i].winnings.playBonus = 0;
 			}
 
@@ -410,6 +431,13 @@ function scoreHands(game) {
 		hands[i].winnings.antiBonus = scoringTable.anti[hands[i].rank.handName] * (hands[i].bets.anti);
 		hands[i].winnings.pairsPlusTotal = scoringTable.pairsPlus[hands[i].rank.handName] * hands[i].bets.pairsPlus;
 		hands[i].winnings.sixCardBonus = scoringTable.sixCard[hands[i].sixCardRank.handName] * hands[i].bets.sixCard;
+
+		hands[i].payout = 0
+		hands[i].payout += hands[i].winnings.anti;
+		hands[i].payout += hands[i].winnings.playBonus;
+		hands[i].payout += hands[i].winnings.pairsPlusTotal;
+		hands[i].payout += hands[i].winnings.antiBonus;
+		hands[i].payout += hands[i].winnings.sixCardBonus;
 
 	};
 }
@@ -452,7 +480,7 @@ function evaluateHands(hands) {
 	var valuations = [];
 	for (var i = hands.length - 1; i >= 0; i--) {
 		var hand = [hands[i].cards[0], hands[i].cards[1], hands[i].cards[2]];
-		valuations[i] = PokerEvaluator.evalHand(hand);
+		valuations[i] = evalThreeCardHand(hand);
 
 	}
 	return valuations;
@@ -467,13 +495,11 @@ function tallyWinnings(hands) {
 
 	var retval = 0;
 	for (var i = hands.length - 1; i >= 0; i--) {
-		if (hands[i].bets.anti > 0) {
-			retval += hands[i].winnings.pairsPlusTotal;
-			retval += hands[i].winnings.anti;
-			retval += hands[i].winnings.antiBonus;
-			retval += hands[i].winnings.sixCardBonus;
-			retval += hands[i].winnings.playBonus;
-		}
+		retval += hands[i].winnings.anti;
+		retval += hands[i].winnings.playBonus;
+		retval += hands[i].winnings.pairsPlusTotal;
+		retval += hands[i].winnings.antiBonus;
+		retval += hands[i].winnings.sixCardBonus;
 	};
 
 	return retval;
@@ -487,6 +513,121 @@ function tallyBets(hands) {
 	};
 
 	return retval;
+}
+
+function evalThreeCardHand( cards ) {
+	var isFlush = false;
+	var isStraight = false;
+	var isThreeOfKind = false;
+	var rank = {
+		handType: 1,
+		handRank: 0,
+		value: 0,
+		handName: 'high card'
+	};
+	// merge cards into one str
+	var strCards = cards[0] + cards[1] + cards[2];
+	strCards = strCards.toLowerCase();
+	// check for flush
+	if (strCards.split('s').length - 1 == 3 || strCards.split('d').length - 1 == 3 || strCards.split('c').length - 1 == 3 || strCards.split('h').length - 1 == 3) {
+		// its a flush
+		isFlush = true;
+		var rank = {
+			handType: 6,
+			handName: 'flush'
+		}
+	}
+
+	// check for pairs of three of a kind
+	var numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 't', 'j', 'q', 'k', 'a'];
+	for (var i = 0; i < numbers.length; i++) {
+		if (strCards.split(numbers[i]).length - 1 > 1 ) {
+			if (strCards.split(numbers[i]).length - 1 == 3) {
+				// three of kind
+				var rank = {
+					handType: 4,
+					handName: 'three of a kind'
+				};
+			} else {
+				// pair
+				var rank = {
+					handType: 2,
+					handName: 'one pair'
+				};
+			}
+		}
+	};
+
+	var cardsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	//convert each card to vals 0-12, strip suit
+	cards.forEach(function(card) {
+		var i = Math.floor(CARDS[card.toLowerCase()] / 4);
+		console.log( i );
+		cardsUsed[i] = 1;
+	}, this);
+
+	//check if there is a straight
+	var continuousCards = 0;
+	var hasStraight = false;
+	var straightEndIndex = 0;
+
+	for (var i = 0; i <= 13; i++) {
+		if (cardsUsed[i] == 0) {
+			continuousCards = 0;
+		} else {
+			continuousCards++;
+			if (continuousCards == 3) {
+				hasStraight = true;
+				straightEndIndex = i;
+			}
+		}
+	}
+	if (hasStraight) {
+		if (isFlush) {
+			if (12 == straightEndIndex) {
+				var rank = {
+					handType: 10,
+					handName: 'royal flush'
+				};
+
+			} else {
+				var rank = {
+					handType: 9,
+					handName: 'straight flush'
+				};
+
+			}
+		} else {
+			var rank = {
+				handType: 5,
+				handName: 'straight'
+			};
+		}
+	}
+
+
+	// check for three of kind
+	// switch (true) {
+	// 	case (strCards.split('1').length - 1 == 2):
+	// 		if (strCards.split('1').length - 1 == 2)
+	// 			isThreeOfKind = true;
+	// 		break;
+	// 	case (strCards.split('2').length - 1 == 2):
+	// 		isThreeOfKind = true;
+	// 		break;
+	// }
+	// if (isThreeOfKind) {
+	// 	// its three of kind
+	// 	var rank = {
+	// 		handType: 4,
+	// 		handRank: 0,
+	// 		value: 0,
+	// 		handName: 'three of a kind'
+	// 	}
+	// }
+	// check for pair
+	//
+	return rank;
 }
 
 function evalSixCard(hand1, hand2) {
@@ -559,4 +700,60 @@ function evalSixCard(hand1, hand2) {
 		}
 	};
 	return highestHand;
+}
+
+var CARDVALS = ['2', '3', '4', '5', '6', '7', '8', '9', 't', 'j', 'q', 'k', 'a'];
+var CARDS = {
+	"2c": 0,
+	"2d": 1,
+	"2h": 2,
+	"2s": 3,
+	"3c": 4,
+	"3d": 5,
+	"3h": 6,
+	"3s": 7,
+	"4c": 8,
+	"4d": 9,
+	"4h": 10,
+	"4s": 11,
+	"5c": 12,
+	"5d": 13,
+	"5h": 14,
+	"5s": 15,
+	"6c": 16,
+	"6d": 17,
+	"6h": 18,
+	"6s": 19,
+	"7c": 20,
+	"7d": 21,
+	"7h": 22,
+	"7s": 23,
+	"8c": 24,
+	"8d": 25,
+	"8h": 26,
+	"8s": 27,
+	"9c": 28,
+	"9d": 29,
+	"9h": 30,
+	"9s": 31,
+	"tc": 32,
+	"td": 33,
+	"th": 34,
+	"ts": 35,
+	"jc": 36,
+	"jd": 37,
+	"jh": 38,
+	"js": 39,
+	"qc": 40,
+	"qd": 41,
+	"qh": 42,
+	"qs": 43,
+	"kc": 44,
+	"kd": 45,
+	"kh": 46,
+	"ks": 47,
+	"ac": 48,
+	"ad": 49,
+	"ah": 50,
+	"as": 51
 }
