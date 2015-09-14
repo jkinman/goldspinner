@@ -39,11 +39,9 @@ exports.index = function(req, res) {
 	var hands = [];
 	//hands.push(['5d', '4d', '3d']);
 	//hands.push(['5s', '2d', '6c']);
-	hands.push(['qd', 'qs', 'qh']);
-	hands.push(['3h', '4h', '5s']);
-	hands.push(['jh', 'kh', 'qh']);
-	hands.push(['jh', 'js', 'qh']);
-	hands.push(['4h', 'jh', 'qh']);
+	hands.push(['as', '4s', 'kc']);
+	// hands.push(['6d', '8c', '3h']);
+	// hands.push(['3h', '5d', '2c']);
 
 	for (var i = 0; i < hands.length; i++) {
 		console.log('hand : ' + hands[i]);
@@ -174,7 +172,8 @@ exports.resolveGame = function(req, res) {
 			cards: [deck[11], deck[12], deck[13]],
 			rank: evalThreeCardHand([deck[11], deck[12], deck[13]])
 		};
-		threecardpoker.dealerQualified = threecardpoker.dealer.rank.value > 4344;
+
+		threecardpoker.dealerQualified = PokerEvaluator.evalHand([deck[11], deck[12], deck[13]]).value > 4344;
 		threecardpoker.state = "resolved";
 
 		// eval and add the highest 6 card hand.
@@ -410,10 +409,23 @@ function scoreHands(game) {
 		} else { // dealer did qualify
 			// player fold?
 			if (hands[i].handActive) { // didnt fold
-				if (hands[i].rank.handType > game.dealer.rank.handType ) {
+				if (hands[i].rank.handType > game.dealer.rank.handType) {
 					// player won
 					hands[i].winnings.playBonus = hands[i].bets.play;
 					hands[i].winnings.anti = hands[i].bets.anti;
+				} else if (hands[i].rank.handType == game.dealer.rank.handType) {
+					// tied
+					// check the cardVal property now
+					if (hands[i].rank.cardVal > game.dealer.rank.cardVal) {
+						hands[i].winnings.playBonus = hands[i].bets.play;
+						hands[i].winnings.anti = hands[i].bets.anti;
+					} else if (hands[i].rank.cardVal == game.dealer.rank.cardVal) {
+						hands[i].winnings.playBonus = 0;
+						hands[i].winnings.anti = 0;
+					} else {
+						hands[i].winnings.playBonus = hands[i].bets.play * -1;
+						hands[i].winnings.anti = hands[i].bets.anti * -1;
+					}
 				} else {
 					// player lost
 					hands[i].winnings.playBonus = hands[i].bets.play * -1;
@@ -515,19 +527,33 @@ function tallyBets(hands) {
 	return retval;
 }
 
-function evalThreeCardHand( cards ) {
+function evalThreeCardHand(cards) {
 	var isFlush = false;
 	var isStraight = false;
 	var isThreeOfKind = false;
-	var rank = {
-		handType: 1,
-		handRank: 0,
-		value: 0,
-		handName: 'high card'
-	};
+	var cardsCopy = [cards[0], cards[1], cards[2]];
+	var rank = PokerEvaluator.evalHand(cardsCopy);
+	rank.handType = 1;
+	rank.handName = 'high card';
+	rank.cardVal = 0;
+
 	// merge cards into one str
 	var strCards = cards[0] + cards[1] + cards[2];
 	strCards = strCards.toLowerCase();
+
+	var cardVal = 0
+	var cardsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	//convert each card to vals 0-12, strip suit
+	cards.forEach(function(card) {
+		var i = Math.floor(CARDS[card.toLowerCase()] / 4);
+		if (i > rank.cardVal) {
+			rank.cardVal = i;
+		};
+		cardsUsed[i] = 1;
+	}, this);
+
+
+
 	// check for flush
 	if (strCards.split('s').length - 1 == 3 || strCards.split('d').length - 1 == 3 || strCards.split('c').length - 1 == 3 || strCards.split('h').length - 1 == 3) {
 		// its a flush
@@ -539,39 +565,34 @@ function evalThreeCardHand( cards ) {
 	}
 
 	// check for pairs of three of a kind
-	var numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 't', 'j', 'q', 'k', 'a'];
+	var numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 't', 'j', 'q', 'k', 'a'];
 	for (var i = 0; i < numbers.length; i++) {
-		if (strCards.split(numbers[i]).length - 1 > 1 ) {
+		if (strCards.split(numbers[i]).length - 1 > 1) {
 			if (strCards.split(numbers[i]).length - 1 == 3) {
 				// three of kind
 				var rank = {
 					handType: 4,
-					handName: 'three of a kind'
+					handName: 'three of a kind',
+					cardVal: i
 				};
 			} else {
 				// pair
 				var rank = {
 					handType: 2,
-					handName: 'one pair'
+					handName: 'one pair',
+					cardVal: i
 				};
 			}
 		}
 	};
 
-	var cardsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	//convert each card to vals 0-12, strip suit
-	cards.forEach(function(card) {
-		var i = Math.floor(CARDS[card.toLowerCase()] / 4);
-		console.log( i );
-		cardsUsed[i] = 1;
-	}, this);
-
 	//check if there is a straight
 	var continuousCards = 0;
 	var hasStraight = false;
 	var straightEndIndex = 0;
-
-	for (var i = 0; i <= 13; i++) {
+	// console.log(cardsUsed);
+	for (var i = 0; i <= 12; i++) {
+		// console.log( cardsUsed[i] == 0 );
 		if (cardsUsed[i] == 0) {
 			continuousCards = 0;
 		} else {
@@ -582,18 +603,22 @@ function evalThreeCardHand( cards ) {
 			}
 		}
 	}
+	// console.log(hasStraight);
+
 	if (hasStraight) {
 		if (isFlush) {
 			if (12 == straightEndIndex) {
 				var rank = {
 					handType: 10,
-					handName: 'royal flush'
+					handName: 'royal flush',
+					cardVal: straightEndIndex
 				};
 
 			} else {
 				var rank = {
 					handType: 9,
-					handName: 'straight flush'
+					handName: 'straight flush',
+					cardVal: straightEndIndex
 				};
 
 			}
