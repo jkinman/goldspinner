@@ -15,14 +15,14 @@
                     <i class="glyphicon glyphicon-lock"></i> Get Decipher
                 </a>
                 <h5>BASIC PLAY RULES - 3 Card Poker</h5>
-                <ol>
+                <ol class="text-left">
                     <li>Place Ante and Side Bets</li>
                     <li>Click Shuffle and Deal</li>
                     <li>Fold or Raise Ante (not side bets)</li>
                     <li>Click Play (A play bet = to the Ante bet is automatically made)</li>
                     <li>View Winnings</li>
                 </ol>
-                <div class="six_card_bonus_payout payout_section">
+                <div class="six_card_bonus_payout payout_section text-left">
                     <div class="payout_title">6-CARD BONUS</div>
                     <div class="payline">
                         <span class="orange">ROYAL FLUSH..................</span><span class="payout">1000 to 1</span>
@@ -46,7 +46,8 @@
                         <span class="orange">THREE OF A KIND..................</span><span class="payout">5 to 1</span>
                     </div>
                 </div>
-                <div class="pair_plus_payout payout_section">
+                <br>
+                <div class="pair_plus_payout payout_section text-left">
                     <div class="payout_title">PAIR PLUS</div>
                     <div class="payline">
                         <span class="yellow">STRAIGHT FLUSH...............</span><span class="payout">40 to 1</span>
@@ -64,7 +65,8 @@
                         <span class="yellow">PAIR...........................................</span><span class="payout">1 to 1</span>
                     </div>
                 </div>
-                <div class="ante_bonus_payout payout_section">
+                <br>
+                <div class="ante_bonus_payout payout_section text-left">
                     <div class="payout_title">ANTE BONUS</div>
                     <div class="payline">
                         <span class="orange">STRAIGHT FLUSH.................</span><span class="payout">5 to 1</span>
@@ -80,33 +82,33 @@
             <div class="col-md-7">
                 <div class="text-center">
                     <a href="#" class="btn btn-sm btn-outline" ng-click="init()" ng-disabled="state != 'none' || state=='resolved'">
-	                    1. Shuffle
-	                </a>
+                        1. Shuffle
+                    </a>
                     <a href="#" class="btn btn-sm btn-outline" ng-click="startGame()" ng-disabled="state != 'init'">
-	                    2. Deal
-	                </a>
+                        2. Deal
+                    </a>
                     <a href="#" class="btn btn-sm btn-outline" ng-click="resolve()" ng-disabled="state != 'created'">
-	                    3. showdown
-	                </a>
+                        3. showdown
+                    </a>
                     <a href="#" class="btn btn-sm btn-outline" ng-click="reset()" ng-disabled="state != 'resolved'">
-	                    4. reset
-	                </a>
+                        4. reset
+                    </a>
                 </div>
                 <br>
                 <div class="row text-center">
-                    <div class="col-md-12 pokerhand" ng-show="state != 'none'" >
+                    <div class="col-md-12 pokerhand" ng-show="state != 'none'">
                         <div class="row">
                             <div class="col-md-12">
                                 <h3>Dealer</h3>
                             </div>
-                            <div class="row " >
+                            <div class="row ">
                                 <div class="col-md-6">
                                     <h3 class="badge" ng-show="state == 'resolved'" style="font-size: 20px;">{{game.dealer.rank.handName}} (value:{{game.dealer.rank.value}})</h3>
                                     <div class="row text-center" ng-show="state == 'resolved'">
                                         <div class="col-md-12">
                                             <p>
                                                 <span class="glyphicon glyphicon-ok" ng-show="game.dealerQualified"> Dealer Plays</span>
-                                                <span class="glyphicon glyphicon-remove" ng-show="!game.dealerQualified"> Dealer Folds</span> 
+                                                <span class="glyphicon glyphicon-remove" ng-show="!game.dealerQualified"> Dealer Folds</span>
                                             </p>
                                         </div>
                                     </div>
@@ -131,8 +133,8 @@
                         <div class="row" threecardpokerhand ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}" hand="hand" index="{{$index+1}}" anti="hand.bets.anti" play="hand.bets.play" pairs-plus="hand.bets.pairsPlus" six-card="hand.bets.sixCard" state="state" hand-active="true"></div>
                     </div>
                 </div>
-                <hr>
-                <p>game id: {{game._id}}</p>
+                <!--                 <hr>
+                <p>game id: {{game._id}}</p>  -->
             </div>
             <div class="col-md-2">
                 <h3>Options</h3>
@@ -220,16 +222,16 @@
                     </div>
                 </form>
             </div>
-            <!-- 				<div ng-repeat="card in game.deck" style="float:left">
-				{{card}}
-					<playingcard 
-					size="50"
-					suit=""
-					value=""
-					card="{{card}}"
-					>
-					</playingcard>
-				</div>
+            <!--                <div ng-repeat="card in game.deck" style="float:left">
+                {{card}}
+                    <playingcard 
+                    size="50"
+                    suit=""
+                    value=""
+                    card="{{card}}"
+                    >
+                    </playingcard>
+                </div>
  --></div>
     </div>
 </header>
