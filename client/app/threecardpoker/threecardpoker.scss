@@ -12,7 +12,8 @@
     background: -ms-linear-gradient(top, rgba(21, 168, 139, 0.81) 0%, rgba(21, 168, 139, 1) 100%);
     background: linear-gradient(to bottom, rgba(21, 168, 139, 0.81) 0%, rgba(21, 168, 139, 1) 100%);
 }
-.pokerhand .folded{
+
+.pokerhand .folded {
     text-decoration: line-through;
 }
 
@@ -60,10 +61,17 @@ pokerhand label {
     background-color: red;
 }
 
+.payout_title {
+    font-size: 18px;
+    display: inline-block;
+    font-weight: 700;
+}
+
 .cssFade {
     transition: 0.5s linear all;
     opacity: 1;
 }
+
 .cssFade.ng-hide {
     opacity: 0;
 }
