@@ -403,9 +403,16 @@ function scoreHands(game) {
 		// antis only pasy if had is not folded
 		// did not dealer qualify
 		if (false == game.dealerQualified) {
-			// anti pays play bet push
-			hands[i].winnings.playBonus = 0;
-			hands[i].winnings.anti = (hands[i].bets.anti);
+			if (hands[i].handActive) { // didnt fold
+				// anti pays play bet push
+				hands[i].winnings.playBonus = 0;
+				hands[i].winnings.anti = (hands[i].bets.anti);
+			} else {
+				// folded loose anti
+				hands[i].winnings.playBonus = 0;
+				hands[i].winnings.anti = (hands[i].bets.anti * -1);
+			}
+
 		} else { // dealer did qualify
 			// player fold?
 			if (hands[i].handActive) { // didnt fold
