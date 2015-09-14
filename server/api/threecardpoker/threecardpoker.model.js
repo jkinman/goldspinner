@@ -30,7 +30,8 @@ var hand = {
 		handRank: Number,
 		handType: Number
 	},
-	handActive: Boolean
+	handActive: Boolean,
+	payout: Number
 };
 
 var ThreecardpokerSchema = new Schema({
