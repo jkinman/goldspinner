@@ -25,6 +25,11 @@
     </div>
     <div class="row">
         <div class="col-md-3">
+            <h1 ng-show="state=='resolved' && (hand.winnings.playBonus + hand.winnings.anti) == 0">draw</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             <h1 ng-show="state == 'resolved'">${{hand.payout}}</h1>
         </div>
     </div>
