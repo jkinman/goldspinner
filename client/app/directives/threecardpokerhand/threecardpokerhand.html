@@ -4,10 +4,10 @@
             <span class="glyphicon glyphicon-ok" ng-show="state == 'init' && anti > 0"></span>
             <span class="glyphicon glyphicon-remove" ng-show="state == 'init' && anti == 0"></span>
             <h1 ng-class="{'folded': !hand.handActive}" style="float=left;">hand {{index}}</h1>
-            <p class="badge handrank" ng-show="state == 'resolved' || state == 'created'">{{hand.rank.handName}} (value:{{hand.rank.value}})</p>
+            <p class="badge handrank" ng-show="state == 'resolved' || state == 'created'">{{hand.rank.handName}} </p>
             <div class="row">
                 <div class="col-md-12 pokerhandtitle">
-                    <p class="badge handrank" ng-show="state == 'resolved'">6 card hand: {{hand.sixCardRank.handName}} (value:{{hand.sixCardRank.value}})</p>
+                    <p class="badge handrank" ng-show="state == 'resolved'">6 card hand: {{hand.sixCardRank.handName}}</p>
                 </div>
             </div>
         </div>
