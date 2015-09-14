@@ -85,3 +85,20 @@ done
 - add win / lost per hand as well summary
 - change to best 5 from best 6
 - add option for displaying string cards names
+
+### sept 11 feedback
+-- ive fixed the wording on these pages
+* I find the login part very frustrating
+and I know the people I will be showing this to will also be completely frustrated and will not proceed when they are on their own.
+
+* as I mentioned in the spec it needs to be a normal regular login system and this means being able to email the password back to the user when they they forget it.
+
+* I have used up my email addresses and cannot get in to the site. JK - you dont need to use a real email address, anything that looks like an email adress will work.
+
+* last time I looked the evaluation part still had problems though the raise on the Fold or Raise part, play part was accepting the raised bet.
+
+-- The regester button on the login page was a link that went to the register page. Ive changed this to be a discriptive link not a button now. this should clear up this confusion. same with the login button on the register page.
+
+* when I try to login the "login" button disappears so I have to click a disappeared button which will be very disturbing to the people i will be showing this to
+
+* when I register the "register" button disappears.
