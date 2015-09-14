@@ -12,7 +12,7 @@ angular.module('pkerApp')
     	},
     	resolve: {
     		method: 'PUT'
-    	}
+    	},
     });
 
   });
