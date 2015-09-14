@@ -55,7 +55,8 @@ var ThreecardpokerSchema = new Schema({
 	}],
 	userId: String,
 	state: String,
-	totalMoney: Number
+	totalMoney: Number,
+	keysent: Boolean
 });
 
 module.exports = mongoose.model('Threecardpoker', ThreecardpokerSchema);

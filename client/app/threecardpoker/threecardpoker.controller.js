@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pkerApp')
-  .controller('ThreecardpokerCtrl', function($scope, threecardpoker, $rootScope) {
+  .controller('ThreecardpokerCtrl', function($scope, threecardpoker, $rootScope, $http, $window) {
 
     // figure out if a game is in progress of a new one should be created
     $rootScope.message = "Click Shuffle to start playing";
@@ -180,6 +180,59 @@ angular.module('pkerApp')
         }
       };
 
+    };
+
+    $scope.downloadDeck = function() {
+      var url = '/api/threecardpokers/getdeck/' + $scope.game._id;
+      $http.get(url)
+        .then(function(res) {
+          console.log(res);
+          $scope.saveToPc(res.data, "deck." + $scope.game._id + ".txt");
+        }, function(err) {
+          console.log(err);
+        });
+    };
+
+    $scope.downloadDecypher = function() {
+      if ($window.confirm("this will terminate the current game if in progress")) {
+        var url = '/api/threecardpokers/decypher/' + $scope.game._id;
+        $http.get(url)
+          .then(function(res) {
+            console.log(res);
+            $scope.saveToPc(res.data, "key." + $scope.game._id + ".txt");
+          }, function(err) {
+            console.log(err);
+          });
+      };
+    };
+
+    $scope.saveToPc = function(data, filename) {
+
+      if (!data) {
+        console.error('No data');
+        return;
+      }
+
+      if (!filename) {
+        filename = 'download.json';
+      }
+
+      if (typeof data === 'object') {
+        data = JSON.stringify(data, undefined, 2);
+      }
+
+      var blob = new Blob([data], {
+          type: 'text/json'
+        }),
+        e = document.createEvent('MouseEvents'),
+        a = document.createElement('a');
+
+      a.download = filename;
+      a.href = window.URL.createObjectURL(blob);
+      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+      e.initMouseEvent('click', true, false, window,
+        0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      a.dispatchEvent(e);
     };
 
   });

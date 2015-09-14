@@ -7,6 +7,8 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/getdeck/:id', controller.downloadDeck);
+router.get('/decypher/:id', auth.isAuthenticated(), controller.downloaddecypher);
 router.get('/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', auth.isAuthenticated(), controller.resolveGame);

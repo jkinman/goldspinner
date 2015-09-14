@@ -8,6 +8,7 @@ var PokerEvaluator = require("poker-evaluator");
 var encrypt = require('triplesec');
 var decrypt = require('triplesec');
 var triplesec = require('triplesec');
+var fs = require('fs');
 
 exports.getCards = function(num) {
 	var deck = Shuffle.shuffle();
@@ -30,6 +31,52 @@ exports.getCards = function(num) {
 
 	return (retval);
 	// return( exports.convertCardFormat( deck.draw( num )));
+};
+
+exports.downloadDeck = function(req, res) {
+	Threecardpoker.findById(req.params.id, function(err, threecardpoker) {
+		if (err) {
+			return handleError(res, err);
+		}
+		if (!threecardpoker) {
+			return res.status(404).send('Not Found');
+		}
+
+		//res.download(path [, filename] [, fn])
+		var filename = process.env.OPENSHIFT_DATA_DIR  || process.env.TMPDIR +  "deck." + req.params.id + ".txt";
+		var data = threecardpoker.encryptedDeck;
+		fs.writeFile(filename, data,
+			function(err) {
+				if (err) throw err;
+				return res.download(filename);
+			}
+		);
+	});
+}
+
+exports.downloaddecypher = function( req, res ){
+	Threecardpoker.findById(req.params.id, function(err, threecardpoker) {
+		if (err) {
+			return handleError(res, err);
+		}
+		if (!threecardpoker) {
+			return res.status(404).send('Not Found');
+		}
+
+		var filename = process.env.OPENSHIFT_DATA_DIR  || process.env.TMPDIR + "key." +req.params.id + ".txt";
+		var data = threecardpoker.key;
+		// update the keysent param
+		threecardpoker.keysent = true;
+		threecardpoker.state = "keysent";
+		threecardpoker.save();
+
+		fs.writeFile(filename, data,
+			function(err) {
+				if (err) throw err;
+				return res.download(filename);
+			}
+		);
+	});	
 };
 
 // Get list of threecardpokers
@@ -97,7 +144,7 @@ exports.create = function(req, res) {
 			sixCard: poker.bets[i].sixCard
 		};
 	};
-
+	poker.keysent = false;
 	poker.key = poker._id;
 	poker.userId = req.user._id;
 	// poker.cipher = crypto.createCipher('aes192', poker.key);
