@@ -32,7 +32,8 @@ var hand = {
 		handType: Number
 	},
 	handActive: Boolean,
-	payout: Number
+	payout: Number,
+	goodFold: Boolean,
 };
 
 var ThreecardpokerSchema = new Schema({
