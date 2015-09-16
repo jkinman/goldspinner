@@ -1,13 +1,17 @@
 <div class="pokerhand cssFade" ng-show="state=='init' || anti > 0">
     <div class="row">
-        <div class="col-md-12 pokerhandtitle">
+            <div class="col-md-3">
+            <h1 ng-show="state == 'resolved'" ng-class="{ black: hand.winnings.playBonus > 0, red: hand.winnings.playBonus < 0 }">${{hand.payout}}</h1>
+        </div>
+
+        <div class="col-md-9 pokerhandtitle">
             <span class="glyphicon glyphicon-ok" ng-show="state == 'init' && anti > 0"></span>
             <span class="glyphicon glyphicon-remove" ng-show="state == 'init' && anti == 0"></span>
             <h1 ng-class="{'folded': !hand.handActive}" style="float=left;">hand {{index}}</h1>
             <p class="badge handrank" ng-show="state == 'resolved' || state == 'created'">{{hand.rank.handName}} </p>
             <div class="row">
                 <div class="col-md-12 pokerhandtitle">
-                    <p class="badge handrank" ng-show="state == 'resolved'">6 card hand: {{hand.sixCardRank.handName}}</p>
+                    <p class="badge handrank" ng-show="state == 'resolved'">best 5 cards: {{hand.sixCardRank.handName}}</p>
                 </div>
             </div>
         </div>
@@ -20,17 +24,13 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            <h1 ng-show="state=='resolved' && (hand.winnings.playBonus + hand.winnings.anti) >= 1">you won!</h1>
+            <h1 ng-show="state=='resolved' && (hand.winnings.playBonus + hand.winnings.anti) >= 1 && hand.handActive">you won!</h1>
+            <h1 ng-show="state=='resolved' && (hand.winnings.playBonus + hand.winnings.anti) < 1 && hand.handActive">you lost</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
             <h1 ng-show="state=='resolved' && (hand.winnings.playBonus + hand.winnings.anti) == 0">draw</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <h1 ng-show="state == 'resolved'">${{hand.payout}}</h1>
         </div>
     </div>
     <div class="row">
@@ -48,7 +48,7 @@
             <p class="badge" ng-class="{ black: hand.winnings.playBonus > 0, red: hand.winnings.playBonus < 0 }">play: ${{hand.winnings.playBonus}}</p>
             <p class="badge" ng-class="{ black: hand.winnings.antiBonus > 0, red: hand.winnings.antiBonus < 0 }">anti bonus: ${{hand.winnings.antiBonus}}</p>
             <p class="badge" ng-class="{ black: hand.winnings.pairsPlusTotal > 0, red: hand.winnings.pairsPlusTotal < 0 }">pairs+: ${{hand.winnings.pairsPlusTotal}}</p>
-            <p class="badge" ng-class="{ black: hand.winnings.sixCardBonus > 0, red: hand.winnings.sixCardBonus < 0 }">6 card: ${{hand.winnings.sixCardBonus}}</p>
+            <p class="badge" ng-class="{ black: hand.winnings.sixCardBonus > 0, red: hand.winnings.sixCardBonus < 0 }">5 card: ${{hand.winnings.sixCardBonus}}</p>
         </div>
         <!-- deal state -->
         <div class="col-xs-3 col-md-6" ng-show="state == 'created' && anti > 0 && hand.handActive">
@@ -63,7 +63,7 @@
             <input type="number" ng-model="anti" min="0" max="100" value="25" step="5" ng-show="state == 'init'" style="color: black">
             <label>Pairs +: </label>
             <input type="number" ng-model="pairsPlus" min="0" max="100" step="5" value="5" ng-show="state == 'init' && anti > 0" style="color: black">
-            <label>6 Card: </label>
+            <label>5 Card: </label>
             <input type="number" ng-model="sixCard" min="0" max="100" step="5" value="5" ng-show="state == 'init' && anti > 0" style="color: black">
         </div>
     </div>
@@ -74,7 +74,7 @@
             <p class="badge">Anti ${{anti}}</p>
             <p class="badge">Play ${{play}}</p>
             <p class="badge">Pairs+ ${{pairsPlus}}</p>
-            <p class="badge">6 Card ${{sixCard}}</p>
+            <p class="badge">5 Card ${{sixCard}}</p>
         </div>
     </div>
 </div>
