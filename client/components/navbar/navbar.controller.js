@@ -28,6 +28,10 @@ angular.module('pkerApp')
       'link': '/casinoverify'
     },
     // {
+    //   'title': '3 card poker',
+    //   'link': '/pker'
+    // },
+    // {
     //   'title': 'Stats',
     //   'link': '/stats'
     // },
