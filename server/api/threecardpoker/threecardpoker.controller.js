@@ -43,7 +43,8 @@ exports.downloadDeck = function(req, res) {
 		}
 
 		//res.download(path [, filename] [, fn])
-		var filename = process.env.OPENSHIFT_DATA_DIR  || process.env.TMPDIR +  "deck." + req.params.id + ".txt";
+		var filename = process.env.TMPDIR + "deck." + req.params.id + ".txt";
+		console.log("downloaddeck to : " + filename);
 		var data = threecardpoker.encryptedDeck;
 		fs.writeFile(filename, data,
 			function(err) {
@@ -54,7 +55,7 @@ exports.downloadDeck = function(req, res) {
 	});
 }
 
-exports.downloaddecypher = function( req, res ){
+exports.downloaddecypher = function(req, res) {
 	Threecardpoker.findById(req.params.id, function(err, threecardpoker) {
 		if (err) {
 			return handleError(res, err);
@@ -63,7 +64,8 @@ exports.downloaddecypher = function( req, res ){
 			return res.status(404).send('Not Found');
 		}
 
-		var filename = process.env.OPENSHIFT_DATA_DIR  || process.env.TMPDIR + "key." +req.params.id + ".txt";
+		var filename = process.env.TMPDIR + "key." + req.params.id + ".txt";
+		console.log("downloaddecypher to : " + filename);
 		var data = threecardpoker.key;
 		// update the keysent param
 		threecardpoker.keysent = true;
@@ -76,7 +78,7 @@ exports.downloaddecypher = function( req, res ){
 				return res.download(filename);
 			}
 		);
-	});	
+	});
 };
 
 // Get list of threecardpokers
@@ -87,8 +89,8 @@ exports.index = function(req, res) {
 	//hands.push(['5d', '4d', '3d']);
 	//hands.push(['5s', '2d', '6c']);
 	hands.push(['as', '4s', 'kc']);
-	// hands.push(['6d', '8c', '3h']);
-	// hands.push(['3h', '5d', '2c']);
+	hands.push(['6h', 'ac', 'th']);
+	hands.push(['4h', '6d', 'qc']);
 
 	for (var i = 0; i < hands.length; i++) {
 		console.log('hand : ' + hands[i]);
@@ -123,38 +125,27 @@ exports.show = function(req, res) {
 	});
 };
 
-// Creates a new threecardpoker in the DB.
-exports.create = function(req, res) {
-	console.log("Creates a new threecardpoker in the DB.");
+exports.shuffle = function(req, res) {
+	console.log("Creates and encryt the deck.");
 
 	// shuffle and get a full deck
 	var deck = exports.getCards(52);
 
 	var poker = new Threecardpoker(req.body);
 
-
 	poker.deck = deck;
 	poker.hands = nottkiDeal(deck);
-	// extract and store the bets made by player
-	for (var i = poker.hands.length - 1; i >= 0; i--) {
-		poker.hands[i].bets = {
-			pairsPlus: poker.bets[i].pairsPlus,
-			anti: poker.bets[i].anti,
-			play: poker.bets[i].anti,
-			sixCard: poker.bets[i].sixCard
-		};
-	};
+
 	poker.keysent = false;
 	poker.key = poker._id;
 	poker.userId = req.user._id;
+
 	// poker.cipher = crypto.createCipher('aes192', poker.key);
 	poker.state = "initialized";
-
+	var keyBuffer = new triplesec.Buffer(poker.key);
 	// use tripplesec encrypt
-
-
 	triplesec.encrypt({
-		data: new triplesec.Buffer(poker.deck),
+		data: new triplesec.Buffer(JSON.stringify(poker.deck)),
 		key: new triplesec.Buffer(poker.key),
 		progress_hook: function(obj) {
 			// console.log( obj );
@@ -165,28 +156,59 @@ exports.create = function(req, res) {
 			console.log("cipher done " + ciphertext);
 			poker.encryptedDeck = ciphertext;
 			poker.save();
+			return res.status(201).json(poker);
 		}
-
 	});
-	poker.save(function(err, threecardpoker) {
+}
+
+// Creates a new threecardpoker in the DB.
+exports.create = function(req, res) {
+	console.log("Creates a new threecardpoker in the DB.");
+	if (req.body._id) {
+		delete req.body._id;
+	}
+
+	console.log("looking for game: ");
+	console.log(req.params.id);
+
+	Threecardpoker.findById(req.params.id, function(err, poker) {
 		if (err) {
 			return handleError(res, err);
 		}
-		return res.status(201).json(threecardpoker);
+		if (!poker) {
+			return res.status(404).send('Not Found');
+		}
+		//var updated = _.merge(poker, req.body);
+
+		// extract and store the bets made by player
+		for (var i = req.body.hands.length - 1; i >= 0; i--) {
+			poker.hands[i].bets = {
+				pairsPlus: req.body.bets[i].pairsPlus,
+				anti: req.body.bets[i].anti,
+				play: req.body.bets[i].anti,
+				sixCard: req.body.bets[i].sixCard
+			};
+		};
+
+		poker.save(function(err, threecardpoker) {
+			if (err) {
+				return handleError(res, err);
+			}
+			return res.status(201).json(threecardpoker);
+		});
 	});
-
-
-	// poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
-	// poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
-
-	// example from SO
-	// var cipher = crypto.createCipher(algorithm, key);  
-	// var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
-	// var decipher = crypto.createDecipher(algorithm, key);
-	// var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
-
-	// console.log( poker.hands );
 };
+
+// poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
+// poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
+
+// example from SO
+// var cipher = crypto.createCipher(algorithm, key);  
+// var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+// var decipher = crypto.createDecipher(algorithm, key);
+// var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
+
+// console.log( poker.hands );
 
 
 exports.resolveGame = function(req, res) {
@@ -210,24 +232,28 @@ exports.resolveGame = function(req, res) {
 		// extract and store the bets made by player
 		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
 			threecardpoker.hands[i].handActive = req.body.hands[i].handActive;
-			threecardpoker.bets[i].play = req.body.hands[i].bets.play;
+			// threecardpoker.bets[i].play = req.body.hands[i].bets.play;
 			threecardpoker.hands[i].bets.play = req.body.hands[i].bets.play;
 		};
 
 		console.log("found it about to update with dealers hands and ranks");
 		threecardpoker.dealer = {
-			cards: [deck[11], deck[12], deck[13]],
-			rank: evalThreeCardHand([deck[11], deck[12], deck[13]])
+			cards: [deck[3], deck[7], deck[11]],
+			rank: evalThreeCardHand([deck[3], deck[7], deck[11]])
 		};
-
-		threecardpoker.dealerQualified = PokerEvaluator.evalHand([deck[11], deck[12], deck[13]]).value > 4344;
+		var dealerHandRank = PokerEvaluator.evalHand([deck[11], deck[12], deck[13]]);
+		console.log( dealerHandRank );
+		if (dealerHandRank.handType > 1) {
+			// qualified
+			threecardpoker.dealerQualified = true;
+		} else {
+			threecardpoker.dealerQualified = dealerHandRank.value > 4097;
+		}
 		threecardpoker.state = "resolved";
 
 		// eval and add the highest 6 card hand.
-		console.log(threecardpoker.dealer.cards);
 		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
 			var highestSixCard = evalSixCard(threecardpoker.hands[i].cards, threecardpoker.dealer.cards);
-			console.log(highestSixCard);
 			threecardpoker.hands[i].sixCardRank = highestSixCard;
 		};
 
@@ -474,9 +500,22 @@ function scoreHands(game) {
 						hands[i].winnings.playBonus = hands[i].bets.play;
 						hands[i].winnings.anti = hands[i].bets.anti;
 					} else if (hands[i].rank.cardVal == game.dealer.rank.cardVal) {
-						hands[i].winnings.playBonus = 0;
-						hands[i].winnings.anti = 0;
+						// now rely on the hand ranking from PokerEvaluator module
+						if (hands[i].rank.handRank > game.dealer.rank.handRank) {
+							// player won in hand type tie
+							hands[i].winnings.playBonus = hands[i].bets.play;
+							hands[i].winnings.anti = hands[i].bets.anti;
+						} else if (hands[i].rank.handRank == game.dealer.rank.handRank) {
+							// actual draw (not likely)
+							hands[i].winnings.playBonus = 0;
+							hands[i].winnings.anti = 0;
+						} else {
+							// player lost in hand type tie
+							hands[i].winnings.playBonus = hands[i].bets.play * -1;
+							hands[i].winnings.anti = hands[i].bets.anti * -1;
+						}
 					} else {
+						// player lost in hand type tie
 						hands[i].winnings.playBonus = hands[i].bets.play * -1;
 						hands[i].winnings.anti = hands[i].bets.anti * -1;
 					}
@@ -585,6 +624,7 @@ function evalThreeCardHand(cards) {
 	var isFlush = false;
 	var isStraight = false;
 	var isThreeOfKind = false;
+	// you have to make a copy because the PokerEvaluator will augment the array passed by ref with extra placeholder cards
 	var cardsCopy = [cards[0], cards[1], cards[2]];
 	var rank = PokerEvaluator.evalHand(cardsCopy);
 	rank.handType = 1;
@@ -595,9 +635,9 @@ function evalThreeCardHand(cards) {
 	var strCards = cards[0] + cards[1] + cards[2];
 	strCards = strCards.toLowerCase();
 
+	//convert each card to vals 0-12, strip suit to look for straights
 	var cardVal = 0
 	var cardsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	//convert each card to vals 0-12, strip suit
 	cards.forEach(function(card) {
 		var i = Math.floor(CARDS[card.toLowerCase()] / 4);
 		if (i > rank.cardVal) {
@@ -605,8 +645,6 @@ function evalThreeCardHand(cards) {
 		};
 		cardsUsed[i] = 1;
 	}, this);
-
-
 
 	// check for flush
 	if (strCards.split('s').length - 1 == 3 || strCards.split('d').length - 1 == 3 || strCards.split('c').length - 1 == 3 || strCards.split('h').length - 1 == 3) {
@@ -684,31 +722,9 @@ function evalThreeCardHand(cards) {
 		}
 	}
 
-
-	// check for three of kind
-	// switch (true) {
-	// 	case (strCards.split('1').length - 1 == 2):
-	// 		if (strCards.split('1').length - 1 == 2)
-	// 			isThreeOfKind = true;
-	// 		break;
-	// 	case (strCards.split('2').length - 1 == 2):
-	// 		isThreeOfKind = true;
-	// 		break;
-	// }
-	// if (isThreeOfKind) {
-	// 	// its three of kind
-	// 	var rank = {
-	// 		handType: 4,
-	// 		handRank: 0,
-	// 		value: 0,
-	// 		handName: 'three of a kind'
-	// 	}
-	// }
-	// check for pair
-	//
 	return rank;
 }
-
+// takes two 3 card hands
 function evalSixCard(hand1, hand2) {
 
 	var mh = [hand1[0], hand1[1], hand1[2], hand2[0], hand2[1], hand2[2]];
@@ -721,61 +737,71 @@ function evalSixCard(hand1, hand2) {
 	// 12356
 	// 13456
 	// 23456
-
 	var Things = [
-		[ // 12345
-			mh[0],
-			mh[1],
-			mh[2],
-			mh[3],
-			mh[4],
-		],
-		[ // 12346
-			mh[0],
-			mh[1],
-			mh[2],
-			mh[3],
-			mh[5],
-		],
-		[ // 12456
-			mh[0],
-			mh[1],
-			mh[3],
-			mh[4],
-			mh[5],
-		],
-		[ // 12356
-			mh[0],
-			mh[1],
-			mh[2],
-			mh[4],
-			mh[5],
-		],
-		[ // 13456
-			mh[0],
-			mh[2],
-			mh[3],
-			mh[4],
-			mh[5],
-		],
-		[ // 23456
+		[
+			//mh[0],
 			mh[1],
 			mh[2],
 			mh[3],
 			mh[4],
 			mh[5],
+		],
+		[
+			mh[0],
+			//mh[1],
+			mh[2],
+			mh[3],
+			mh[4],
+			mh[5],
+		],
+		[
+			mh[0],
+			mh[1],
+			//mh[2],
+			mh[3],
+			mh[4],
+			mh[5],
+		],
+		[
+			mh[0],
+			mh[1],
+			mh[2],
+			//mh[3],
+			mh[4],
+			mh[5],
+		],
+		[
+			mh[0],
+			mh[1],
+			mh[2],
+			mh[3],
+			//mh[4],
+			mh[5],
+		],
+		[
+			mh[0],
+			mh[1],
+			mh[2],
+			mh[3],
+			mh[4],
+			//mh[5],
 		],
 	];
 
 	var highestHand = {
-		handRank: 0
+		handRank: 0,
+		handType: 0,
 	};
 	for (var i = Things.length - 1; i >= 0; i--) {
 		var rank = PokerEvaluator.evalHand(Things[i]);
 		// console.log(Things[i]);
 		// console.log(rank);
-		if (highestHand.handRank < rank.handRank) {
+		if (highestHand.handType < rank.handType) {
 			highestHand = rank;
+		} else if (highestHand.handType == rank.handType) {
+			if (highestHand.handRank < rank.handRank) {
+				highestHand = rank;
+			}
 		}
 	};
 	return highestHand;

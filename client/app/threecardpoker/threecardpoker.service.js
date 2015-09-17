@@ -10,9 +10,17 @@ angular.module('pkerApp')
     	update: {
     		method: 'PUT'
     	},
-    	resolve: {
-    		method: 'PUT'
-    	},
+        shuffle: {
+            method: 'POST'
+        },
+        deal: {
+            url: 'api/threecardpokers/deal/:id',
+            method: 'PUT'
+        },
+        resolve: {
+            url: 'api/threecardpokers/resolve/:id',
+            method: 'PUT'
+        },
     });
 
   });
