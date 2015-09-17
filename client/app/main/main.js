@@ -13,6 +13,11 @@ angular.module('pkerApp')
         templateUrl: 'app/threecardpoker/threecardpoker.html',
         controller: 'ThreecardpokerCtrl'
       })
+      .state('automation', {
+        url: '/automation',
+        templateUrl: 'app/threecardpoker/pokerautotest.html',
+        controller: 'ThreecardpokerautomationCtrl'
+      })
 
       .state('rules', {
         url: '/rules',
