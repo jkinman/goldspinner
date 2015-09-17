@@ -7,13 +7,28 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <div ng-repeat="card in game.deck" style="float:left" ng-show="showdeck">
+                    {{card}}
+                    <playingcard size="50" suit="" value="" card="{{card}}">
+                    </playingcard>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-3" class="text-left">
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none' || state == 'init'" ng-click="downloadDeck()">
+                        <p>The deck is encypted with twofish encryption algotythm. To decypher the deck use the tool listed below, and follow the instructions. </p>
+                        <a href="https://keybase.io/triplesec" target="_blank" style="color:white;">Thirdparty decypher tool</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none'" ng-click="downloadDeck()">
                             <i class="fa fa-download"></i> Get Deck
                         </a>
-                        <a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none' || state == 'init'" ng-click="downloadDecypher()">
+                        <a href="#" class="btn btn-sm btn-outline" ng-disabled="state == 'none'" ng-click="downloadDecypher()">
                             <i class="glyphicon glyphicon-lock"></i> Get Key
                         </a>
                     </div>
@@ -53,7 +68,6 @@
                         <span class="orange">THREE OF A KIND..................</span><span class="payout">5 to 1</span>
                     </div>
                 </div>
-                
                 <div class="pair_plus_payout payout_section text-left pokerhand">
                     <div class="payout_title">PAIR PLUS</div>
                     <div class="payline">
@@ -72,7 +86,6 @@
                         <span class="yellow">PAIR...........................................</span><span class="payout">1 to 1</span>
                     </div>
                 </div>
-                
                 <div class="ante_bonus_payout payout_section text-left pokerhand">
                     <div class="payout_title">ANTE BONUS</div>
                     <div class="payline">
@@ -227,18 +240,13 @@
                             <input type="checkbox"> Display card names as a string
                         </label>
                     </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="showdeck" ng-model="showdeck"> Show shuffled deck (Demo feature)
+                        </label>
+                    </div>
                 </form>
             </div>
-            <!--                <div ng-repeat="card in game.deck" style="float:left">
-                {{card}}
-                    <playingcard 
-                    size="50"
-                    suit=""
-                    value=""
-                    card="{{card}}"
-                    >
-                    </playingcard>
-                </div>
- --></div>
+        </div>
     </div>
 </header>
