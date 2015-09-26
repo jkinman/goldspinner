@@ -102,3 +102,13 @@ and I know the people I will be showing this to will also be completely frustrat
 * when I try to login the "login" button disappears so I have to click a disappeared button which will be very disturbing to the people i will be showing this to
 
 * when I register the "register" button disappears.
+
+### sept 18
+
+- on shuffle dont display card backs. play sound and animation of deck shuffle
+- betting cycle changes
+	- on deal automatically make play bet = to anti bet
+	- after deal buttons for raise or fold or press showdown for no raise
+- change dealer play to dealer qualified
+- clarify automatic play
+	- add options in list
