@@ -18,6 +18,16 @@
         <div class="row">
             <div class="col-md-3" class="text-left">
                 <div class="row">
+                    <div class="row text-center">
+                        <div class="col-md-12" ng-show="state == 'creating'">
+                            <img src="/assets/shuffle_TRNG.gif" width="250px">
+                        </div>
+                        <div class="col-md-12" ng-show="state == 'init'">
+                            <img src="/assets/shuffle_Complete.png" width="250px">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         <p>The deck is encypted with twofish encryption algotythm. To decypher the deck use the tool listed below, and follow the instructions. </p>
                         <a href="https://keybase.io/triplesec" target="_blank" style="color:white;">Thirdparty decypher tool</a>

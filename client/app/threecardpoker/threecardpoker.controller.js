@@ -24,17 +24,17 @@ angular.module('pkerApp')
     // build hands and init bets
     $scope.init = function() {
       $rootScope.message = "place bets and click deal to lock them in";
-
+      $rootScope.state = 'creating';
       $scope.game.$save(function() {
         // this should deal cards and create the record on the server
         $rootScope.state = 'init';
         var unknown = '?';
         $scope.game.dealer = {
-          cards: [unknown, unknown, unknown]
+          // cards: [unknown, unknown, unknown]
         };
 
         $scope.hands[0] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             anti: 25,
@@ -44,7 +44,7 @@ angular.module('pkerApp')
           }
         };
         $scope.hands[1] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             anti: 25,
@@ -54,7 +54,7 @@ angular.module('pkerApp')
           }
         };
         $scope.hands[2] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             anti: 25,
@@ -64,7 +64,7 @@ angular.module('pkerApp')
           }
         };
         $scope.hands[3] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             anti: 25,
@@ -74,7 +74,7 @@ angular.module('pkerApp')
           }
         };
         $scope.hands[4] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             anti: 25,
@@ -84,7 +84,7 @@ angular.module('pkerApp')
           }
         };
         $scope.hands[5] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             play: 0,
@@ -94,7 +94,7 @@ angular.module('pkerApp')
           }
         };
         $scope.hands[6] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             anti: 25,
@@ -104,7 +104,7 @@ angular.module('pkerApp')
           }
         };
         $scope.hands[7] = {
-          cards: [unknown, unknown, unknown],
+          // cards: [unknown, unknown, unknown],
           payout: 0,
           bets: {
             anti: 25,
