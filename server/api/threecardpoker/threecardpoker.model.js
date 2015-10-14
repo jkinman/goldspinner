@@ -40,6 +40,7 @@ var ThreecardpokerSchema = new Schema({
 	playerName: String,
 	info: String,
 	deck: [String],
+	dealMethod: String,
 	key: String,
 	encryptedDeck: String,
 	hands: [hand],
