@@ -7,15 +7,6 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <div ng-repeat="card in game.deck" style="float:left" ng-show="showdeck">
-                    {{card}}
-                    <playingcard size="50" suit="" value="" card="{{card}}">
-                    </playingcard>
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-3" class="text-left">
                 <div class="row">
                     <div class="row text-center">
@@ -160,7 +151,19 @@
                 </div>
                 <div class="col-md-12">
                     <div class="text-center">
-                        <div class="row" threecardpokerhand ng-repeat="hand in hands track by $index" ng-hide="{{options.numHands < $index}}" hand="hand" index="{{$index+1}}" anti="hand.bets.anti" play="hand.bets.play" pairs-plus="hand.bets.pairsPlus" six-card="hand.bets.sixCard" state="state" hand-active="true"></div>
+                        <div class="row" threecardpokerhand 
+                        ng-repeat="hand in hands track by $index" 
+                        hand="hand" 
+                        index="{{$index+1}}" 
+                        anti="hand.bets.anti" 
+                        play="hand.bets.play" 
+                        pairs-plus="hand.bets.pairsPlus" 
+                        six-card="hand.bets.sixCard" 
+                        state="state" 
+                        hand-active="true"
+                        >
+                        A HAND
+                        </div>
                     </div>
                 </div>
                 <!--                 <hr>
@@ -173,24 +176,24 @@
                         Play for:
                         <br>
                         <label class="checkbox-inline">
-                            <input type="radio" name="moneyOption" id="moneyOption1" value="real" checked class="checkbox-inline"> Real money
+                            <input type="radio" ng-model="money" name="moneyOption" id="moneyOption1" value="real" checked class="checkbox-inline"> Real money
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline"> Fun
+                            <input type="radio" ng-model="money" name="moneyOption" id="moneyOption2" value="fake" class="checkbox-inline"> Fun
                         </label>
                     </div>
                     <div class="radio">
                         Deal method:
                         <br>
                         <label class="checkbox-inline">
-                            <input type="radio" name="dealOption" id="dealOption1" value="real" checked class="checkbox-inline"> Nottki
+                            <input type="radio" ng-model="dealMethod" name="dealType" id="dealOption1" checked value="nottki" checked class="checkbox-inline"> Nottki
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            <input type="radio" name="dealOption" id="dealOption2" value="fake" class="checkbox-inline"> Traditional
+                            <input type="radio" ng-model="dealMethod" name="dealType" id="dealOption2" value="traditional" class="checkbox-inline"> Traditional
                         </label>
                     </div>
                     <div class="checkbox">
@@ -256,6 +259,15 @@
                         </label>
                     </div>
                 </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                     <div ng-repeat="card in game.deck" style="float:left" ng-show="showdeck">
+                        {{card}}
+                        <playingcard size="50" suit="" value="" card="{{card}}">
+                        </playingcard>
+                     </div>
+                </div>
             </div>
         </div>
     </div>

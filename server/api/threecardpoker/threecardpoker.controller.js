@@ -125,6 +125,7 @@ exports.show = function(req, res) {
 	});
 };
 
+// shuffle creates a game, on the client side this is triggered by the shuffle action
 exports.shuffle = function(req, res) {
 	console.log("Creates and encryt the deck.");
 
@@ -134,7 +135,6 @@ exports.shuffle = function(req, res) {
 	var poker = new Threecardpoker(req.body);
 
 	poker.deck = deck;
-	poker.hands = nottkiDeal(deck);
 
 	poker.keysent = false;
 	poker.key = poker._id;
@@ -161,15 +161,14 @@ exports.shuffle = function(req, res) {
 	});
 }
 
-// Creates a new threecardpoker in the DB.
+// deal cards and update the exsisting game
 exports.create = function(req, res) {
 	console.log("Creates a new threecardpoker in the DB.");
 	if (req.body._id) {
 		delete req.body._id;
 	}
 
-	console.log("looking for game: ");
-	console.log(req.params.id);
+	console.log("looking for game: " + req.params.id);
 
 	Threecardpoker.findById(req.params.id, function(err, poker) {
 		if (err) {
@@ -178,7 +177,29 @@ exports.create = function(req, res) {
 		if (!poker) {
 			return res.status(404).send('Not Found');
 		}
-		//var updated = _.merge(poker, req.body);
+
+		var updated = _.merge(poker, req.body);
+		// do the deal
+		var dealtHands = {};
+		if ("traditional" == poker.dealMethod) {
+			dealtHands = traditionalDeal(poker.deck.slice());
+			console.log( dealtHands);
+
+		} else if ("casino" == poker.dealMethod) {
+			dealtHands = nottkiDeal(poker.deck);
+
+		} else {
+			dealtHands = nottkiDeal(poker.deck);
+
+		}
+
+		insertRanks(dealtHands.hands);
+
+		// this function accepts array, so construct one here
+		var dealerHandArray = insertRanks([dealtHands.dealer]);
+		console.log(dealtHands);
+		poker.hands = dealtHands.hands;
+		poker.dealer = dealtHands.dealer;
 
 		// extract and store the bets made by player
 		for (var i = req.body.hands.length - 1; i >= 0; i--) {
@@ -194,22 +215,11 @@ exports.create = function(req, res) {
 			if (err) {
 				return handleError(res, err);
 			}
+			// this returns the cards to the client 
 			return res.status(201).json(threecardpoker);
 		});
 	});
 };
-
-// poker.encryptedDeck = poker.cipher.update(JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
-// poker.decipher = poker.cipher.update( JSON.stringify( deck ), 'utf8', 'hex') + poker.cipher.final('hex');
-
-// example from SO
-// var cipher = crypto.createCipher(algorithm, key);  
-// var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
-// var decipher = crypto.createDecipher(algorithm, key);
-// var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
-
-// console.log( poker.hands );
-
 
 exports.resolveGame = function(req, res) {
 	console.log("Resolve an open threecardpoker in the DB.");
@@ -228,6 +238,9 @@ exports.resolveGame = function(req, res) {
 		if (!threecardpoker) {
 			return res.status(404).send('Not Found');
 		}
+
+		// console.log( threecardpoker );
+
 		var deck = threecardpoker.deck;
 		// extract and store the bets made by player
 		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
@@ -236,18 +249,11 @@ exports.resolveGame = function(req, res) {
 			threecardpoker.hands[i].bets.play = req.body.hands[i].bets.play;
 		};
 
-		console.log("found it about to update with dealers hands and ranks");
-		threecardpoker.dealer = {
-			cards: [deck[3], deck[7], deck[11]],
-			rank: evalThreeCardHand([deck[3], deck[7], deck[11]])
-		};
-		var dealerHandRank = PokerEvaluator.evalHand([deck[11], deck[12], deck[13]]);
-		console.log( dealerHandRank );
-		if (dealerHandRank.handType > 1) {
+		if (threecardpoker.dealer.rank.handType > 1) {
 			// qualified
 			threecardpoker.dealerQualified = true;
 		} else {
-			threecardpoker.dealerQualified = dealerHandRank.value > 4097;
+			threecardpoker.dealerQualified = threecardpoker.dealer.rank.value > 4097;
 		}
 		threecardpoker.state = "resolved";
 
@@ -326,7 +332,37 @@ exports.destroy = function(req, res) {
 };
 
 
+// deal to one card to each player and dealer until three cards dealt (charles method of traditional)
+function traditionalDeal(deck) {
+	var hands = [];
+	for (var i = 0; i < 8; i++) {
+		hands[i] = {cards:[]};
+	};
+
+	var dealer = {
+		cards: [],
+		rank: {}
+	};
+	
+	for (var i = 0; i < 3; i++) {
+		for (var j = 0; j < hands.length; j++) {
+			console.log("in");
+			hands[j].cards.push(deck.pop());
+		}
+		dealer.cards.push(deck.pop());
+	}
+
+	return {
+		hands: hands,
+		dealer: dealer
+	};
+}
+
 function nottkiDeal(cards) {
+	var dealer = {
+		cards: [cards[3], cards[7], cards[11]],
+		rank: {}
+	};
 	var hands = [];
 	hands[0] = {
 		cards: [cards[0], cards[4], cards[8]]
@@ -353,6 +389,13 @@ function nottkiDeal(cards) {
 		cards: [cards[2], cards[5], cards[8]]
 	};
 
+	return {
+		hands: hands,
+		dealer: dealer
+	};
+}
+
+function insertRanks(hands) {
 	var ranks = evaluateHands(hands);
 
 	for (var i = hands.length - 1; i >= 0; i--) {
@@ -365,10 +408,13 @@ function nottkiDeal(cards) {
 
 			if (strHand.indexOf('a') > -1 && strHand.indexOf('k') > -1 && strHand.indexOf('q') > -1) {
 				hands[i].rank.handName = "straight flush";
+				hands[i].rank.handType = 9;
 			} else if (hands[i].rank.handName == "straight") {
 				hands[i].rank.handName = "royal flush";
+				hands[i].rank.handType = 10;
 			} else {
 				hands[i].rank.handName = "flush";
+				hands[i].rank.handType = 5;
 
 			}
 		}
@@ -586,7 +632,6 @@ function evaluateHands(hands) {
 	for (var i = hands.length - 1; i >= 0; i--) {
 		var hand = [hands[i].cards[0], hands[i].cards[1], hands[i].cards[2]];
 		valuations[i] = evalThreeCardHand(hand);
-
 	}
 	return valuations;
 }
@@ -656,7 +701,7 @@ function evalThreeCardHand(cards) {
 		}
 	}
 
-	// check for pairs of three of a kind
+	// check for pairs or three of a kind
 	var numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 't', 'j', 'q', 'k', 'a'];
 	for (var i = 0; i < numbers.length; i++) {
 		if (strCards.split(numbers[i]).length - 1 > 1) {
@@ -695,7 +740,6 @@ function evalThreeCardHand(cards) {
 			}
 		}
 	}
-	// console.log(hasStraight);
 
 	if (hasStraight) {
 		if (isFlush) {
@@ -730,13 +774,6 @@ function evalSixCard(hand1, hand2) {
 	var mh = [hand1[0], hand1[1], hand1[2], hand2[0], hand2[1], hand2[2]];
 
 	// eval all combonations
-
-	// 12345
-	// 12346
-	// 12456
-	// 12356
-	// 13456
-	// 23456
 	var Things = [
 		[
 			//mh[0],
