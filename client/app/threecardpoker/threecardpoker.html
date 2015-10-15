@@ -11,10 +11,10 @@
                 <div class="row">
                     <div class="row text-center">
                         <div class="col-md-12" ng-show="state == 'creating'">
-                            <img src="/assets/shuffle_TRNG.gif" width="250px">
+                            <img src="/assets/images/shuffle_TRNG.gif" width="250px">
                         </div>
                         <div class="col-md-12" ng-show="state == 'init'">
-                            <img src="/assets/shuffle_Complete.png" width="250px">
+                            <img src="/assets/images/shuffle_Complete.png" width="250px">
                         </div>
                     </div>
                 </div>
@@ -128,8 +128,8 @@
                                     <div class="row text-center" ng-show="state == 'resolved'">
                                         <div class="col-md-12">
                                             <p>
-                                                <span class="glyphicon glyphicon-ok" ng-show="game.dealerQualified"> Dealer Plays</span>
-                                                <span class="glyphicon glyphicon-remove" ng-show="!game.dealerQualified"> Dealer Folds</span>
+                                                <span class="" ng-show="game.dealerQualified"> Dealer Qualified</span>
+                                                <span class="" ng-show="!game.dealerQualified"> Dealer Folded</span>
                                             </p>
                                         </div>
                                     </div>
@@ -171,7 +171,7 @@
             </div>
             <div class="col-md-2">
                 <h3>Options</h3>
-                <form class="text-left">
+                <form class="text-left" ng-show="state == 'none'">
                     <div class="radio">
                         Play for:
                         <br>
