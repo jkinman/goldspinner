@@ -1,17 +1,74 @@
 <header>
     <div class="container" ng-controller="ThreecardpokerautomationCtrl">
-        <div class="row">
+        <div class="row" ng-show="state != 'running'">
             <div class="col-md-12">
-                <h3>3-Card Poker with Multi-Hands Automated test</h3>
+                <form>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-checked="true" ng-model="data.fold">Fold less than Q6
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-checked="true" ng-model="data.raise">raise on pairs+
+                        </label>
+                    </div>
+                    <div class="radio">
+                        Deal method:
+                        <br>
+                        <label class="checkbox-inline">
+                            <input type="radio" ng-model="data.deal" name="dealType" id="dealOption1" value="nottki" checked class="checkbox-inline"> Nottki
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="data.deal" name="dealType" id="dealOption2" value="traditional" class="checkbox-inline"> Traditional
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <a href="#" class="btn btn-lg btn-outline" ng-click="start()" ng-show="state == 'none'">Start Simulation</a>
+        </div>
+        <div class="row" ng-show="state == 'running'">
+            <div class="col-md-12">
+                <div class="timer-loader">
+                    Loading...
+                </div>
+                <h2>house profit: ${{total*-1}}</h2>
+                <h1>3-Card Poker with Multi-Hands Automated test. {{data.deal}} deal</h1>
                 <h3>hands played: {{totalHands}}</h3>
-                <h3>average payout: ${{average}}</h3>
-                <h1>running total: ${{total}}</h1>
+                <h3>hands raised: {{raise}}</h3>
+                <h3>hands folded: {{fold}}</h3>
+                <h2>--- winnings break down ---</h2>
+                <h3>antiBonus: {{winnings.antiBonus * -1}}</h3>
+                <h3>pairs+: {{winnings.pairsPlusTotal * -1}}</h3>
+                <h3>anti: {{winnings.anti * -1}}</h3>
+                <h3>6 card: {{winnings.sixCardBonus * -1}}</h3>
+                <h3>playBonus: {{winnings.playBonus * -1}}</h3>
+                <hr>
                 <div class="row">
                     <div class="col-md-12">
+                        <div ng-repeat="card in game.deck" style="float:left" ng-show="showdeck">
+                            {{card}}
+                            <playingcard size="50" suit="" value="" card="{{card}}">
+                            </playingcard>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>each record in this list is the aggregate value of an 8 hand game</h5>
                         <p style="word-wrap: break-word;">{{output}}</p>
+                    </div>
+                    <div class="col-md-12">
+                        <h5>details of current game</h5>
+                        <p style="word-wrap: break-word;">{{game}}</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </header>

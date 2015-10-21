@@ -140,9 +140,10 @@ exports.shuffle = function(req, res) {
 	poker.key = poker._id;
 	poker.userId = req.user._id;
 
-	// poker.cipher = crypto.createCipher('aes192', poker.key);
+
 	poker.state = "initialized";
 	var keyBuffer = new triplesec.Buffer(poker.key);
+
 	// use tripplesec encrypt
 	triplesec.encrypt({
 		data: new triplesec.Buffer(JSON.stringify(poker.deck)),
@@ -183,7 +184,7 @@ exports.create = function(req, res) {
 		var dealtHands = {};
 		if ("traditional" == poker.dealMethod) {
 			dealtHands = traditionalDeal(poker.deck.slice());
-			console.log( dealtHands);
+			console.log(dealtHands);
 
 		} else if ("casino" == poker.dealMethod) {
 			dealtHands = nottkiDeal(poker.deck);
@@ -197,7 +198,6 @@ exports.create = function(req, res) {
 
 		// this function accepts array, so construct one here
 		var dealerHandArray = insertRanks([dealtHands.dealer]);
-		console.log(dealtHands);
 		poker.hands = dealtHands.hands;
 		poker.dealer = dealtHands.dealer;
 
@@ -211,6 +211,7 @@ exports.create = function(req, res) {
 			};
 		};
 
+		console.log(req.body.hands);
 		poker.save(function(err, threecardpoker) {
 			if (err) {
 				return handleError(res, err);
@@ -246,7 +247,7 @@ exports.resolveGame = function(req, res) {
 		for (var i = threecardpoker.hands.length - 1; i >= 0; i--) {
 			threecardpoker.hands[i].handActive = req.body.hands[i].handActive;
 			// threecardpoker.bets[i].play = req.body.hands[i].bets.play;
-			threecardpoker.hands[i].bets.play = req.body.hands[i].bets.play;
+			threecardpoker.hands[i].bets = req.body.hands[i].bets;
 		};
 
 		if (threecardpoker.dealer.rank.handType > 1) {
@@ -336,14 +337,16 @@ exports.destroy = function(req, res) {
 function traditionalDeal(deck) {
 	var hands = [];
 	for (var i = 0; i < 8; i++) {
-		hands[i] = {cards:[]};
+		hands[i] = {
+			cards: []
+		};
 	};
 
 	var dealer = {
 		cards: [],
 		rank: {}
 	};
-	
+
 	for (var i = 0; i < 3; i++) {
 		for (var j = 0; j < hands.length; j++) {
 			console.log("in");
@@ -513,7 +516,7 @@ function scoreHands(game) {
 	The Pairplus bet will pay entirely based on the poker value of the player's hand, as shown in the Pairplus section below.
 	**/
 	var hands = game.hands;
-
+	console.log( hands );
 	for (var i = hands.length - 1; i >= 0; i--) {
 		// init the starting values and go from there
 		hands[i].winnings = {};
